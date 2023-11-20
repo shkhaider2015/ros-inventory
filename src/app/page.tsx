@@ -7,7 +7,6 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <HomeScreen />
-      <Button type="primary" >Check</Button>
     </main>
   )
 }
