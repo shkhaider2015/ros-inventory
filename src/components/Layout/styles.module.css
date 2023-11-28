@@ -1,0 +1,35 @@
+.layoutContainer {
+    height: 100vh;
+    border: 1px solid purple;
+}
+
+.layoutContainer .header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+}
+
+
+.layoutContainer .layoutMain {
+    display: flex;
+    flex-direction: row;
+    padding: 50px;
+    /* border: 1px solid orange; */
+}
+
+.layoutContainer .layoutMain .pageTitle {
+    font-size: 22px;
+}
+
+.layoutContainer .layoutMain .layoutLeftSection {
+    width: 70%;
+    /* border: 1px solid blue; */
+    padding: 10px;
+}
+
+.layoutContainer .layoutMain .layoutRightSection {
+    width: 30%;
+    border: 1px solid green;
+    padding: 10px;
+}
