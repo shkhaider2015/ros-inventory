@@ -3,33 +3,40 @@ import { Col, Row, Tabs, TabsProps } from "antd";
 import styles from "./TabsNavigation.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { routes } from "@/lib/constants";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
-const TabNavigations = () => {
+const TabNavigations:React.FC<ITabNavigation> = ({ setPageTitle }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState<string>("1");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let pathnames: string[] = pathname.split("/");
-
-    console.log(
-      "OPath Name : ",
-      pathnames[pathnames.length - 1] === routes.CLIENT_VENUE_PORTAL
-    );
 
     switch (pathnames[pathnames.length - 1]) {
       case routes.FULL_VIEW:
-        console.log("Full View");
         setActiveTab("1");
+        setPageTitle("Preview")
         break;
       case routes.CLIENT_VENUE_PORTAL:
-        console.log("Portal");
+        setPageTitle(toTitleCase(routes.CLIENT_VENUE_PORTAL))
         setActiveTab("2");
         break;
       case routes.EVENT_SUPPLY:
-        console.log("Chain");
+        setPageTitle(toTitleCase(routes.EVENT_SUPPLY))
         setActiveTab("3");
+        break;
+      case routes.TECHNICAL_SPEC:
+        setActiveTab("4");
+        setPageTitle(toTitleCase(routes.TECHNICAL_SPEC))
+        break;
+      case routes.KITCHEN_SUPPLY:
+        setPageTitle(toTitleCase(routes.KITCHEN_SUPPLY))
+        setActiveTab("5");
+        break;
+      case routes.INSURANCE_REQUIREMENTS:
+        setPageTitle(toTitleCase(routes.INSURANCE_REQUIREMENTS))
+        setActiveTab("6");
         break;
       default:
         console.log("default ", pathnames);
@@ -66,24 +73,30 @@ const TabNavigations = () => {
 
   const _onChange = (activeKey: string) => {
     console.log("Active Key : ", activeKey);
-    setActiveTab(activeKey)
+    setActiveTab(activeKey);
     switch (activeKey) {
       case "1":
+        setPageTitle("Preview")
         router.push("/");
         break;
       case "2":
+        setPageTitle(toTitleCase(routes.CLIENT_VENUE_PORTAL))
         router.push(routes.CLIENT_VENUE_PORTAL);
         break;
       case "3":
+        setPageTitle(toTitleCase(routes.EVENT_SUPPLY))
         router.push(routes.EVENT_SUPPLY);
         break;
       case "4":
+        setPageTitle(toTitleCase(routes.TECHNICAL_SPEC))
         router.push(routes.TECHNICAL_SPEC);
         break;
       case "5":
+        setPageTitle(toTitleCase(routes.KITCHEN_SUPPLY))
         router.push(routes.KITCHEN_SUPPLY);
         break;
       case "6":
+        setPageTitle(toTitleCase(routes.INSURANCE_REQUIREMENTS))
         router.push(routes.INSURANCE_REQUIREMENTS);
         break;
       default:
@@ -107,7 +120,11 @@ const TabNavigations = () => {
 };
 
 interface ITabNavigation {
-  _onChangeTabs: (value: string) => void;
+  setPageTitle: React.Dispatch<React.SetStateAction<string>>
+}
+
+const toTitleCase = (str:string) => {
+  return str.replace(/-/g, ' ').replace(/\b\w/g, firstChar => firstChar.toUpperCase());
 }
 
 export default TabNavigations;

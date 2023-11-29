@@ -2,7 +2,7 @@ import ClientVenuePortalScreen from "@/components/screens/ClientVenuePortal";
 
 
 export default function ClientVenuePortal () {
-    return <main>
+    return <main >
         <ClientVenuePortalScreen />
     </main>
 }

@@ -1,6 +1,7 @@
 .layoutContainer {
     height: 100vh;
     border: 1px solid purple;
+    overflow-y: auto;
 }
 
 .layoutContainer .header {
@@ -23,13 +24,13 @@
 }
 
 .layoutContainer .layoutMain .layoutLeftSection {
-    width: 70%;
+    width: 75%;
     /* border: 1px solid blue; */
     padding: 10px;
 }
 
 .layoutContainer .layoutMain .layoutRightSection {
-    width: 30%;
+    width: 25%;
     border: 1px solid green;
-    padding: 10px;
+    padding: 50px 10px 10px 10px;
 }
