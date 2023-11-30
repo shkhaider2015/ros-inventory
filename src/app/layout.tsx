@@ -1,15 +1,15 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import StyledComponentsRegistry from "@/lib/AntdRegistry";
-import LayoutComp from "@/components/Layout";
+import LayoutComp from "@/components_1/Layout";
 import { ConfigProvider } from "antd";
 import theme from "@/theme/themeConfig";
 
 const inter = Inter({
   subsets: ["latin"],
   display: 'swap',
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  style: [ 'normal' ]
+  // weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  // style: [ 'normal' ]
 });
 
 export const metadata = {
@@ -26,11 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.className}>
       <body>
-        <StyledComponentsRegistry>
-          <ConfigProvider theme={theme} >
+        {/* <StyledComponentsRegistry>
+          <ConfigProvider theme={theme} > */}
           <LayoutComp>{children}</LayoutComp>
-          </ConfigProvider>
-        </StyledComponentsRegistry>
+          {/* </ConfigProvider>
+        </StyledComponentsRegistry> */}
       </body>
     </html>
   );

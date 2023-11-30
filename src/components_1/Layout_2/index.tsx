@@ -5,6 +5,7 @@ import RightSider from "../RightSider";
 import styles from "./styles.module.css";
 import Navbar from "../Navbar";
 import TabNavigations from "../TabsNavigation";
+import { Link, Element } from "react-scroll";
 
 const { Header, Content } = Layout;
 
@@ -28,7 +29,6 @@ const LayoutComp: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               padding: 24,
               marginTop: 20,
               minHeight: '85%',
-              border: '1px solid red',
             }}
           >
             {children}

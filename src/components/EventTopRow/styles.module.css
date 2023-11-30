@@ -1,0 +1,42 @@
+.container {
+    width: 100%;
+}
+
+.topCon {}
+.title {
+    font-size: 20px;
+    font-weight: 500;
+}
+.jumpSec {
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+.bottomCon {
+    width: 100%;
+    background-color: #FFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px 20px 15px 20px;
+    border-radius: 5px;
+}
+.leftSec {}
+.leftSec .title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+.leftSec .desc {
+    font-size: 10px;
+    font-weight: 700;
+    color: #7032DC;
+}
+.leftSec .date {
+    font-size: 10px;
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+.rightSec {}

@@ -1,7 +1,10 @@
+"use client"
 import { Button, Image } from "antd";
 import styles from "./styles.module.css";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import DisplayItem from "@/components/ItemDisplay";
+import DisplayItem from "@/components_1/ItemDisplay";
+import { Element } from "react-scroll";
+import { routes } from "@/lib/constants";
 
 const data: {
   url: string;
@@ -43,11 +46,13 @@ const data: {
 
 const EventSupplyScreen = () => {
   return (
-    <div className={styles.container}>
-      {data.map((item, index) => (
-        <DisplayItem {...item} key={item.title + index} />
-      ))}
-    </div>
+    <Element name={routes.EVENT_SUPPLY} className={styles.element}>
+      <div className={styles.container}>
+        {data.map((item, index) => (
+          <DisplayItem {...item} key={item.title + index} />
+        ))}
+      </div>
+    </Element>
   );
 };
 

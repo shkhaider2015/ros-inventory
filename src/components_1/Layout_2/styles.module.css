@@ -1,7 +1,8 @@
 .layoutContainer {
-    height: 100vh;
-    border: 1px solid purple;
-    overflow-y: auto;
+    min-height: 100vh;
+    /* border: 1px solid purple; */
+    overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 
 .layoutContainer .header {
@@ -31,6 +32,6 @@
 
 .layoutContainer .layoutMain .layoutRightSection {
     width: 25%;
-    border: 1px solid green;
+    /* border: 1px solid green; */
     padding: 50px 10px 10px 10px;
 }
