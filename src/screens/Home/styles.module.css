@@ -12,9 +12,13 @@
 }
 .section {
     width: 70%;
-    border: 1px solid red;
+    padding-top: 3%;
+    padding-right: 1%;
+    /* border: 1px solid red; */
 }
 .aside {
     width: 30%;
-    border: 1px solid red;
+    padding-top: 3%;
+    padding-left: 1%;
+    /* border: 1px solid red; */
 }
