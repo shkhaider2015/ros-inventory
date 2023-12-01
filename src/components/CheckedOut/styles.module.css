@@ -1,8 +1,11 @@
 .container {
     border-radius: 20px;
     padding: 25px;
-    background-color: #FFFFFF;
+    /* background-color: #FFFFFF; */
+    background: linear-gradient(180deg, #FFF 0%, rgba(255, 255, 255, 0.00) 132.6%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
 }
+
 .topSec {
     display: flex;
     justify-content: space-between;
@@ -11,16 +14,19 @@
     font-weight: 500;
     color: #8A8A8A;
 }
+
 .totalPrice {
     font-size: 18px;
     font-weight: 700;
     color: #000000;
 }
+
 .hrLine {
     width: 100%;
     border-bottom: 1px solid #F0EDF3;
     margin: 20px 0px;
 }
+
 .shippingTex {
     font-size: 12px;
     font-weight: 500;
@@ -28,6 +34,7 @@
     line-height: 21px;
     margin: 20px 0px;
 }
+
 .bottomSec {
     font-size: 12px;
     font-weight: 400;
@@ -39,35 +46,41 @@
 }
 
 
-.itemContainer {
+.itemContainer {}
 
-}
 .itemTopSec {
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
+
 .imageCon {}
+
 .textCon {
     margin-left: 10px;
 }
+
 .title {
     font-size: 12px;
     font-weight: 600;
 }
+
 .desc {
     font-size: 12px;
     font-weight: 400;
     color: #545454;
     margin-top: 8px;
 }
+
 .itemBottomSec {
     display: flex;
     padding-top: 20px;
 }
+
 .emptyDiv {
     width: 60px;
 }
+
 .counterBtn {
     width: 50%;
     display: flex;
@@ -75,12 +88,14 @@
     align-items: center;
     padding-left: 20px;
 }
+
 .deletCon {
     width: 50%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
+
 .deleteIcon {
     width: 35px;
     height: 35px;
@@ -91,6 +106,7 @@
     align-items: center;
     filter: drop-shadow(0px 2.4px 9.6px rgba(186, 186, 186, 0.25));
 }
+
 .deleteIcon:hover {
     cursor: pointer;
     background-color: rgba(224, 224, 224, 0.58)
