@@ -22,3 +22,9 @@
     padding-left: 1%;
     /* border: 1px solid red; */
 }
+
+.header {
+    padding: 30px 0px 10px 0px;
+    font-size: 23px;
+    font-weight: 600;
+}
