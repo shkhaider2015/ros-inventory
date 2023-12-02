@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 import CounterButton from "../common/CounterButton";
 import { useState } from "react";
+import Button from "../common/Button";
 
 const EventSupplyItem = (props: IEventSupplyItem) => {
   const { title, url, price, units, desc, updatedAt } = props;
@@ -47,7 +48,9 @@ const EventSupplyItem = (props: IEventSupplyItem) => {
               }}
               maxValue={units}
             />
-            <button>Add to cart</button>
+            <div>
+              <Button label="Add to cart" />
+            </div>
           </div>
         </div>
       </div>

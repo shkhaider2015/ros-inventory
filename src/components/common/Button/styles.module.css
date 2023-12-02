@@ -1,0 +1,54 @@
+.container {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    transition: box-shadow 0.03s ease;
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
+}
+
+.Primary {
+    background-color: #6200EE;
+    border: 1px solid #6200EE;
+    color: #FFFFFF;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+
+.Secondary {
+    background-color: #6200EE17;
+    border: 1px solid #6200EE17;
+    color: #6200EE;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 15px 0px 15px;
+}
+
+.container:hover {
+    cursor: pointer;
+}
+
+.Primary:hover {
+    border: 1px solid #6200EE;
+    background-color: #6200EE0F;
+    color: #6200EE;
+}
+
+.Secondary:hover {
+    border: 1px solid #6200EE;
+    background-color: #6200EE0F;
+}
+
+.container:active {
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}

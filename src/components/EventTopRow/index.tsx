@@ -1,3 +1,4 @@
+import Button from "../common/Button";
 import styles from "./styles.module.css";
 
 const EventTopRow = () => {
@@ -17,7 +18,7 @@ const EventTopRow = () => {
           <div className={styles.date}>November 30, 2023 2:00PM</div>
         </div>
         <div className={styles.rightSec}>
-          <button>Back to Event</button>
+          <Button label="Back to event" type="Secondary" />
         </div>
       </div>
     </div>

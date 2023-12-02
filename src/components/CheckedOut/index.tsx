@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./styles.module.css";
 import CounterButton from "../common/CounterButton";
+import Button from "../common/Button";
 
 const CheckedOut = () => {
   return (
@@ -26,7 +27,7 @@ const CheckedOut = () => {
       <div className={styles.shippingTex}>
         Shipping & taxes are calculated later
       </div>
-      <button>Save</button>
+      <Button label="Save" type="Primary" />
       <div className={styles.bottomSec}>
         <Image
           src={"/images/icons/tick-circle.svg"}
