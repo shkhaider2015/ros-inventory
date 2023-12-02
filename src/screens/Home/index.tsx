@@ -47,6 +47,25 @@ const HomeScreen = () => {
     },
   ];
 
+  const kitchenItems: IItem[] = [
+    {
+      title: "Stove",
+      desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      price: 20,
+      units: 102,
+      url: "/images/dummy/k1.png",
+      updatedAt: "Updated: Nov 10, 2023   11:00PM GST",
+    },
+    {
+      title: "Cooktop",
+      desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      price: 10,
+      units: 152,
+      url: "/images/dummy/k2.png",
+      updatedAt: "Updated: Nov 01, 2023   11:00PM GST",
+    },
+  ];
+
   return (
     <main className={styles.container}>
       <EventTopRow />
@@ -54,10 +73,16 @@ const HomeScreen = () => {
         {/* Left Side Column */}
         <section className={styles.section}>
           <InventoryDetails />
-          <div className={styles.header} >Event Supply</div>
+          <div className={styles.header}>Event Supply</div>
           {eventData.map((item, index) => (
             <EventSupplyItem {...item} key={item.title + index} />
           ))}
+          <div className={styles.header}>Venue Specifications</div>
+          <div className={styles.header}>Kitchen Supply</div>
+          {kitchenItems.map((item, index) => (
+            <EventSupplyItem {...item} key={item.title + index} />
+          ))}
+          <div className={styles.header}>Insurance Requirements</div>
         </section>
 
         {/* Right Side Column */}
@@ -68,5 +93,14 @@ const HomeScreen = () => {
     </main>
   );
 };
+
+interface IItem {
+  title: string;
+  url: string;
+  price: number;
+  units: number;
+  desc: string;
+  updatedAt: string;
+}
 
 export default HomeScreen;
