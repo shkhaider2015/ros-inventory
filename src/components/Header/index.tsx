@@ -22,6 +22,9 @@ const Header = () => {
       </div>
 
       <div className={styles.rightContainer}>
+        <div className={styles.cartContainer} >
+          <Image src={'/images/icons/Basket.svg'} alt="basket" width={22} height={22} />
+        </div>
         <div className={styles.iconCon}>
           <QuestionCircleOutlined className={styles.icon} />
         </div>

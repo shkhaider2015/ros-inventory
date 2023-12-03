@@ -27,6 +27,9 @@
 }
 
 .rightContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .iconCon {
@@ -37,4 +40,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.cartContainer {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #EAEDEF;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+@media screen and (max-width: 900px) {
+   .cartContainer {
+    display: flex;
+   }
 }
