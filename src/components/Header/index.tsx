@@ -1,9 +1,5 @@
 import Image from "next/image";
 import styles from "./styles.module.css";
-import {
-  QuestionCircleOutlined,
-  TrademarkCircleOutlined,
-} from "@ant-design/icons";
 
 const Header = () => {
   return (
@@ -17,7 +13,7 @@ const Header = () => {
             height={40}
           />
           <span>Run Of Show</span>
-          <TrademarkCircleOutlined className={styles.icon} />
+          {/* <TrademarkCircleOutlined className={styles.icon} /> */}
         </div>
       </div>
 
@@ -26,7 +22,8 @@ const Header = () => {
           <Image src={'/images/icons/Basket.svg'} alt="basket" width={22} height={22} />
         </div>
         <div className={styles.iconCon}>
-          <QuestionCircleOutlined className={styles.icon} />
+          {/* <QuestionCircleOutlined className={styles.icon} /> */}
+          <Image  src={'/images/icons/questionMark.svg'} alt="question" width={22} height={22} />
         </div>
       </div>
     </header>

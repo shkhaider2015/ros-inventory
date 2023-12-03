@@ -26,7 +26,7 @@ const InventoryDetails = () => {
             </div>
         </div>
         <div className={styles.detailsSec} >
-            {details.split('\n').map(item => <>{item}<br/></>)}
+            {details.split('\n').map((item, index) => <>{item}<br key={index}/></>)}
            
         </div>
         <div className={styles.detailsShadow} />

@@ -1,4 +1,5 @@
 import Button from "../common/Button";
+import Dropdown from "../common/DropDown";
 import styles from "./styles.module.css";
 
 const EventTopRow = () => {
@@ -8,7 +9,9 @@ const EventTopRow = () => {
         <div className={styles.title}>Lavan New York</div>
         <div className={styles.jumpSec}>
           <span>Jump to: </span>
-          <div>{/* DropDown */}</div>
+          <div>
+            <Dropdown />
+          </div>
         </div>
       </div>
       <div className={styles.bottomCon}>
