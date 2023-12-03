@@ -1,0 +1,51 @@
+.container {
+    width: 48%;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 30px 15px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.firstRow {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+}
+.secondRow {
+    width: 80%;
+    margin-top: 25px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #777777;
+}
+.thirdRow {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px;
+    
+}
+
+
+.iconContainer {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EFE6FD;
+}
+.firstRow .title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.thirdRow .title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6200EE;
+}

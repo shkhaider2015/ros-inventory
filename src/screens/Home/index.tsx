@@ -3,6 +3,7 @@ import EventTopRow from "@/components/EventTopRow";
 import InventoryDetails from "@/components/InventoryDetails";
 import CheckedOut from "@/components/CheckedOut";
 import EventSupplyItem from "@/components/EventSupplyItem";
+import VenueSpecificationItem from "@/components/VenueSpecificationItem";
 
 const HomeScreen = () => {
   const eventData: {
@@ -66,6 +67,29 @@ const HomeScreen = () => {
     },
   ];
 
+  const venueData:IVenueItem[] = [
+    {
+      url: '/images/icons/tec_spec.svg',
+      title: 'Technical Specs',
+      desc: 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words.'
+    },
+    {
+      url: '/images/icons/flash.svg',
+      title: 'Power Specs',
+      desc: 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words.'
+    },
+    {
+      url: '/images/icons/lightning.svg',
+      title: 'Lighting Specs',
+      desc: 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words.'
+    },
+    {
+      url: '/images/icons/wifi.svg',
+      title: 'Wifi Specs',
+      desc: 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words.'
+    },
+  ]
+
   return (
     <main className={styles.container}>
       <EventTopRow />
@@ -78,6 +102,12 @@ const HomeScreen = () => {
             <EventSupplyItem {...item} key={item.title + index} />
           ))}
           <div className={styles.header}>Venue Specifications</div>
+          <div className={styles.venueContainer} >
+            {
+              venueData.map((item, index) => <VenueSpecificationItem {...item} key={item.title+index} /> )
+            }
+          </div>
+          
           <div className={styles.header}>Kitchen Supply</div>
           {kitchenItems.map((item, index) => (
             <EventSupplyItem {...item} key={item.title + index} />
@@ -101,6 +131,12 @@ interface IItem {
   units: number;
   desc: string;
   updatedAt: string;
+}
+
+interface IVenueItem {
+  url: string;
+  title: string;
+  desc: string
 }
 
 export default HomeScreen;

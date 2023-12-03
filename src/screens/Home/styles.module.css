@@ -28,3 +28,9 @@
     font-size: 23px;
     font-weight: 600;
 }
+
+.venueContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
