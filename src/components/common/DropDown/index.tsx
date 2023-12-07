@@ -1,9 +1,11 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import styles from "./styles.module.css";
 import Image from "next/image";
 
-const Dropdown = () => {
+const Dropdown:React.FC<IDropdown> = (props) => {
+  const { values, defaultValue } = props;
+
   const [isActive, setIsActive] = useState(false);
   const [selected, setIsSelected] = useState("Choose one");
   return (
@@ -63,7 +65,7 @@ const Dropdown = () => {
 };
 
 interface IDropdown {
-    values: { label: string, value: string };
+    values: { label: string, value: string }[];
     defaultValue?: string
 }
 

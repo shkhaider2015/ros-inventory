@@ -2,14 +2,21 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+#### Requirements
+- **npm**    NOT ALLOWED,
+- **yarn**  >=  1.22.19
+- **node**  >=  19.4.0
+
+First, install dependencies:
 
 ```bash
-npm run dev
-# or
+yarn 
+```
+
+Second, run the development server:
+
+```bash
 yarn dev
-# or
-pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
