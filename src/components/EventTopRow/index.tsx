@@ -28,8 +28,8 @@ const EventTopRow = () => {
       <div className={styles.topCon}>
         <div className={styles.title}>Lavan New York</div>
         <div className={styles.jumpSec}>
-          <span>Jump to: </span>
-          <div>
+          <span className={styles.txt} >Jump to: </span>
+          <div className={styles.dropdownCon} >
             <Dropdown values={dropDownData} onChange={(val) => _scrollToScreen(val)} />
           </div>
         </div>

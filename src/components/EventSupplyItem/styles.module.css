@@ -84,3 +84,34 @@
     color: #888888;
     margin-top: 10px;
 }
+
+@media screen and (max-width: 900px) {
+    .bottomRightSec {
+        display: flex;
+        justify-content: space-between;
+        width: 70%;
+    }
+ }
+
+ @media screen and (max-width: 900px) {
+    .bottomSec {
+        flex-direction: column;
+    }
+    .bottomRightSec {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+    }
+ }
+
+ @media screen and (max-width: 500px) {
+    .container {
+        flex-direction: column;
+    }
+    .leftCol {
+        display: flex;
+        justify-content: center;
+        padding-bottom: 15px;
+    }
+ }

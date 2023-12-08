@@ -45,3 +45,12 @@
 .rightSec {
     
 }
+
+@media screen and (max-width: 500px) {
+    .jumpSec {
+         width: 100%;
+    }
+    .jumpSec .txt {
+        width: 40%;
+    }
+ }
