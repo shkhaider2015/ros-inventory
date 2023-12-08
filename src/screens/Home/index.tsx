@@ -5,6 +5,8 @@ import CheckedOut from "@/components/CheckedOut";
 import EventSupplyItem from "@/components/EventSupplyItem";
 import VenueSpecificationItem from "@/components/VenueSpecificationItem";
 import InsuranceRequirements from "@/components/InsuranceRequirements";
+import ElementHead from "@/components/ElementHead";
+import { scroller } from "react-scroll";
 
 const HomeScreen = () => {
   const eventData: {
@@ -91,6 +93,8 @@ const HomeScreen = () => {
     },
   ];
 
+
+
   return (
     <main className={styles.container}>
       <EventTopRow />
@@ -98,22 +102,30 @@ const HomeScreen = () => {
         {/* Left Side Column */}
         <section className={styles.section}>
           <InventoryDetails />
-          <div className={styles.header}>Event Supply</div>
+          <ElementHead name="EVENT_SUPPLY" text="Event Supply" />
+          {/* <div className={styles.header}></div> */}
           {eventData.map((item, index) => (
             <EventSupplyItem {...item} key={item.title + index} />
           ))}
-          <div className={styles.header}>Venue Specifications</div>
+
+          <ElementHead name="VENUE_SPECIFICATION" text="Venue Specifications" />
+
           <div className={styles.venueContainer}>
             {venueData.map((item, index) => (
               <VenueSpecificationItem {...item} key={item.title + index} />
             ))}
           </div>
 
-          <div className={styles.header}>Kitchen Supply</div>
+          <ElementHead name="KITCHEN_SUPPLY" text="Kitchen Supply" />
+
           {kitchenItems.map((item, index) => (
             <EventSupplyItem {...item} key={item.title + index} />
           ))}
-          <div className={styles.header}>Insurance Requirements</div>
+          <ElementHead
+            name="INSURANCE_REQUIREMENTS"
+            text="Insurance Requirements"
+          />
+
           <InsuranceRequirements />
         </section>
 

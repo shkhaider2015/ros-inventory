@@ -1,8 +1,28 @@
+"use client"
+import { scroller } from "react-scroll";
 import Button from "../common/Button";
 import Dropdown from "../common/DropDown";
 import styles from "./styles.module.css";
 
+const dropDownData: { label: string; value: string }[] = [
+  { label: "Inventory Details", value: "INVENTORY_DETAILS" },
+  { label: "Event Supply", value: "EVENT_SUPPLY" },
+  { label: "Venue Specifications", value: "VENUE_SPECIFICATION" },
+  { label: "Kitchen Supply", value: "KITCHEN_SUPPLY" },
+  { label: "Insurance Requirements", value: "INSURANCE_REQUIREMENTS" },
+];
+
 const EventTopRow = () => {
+
+  const _scrollToScreen = (val: string) => {
+    scroller.scrollTo(val, {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: 0,
+    });
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.topCon}>
@@ -10,7 +30,7 @@ const EventTopRow = () => {
         <div className={styles.jumpSec}>
           <span>Jump to: </span>
           <div>
-            <Dropdown />
+            <Dropdown values={dropDownData} onChange={(val) => _scrollToScreen(val)} />
           </div>
         </div>
       </div>

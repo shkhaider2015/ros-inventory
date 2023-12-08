@@ -2,21 +2,42 @@
 import React, { useState } from "react";
 import styles from "./styles.module.css";
 import Image from "next/image";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
-const Dropdown:React.FC<IDropdown> = (props) => {
-  const { values, defaultValue } = props;
-
+const Dropdown: React.FC<IDropdown> = (props) => {
+  const { values, defaultValue, placeholder, onChange = () => {} } = props;
   const [isActive, setIsActive] = useState(false);
-  const [selected, setIsSelected] = useState("Choose one");
+  const [selected, setIsSelected] = useState(
+    defaultValue || placeholder || "Choose One"
+  );
+  const ref = useOutsideClick(() => {
+    setIsActive(false);
+  });
+
+  function _onToggleDropdown() {
+    setIsActive(!isActive);
+  }
+
+  function _onChange(item: IItem) {
+    setIsSelected(item.label);
+    setIsActive(!isActive);
+    onChange(item.value)
+  }
+
   return (
     <div className={styles.dropdown}>
-      <div
-        onClick={(e) => {
-          setIsActive(!isActive);
-        }}
-        className={styles.dropdownBtn}
-      >
-        {selected}
+      <div onClick={_onToggleDropdown} className={styles.dropdownBtn}>
+        <span
+          className={
+            selected.toLowerCase() === placeholder?.toLowerCase() ||
+            selected.toLowerCase() === "choose one"
+              ? styles.placeholder
+              : styles.label
+          }
+        >
+          {selected}
+        </span>
+
         <Image
           src={
             isActive
@@ -29,44 +50,34 @@ const Dropdown:React.FC<IDropdown> = (props) => {
         />
       </div>
       <div
+        ref={ref}
         className={styles.dropdownContent}
         style={{ display: isActive ? "block" : "none" }}
       >
-        <div
-          onClick={(e) => {
-            setIsSelected("one");
-            setIsActive(!isActive);
-          }}
-          className={styles.item}
-        >
-          One
-        </div>
-        <div
-          className={styles.item}
-          onClick={(e) => {
-            setIsSelected("two");
-            setIsActive(!isActive);
-          }}
-        >
-          Two
-        </div>
-        <div
-          className={styles.item}
-          onClick={(e) => {
-            setIsSelected("three");
-            setIsActive(!isActive);
-          }}
-        >
-          Three
-        </div>
+        {values.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => _onChange(item)}
+            className={styles.item}
+          >
+            {item.label}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
 interface IDropdown {
-    values: { label: string, value: string }[];
-    defaultValue?: string
+  values: IItem[];
+  defaultValue?: string | undefined;
+  placeholder?: string | undefined;
+  onChange?: (value: string) => void;
+}
+
+interface IItem {
+  label: string;
+  value: string;
 }
 
 export default Dropdown;
