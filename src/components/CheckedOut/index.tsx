@@ -1,9 +1,15 @@
+"use client";
 import Image from "next/image";
 import styles from "./styles.module.css";
 import CounterButton from "../common/CounterButton";
 import Button from "../common/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from "@/store/features/checkedItems";
 
 const CheckedOut = () => {
+  const cartItems = useSelector((state: any) => state.cart);
+  const dispatch = useDispatch();
+
   return (
     <div className={styles.container}>
       <div className={styles.topSec}>
@@ -12,12 +18,21 @@ const CheckedOut = () => {
           Total <span className={styles.totalPrice}>$34.99</span>
         </div>
       </div>
-      {data.map((item, index) => (
+      {cartItems?.map((item: any) => (
+        <>
+          <div className={styles.hrLine} />
+          <Item {...item} key={item?.id} onRemove={() => {
+            console.log("Remove call");
+            dispatch(removeFromCart(item?.id))
+            }} />
+        </>
+      ))}
+      {/* {data.map((item, index) => (
         <>
           <div className={styles.hrLine} />
           <Item {...item} key={item.title + index} />
         </>
-      ))}
+      ))} */}
       {/* <div className={styles.hrLine} />
       <Item />
       <div className={styles.hrLine} />
@@ -41,7 +56,7 @@ const CheckedOut = () => {
   );
 };
 
-const Item = ({ url, title, desc }: IItem) => {
+const Item = ({ url, title, desc, onRemove }: any) => {
   return (
     <div className={styles.itemContainer}>
       <div className={styles.itemTopSec}>
@@ -57,11 +72,11 @@ const Item = ({ url, title, desc }: IItem) => {
       </div>
       <div className={styles.itemBottomSec}>
         <div className={styles.emptyDiv} />
-        <div className={styles.counterBtn} >
+        <div className={styles.counterBtn}>
           <CounterButton />
         </div>
         <div className={styles.deletCon}>
-          <div className={styles.deleteIcon}>
+          <div className={styles.deleteIcon} onClick={() => onRemove()}>
             <Image
               src={"/images/icons/delete.svg"}
               alt="delete"
@@ -75,25 +90,9 @@ const Item = ({ url, title, desc }: IItem) => {
   );
 };
 
-const data: IItem[] = [
-  {
-    url: "/images/dummy/Rectangle 25229.png",
-    title: "Coffee Table ",
-    desc: "There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available",
-  },
-  {
-    url: "/images/dummy/Rectangle 25229 (1).png",
-    title: "Coffee Table ",
-    desc: "There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available",
-  },
-  {
-    url: "/images/dummy/Rectangle 25229 (2).png",
-    title: "Sofa Set",
-    desc: "There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available There are many variations of passages of Lorem Ipsum available",
-  },
-];
 
 interface IItem {
+
   url: string;
   title: string;
   desc: string;

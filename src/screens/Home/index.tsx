@@ -6,18 +6,11 @@ import EventSupplyItem from "@/components/EventSupplyItem";
 import VenueSpecificationItem from "@/components/VenueSpecificationItem";
 import InsuranceRequirements from "@/components/InsuranceRequirements";
 import ElementHead from "@/components/ElementHead";
-import { scroller } from "react-scroll";
 
 const HomeScreen = () => {
-  const eventData: {
-    title: string;
-    url: string;
-    price: number;
-    units: number;
-    desc: string;
-    updatedAt: string;
-  }[] = [
+  const eventData: IItem[] = [
     {
+      id: '3',
       title: "High Top ",
       desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       price: 12,
@@ -26,6 +19,7 @@ const HomeScreen = () => {
       updatedAt: "Nov 15, 2023   11:00PM GST",
     },
     {
+      id: '4',
       title: "Coffee table",
       desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       price: 10,
@@ -34,6 +28,7 @@ const HomeScreen = () => {
       updatedAt: "Nov 02, 2023   11:00PM GST",
     },
     {
+      id: '5',
       title: "Chairs",
       desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       price: 11,
@@ -42,6 +37,7 @@ const HomeScreen = () => {
       updatedAt: "Nov 23, 2023   11:00PM GST",
     },
     {
+      id: '6',
       title: "Sofa Set",
       desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       price: 20,
@@ -53,6 +49,7 @@ const HomeScreen = () => {
 
   const kitchenItems: IItem[] = [
     {
+      id: '1',
       title: "Stove",
       desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       price: 20,
@@ -61,6 +58,7 @@ const HomeScreen = () => {
       updatedAt: "Updated: Nov 10, 2023   11:00PM GST",
     },
     {
+      id: '2',
       title: "Cooktop",
       desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       price: 10,
@@ -139,6 +137,7 @@ const HomeScreen = () => {
 };
 
 interface IItem {
+  id: string;
   title: string;
   url: string;
   price: number;

@@ -52,3 +52,14 @@
 .container:active {
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
+
+.Primary.disable {
+    opacity: .4;
+}
+.Primary.disable:hover {
+    background-color: #6200EE;
+    border: 1px solid #6200EE;
+    color: #FFFFFF;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+    cursor: not-allowed;
+}

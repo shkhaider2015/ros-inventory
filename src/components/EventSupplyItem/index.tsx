@@ -2,12 +2,22 @@
 import Image from "next/image";
 import styles from "./styles.module.css";
 import CounterButton from "../common/CounterButton";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Button from "../common/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "@/store/features/checkedItems";
 
 const EventSupplyItem = (props: IEventSupplyItem) => {
-  const { title, url, price, units, desc, updatedAt } = props;
+  const { title, url, price, units, desc, updatedAt, id } = props;
+  const cartItems = useSelector((state: any) => state.cart);
+  const [isAdded, setIsAdded] = useState(false);
+  const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState<number>(price);
+
+  useLayoutEffect(() => {
+    if(cartItems?.some((item:any) => item?.id === id)) setIsAdded(true);
+    else setIsAdded(false)
+  }, [cartItems])
 
   return (
     <div className={styles.container}>
@@ -49,7 +59,9 @@ const EventSupplyItem = (props: IEventSupplyItem) => {
               maxValue={units}
             />
             <div>
-              <Button label="Add to cart" />
+              <Button label="Add to cart" disable={isAdded} onClick={() => {
+                dispatch(addToCart(props))
+              }} />
             </div>
           </div>
         </div>
@@ -59,6 +71,7 @@ const EventSupplyItem = (props: IEventSupplyItem) => {
 };
 
 interface IEventSupplyItem {
+  id: string;
   title: string;
   url: string;
   price: number;
