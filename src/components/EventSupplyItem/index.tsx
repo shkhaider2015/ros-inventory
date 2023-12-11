@@ -58,6 +58,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
                 setSelectedQuantity(val);
               }}
               maxValue={quantity}
+              disable={isAdded}
             />
             <div>
               <Button label="Add to cart" disable={isAdded} onClick={() => {

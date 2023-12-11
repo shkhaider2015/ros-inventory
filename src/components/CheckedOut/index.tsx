@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import CounterButton from "../common/CounterButton";
 import Button from "../common/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart } from "@/store/features/checkedItems";
+import { removeFromCart, updateQuantity } from "@/store/features/checkedItems";
 
 const CheckedOut = () => {
   const cartItems: IItem[] = useSelector((state: any) => state.cart);
@@ -36,6 +36,9 @@ const CheckedOut = () => {
             onRemove={() => {
               console.log("Remove call");
               dispatch(removeFromCart(item?.id));
+            }}
+            onChangeCounterBtn={(val:number) => {
+              dispatch(updateQuantity({...item, selectedQuantity: val}))
             }}
           />
         </>
@@ -75,6 +78,7 @@ const Item = ({
   description,
   selectedQuantity,
   onRemove,
+  onChangeCounterBtn,
 }: any) => {
   return (
     <div className={styles.itemContainer}>
@@ -94,7 +98,7 @@ const Item = ({
       <div className={styles.itemBottomSec}>
         <div className={styles.emptyDiv} />
         <div className={styles.counterBtn}>
-          <CounterButton value={selectedQuantity} />
+          <CounterButton value={selectedQuantity} onChange={(val) => onChangeCounterBtn(val)}  />
         </div>
         <div className={styles.deletCon}>
           <div className={styles.deleteIcon} onClick={() => onRemove()}>

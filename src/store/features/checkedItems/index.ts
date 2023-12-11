@@ -14,10 +14,14 @@ export const cart = createSlice({
     removeFromCart: (state, action) => {
       return (state = state.filter((item) => item.id !== action.payload));
     },
+    updateQuantity: (state, action) => {
+      console.log("Value : ", action.payload)
+      return state.map(item => item.id === action.payload?.id ? (action.payload) : item)
+    }
   },
 });
 
-export const { addToCart, removeFromCart } = cart.actions;
+export const { addToCart, removeFromCart, updateQuantity } = cart.actions;
 
 interface IItem {
   description: string;

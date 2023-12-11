@@ -9,6 +9,13 @@
     font-weight: 600;
 }
 
+.disable {
+    opacity: .5;
+}
+.disable:hover {
+    cursor: not-allowed !important;
+}
+
 .btn {
     width: 30px;
     height: 30px;
