@@ -8,65 +8,69 @@ import InsuranceRequirements from "@/components/InsuranceRequirements";
 import ElementHead from "@/components/ElementHead";
 
 const HomeScreen = () => {
-  const eventData: IItem[] = [
-    {
-      id: '3',
-      title: "High Top ",
-      desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
-      price: 12,
-      units: 15,
-      url: "/images/dummy/es1.png",
-      updatedAt: "Nov 15, 2023   11:00PM GST",
-    },
-    {
-      id: '4',
-      title: "Coffee table",
-      desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
-      price: 10,
-      units: 91,
-      url: "/images/dummy/es2.png",
-      updatedAt: "Nov 02, 2023   11:00PM GST",
-    },
-    {
-      id: '5',
-      title: "Chairs",
-      desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
-      price: 11,
-      units: 11,
-      url: "/images/dummy/es3.png",
-      updatedAt: "Nov 23, 2023   11:00PM GST",
-    },
-    {
-      id: '6',
-      title: "Sofa Set",
-      desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
-      price: 20,
-      units: 10,
-      url: "/images/dummy/es4.png",
-      updatedAt: "Nov 12, 2023   11:00PM GST",
-    },
-  ];
-
-  const kitchenItems: IItem[] = [
+  const data: IInventoryItem[] = [
     {
       id: '1',
-      title: "Stove",
-      desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
-      price: 20,
-      units: 102,
-      url: "/images/dummy/k1.png",
-      updatedAt: "Updated: Nov 10, 2023   11:00PM GST",
+      name: "Stove",
+      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      quantity: 20,
+      rental_price: 102,
+      icon_url: "/images/dummy/k1.png",
+      updated_at: "Updated: Nov 10, 2023   11:00PM GST",
+      type: "KITCHEN_SUPPLY"
     },
     {
       id: '2',
-      title: "Cooktop",
-      desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
-      price: 10,
-      units: 152,
-      url: "/images/dummy/k2.png",
-      updatedAt: "Updated: Nov 01, 2023   11:00PM GST",
+      name: "Cooktop",
+      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      quantity: 10,
+      rental_price: 152,
+      icon_url: "/images/dummy/k2.png",
+      updated_at: "Updated: Nov 01, 2023   11:00PM GST",
+      type: "KITCHEN_SUPPLY"
+    },
+    {
+      id: '3',
+      name: "High Top ",
+      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      rental_price: 12,
+      quantity: 15,
+      icon_url: "/images/dummy/es1.png",
+      updated_at: "Nov 15, 2023   11:00PM GST",
+      type: "INVENTORY_MENU"
+    },
+    {
+      id: '4',
+      name: "Coffee table",
+      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      rental_price: 10,
+      quantity: 91,
+      icon_url: "/images/dummy/es2.png",
+      updated_at: "Nov 02, 2023   11:00PM GST",
+      type: "INVENTORY_MENU"
+    },
+    {
+      id: '5',
+      name: "Chairs",
+      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      rental_price: 11,
+      quantity: 11,
+      icon_url: "/images/dummy/es3.png",
+      updated_at: "Nov 23, 2023   11:00PM GST",
+      type: "INVENTORY_MENU"
+    },
+    {
+      id: '6',
+      name: "Sofa Set",
+      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      rental_price: 20,
+      quantity: 10,
+      icon_url: "/images/dummy/es4.png",
+      updated_at: "Nov 12, 2023   11:00PM GST",
+      type: "INVENTORY_MENU"
     },
   ];
+
 
   const venueData: IVenueItem[] = [
     {
@@ -102,8 +106,8 @@ const HomeScreen = () => {
           <InventoryDetails />
           <ElementHead name="EVENT_SUPPLY" text="Event Supply" />
           {/* <div className={styles.header}></div> */}
-          {eventData.map((item, index) => (
-            <EventSupplyItem {...item} key={item.title + index} />
+          {data.filter(item => item.type === "INVENTORY_MENU").map((item, index) => (
+            <EventSupplyItem {...item} key={item.name + index} />
           ))}
 
           <ElementHead name="VENUE_SPECIFICATION" text="Venue Specifications" />
@@ -116,8 +120,8 @@ const HomeScreen = () => {
 
           <ElementHead name="KITCHEN_SUPPLY" text="Kitchen Supply" />
 
-          {kitchenItems.map((item, index) => (
-            <EventSupplyItem {...item} key={item.title + index} />
+          {data.filter(item => item.type === 'KITCHEN_SUPPLY' ).map((item, index) => (
+            <EventSupplyItem {...item} key={item.name + index} />
           ))}
           <ElementHead
             name="INSURANCE_REQUIREMENTS"
@@ -150,6 +154,29 @@ interface IVenueItem {
   url: string;
   title: string;
   desc: string;
+}
+
+interface IInventoryInfo {
+  description: string;
+  email_address: string;
+  logo_url: Blob | string | undefined;
+  phone_number: string;
+  secondary_email_address: string;
+  secondary_phone_number: string;
+  workspace_id: string;
+  id?: string;
+}
+
+interface IInventoryItem {
+  description: string;
+  icon_url: string | undefined;
+  id: string;
+  name: string;
+  quantity: number;
+  rental_price: number;
+  type: 'INVENTORY_MENU' | 'VENUE_SPEC' | 'KITCHEN_SUPPLY';
+  workspace_id?: string;
+  updated_at?: string
 }
 
 export default HomeScreen;

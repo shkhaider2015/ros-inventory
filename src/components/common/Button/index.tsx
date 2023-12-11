@@ -11,14 +11,13 @@ const Button: React.FC<IButton> = (props) => {
     disable = false,
     onClick = () => {},
   } = props;
-  console.log("Disable : ", disable);
 
   return (
     <div
       className={`${styles.container} ${styles[type]} ${
         disable ? styles.disable : ""
       } ${className} `}
-      onClick={() => disable ? ()=>{} : onClick()}
+      onClick={() => (disable ? () => {} : onClick())}
     >
       {icon && <Image src={icon} alt="btn-icon" width={18} height={18} />}
       {label && <span className={styles.label}>{label}</span>}

@@ -7,24 +7,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart } from "@/store/features/checkedItems";
 
 const CheckedOut = () => {
-  const cartItems = useSelector((state: any) => state.cart);
+  const cartItems: IItem[] = useSelector((state: any) => state.cart);
   const dispatch = useDispatch();
+
+  // console.log("Cart Items : ", cartItems);
 
   return (
     <div className={styles.container}>
       <div className={styles.topSec}>
         <div>Subtotal</div>
         <div>
-          Total <span className={styles.totalPrice}>$34.99</span>
+          Total{" "}
+          <span className={styles.totalPrice}>
+            $
+            {cartItems.reduce(
+              (sum, item) => sum + item.rental_price * item.selectedQuantity,
+              0
+            )}{" "}
+          </span>
         </div>
       </div>
-      {cartItems?.map((item: any) => (
+      {cartItems?.map((item: IItem) => (
         <>
           <div className={styles.hrLine} />
-          <Item {...item} key={item?.id} onRemove={() => {
-            console.log("Remove call");
-            dispatch(removeFromCart(item?.id))
-            }} />
+          <Item
+            {...item}
+            key={item?.id}
+            onRemove={() => {
+              console.log("Remove call");
+              dispatch(removeFromCart(item?.id));
+            }}
+          />
         </>
       ))}
       {/* {data.map((item, index) => (
@@ -56,24 +69,32 @@ const CheckedOut = () => {
   );
 };
 
-const Item = ({ url, title, desc, onRemove }: any) => {
+const Item = ({
+  icon_url,
+  name,
+  description,
+  selectedQuantity,
+  onRemove,
+}: any) => {
   return (
     <div className={styles.itemContainer}>
       <div className={styles.itemTopSec}>
         <div className={styles.imageCon}>
-          <Image src={url} alt="product" width={60} height={60} />
+          <Image src={icon_url || ""} alt="product" width={60} height={60} />
         </div>
         <div className={styles.textCon}>
-          <div className={styles.title}>{title}</div>
-          <div className={styles.desc}>
-            {desc.length > 62 ? desc.slice(0, 62) + "..." : desc}
+          <div className={styles.title}>{name}</div>
+          <div className={styles.description}>
+            {description.length > 62
+              ? description.slice(0, 62) + "..."
+              : description}
           </div>
         </div>
       </div>
       <div className={styles.itemBottomSec}>
         <div className={styles.emptyDiv} />
         <div className={styles.counterBtn}>
-          <CounterButton />
+          <CounterButton value={selectedQuantity} />
         </div>
         <div className={styles.deletCon}>
           <div className={styles.deleteIcon} onClick={() => onRemove()}>
@@ -90,12 +111,17 @@ const Item = ({ url, title, desc, onRemove }: any) => {
   );
 };
 
-
 interface IItem {
-
-  url: string;
-  title: string;
-  desc: string;
+  description: string;
+  icon_url: string | undefined;
+  id: string;
+  name: string;
+  quantity: number;
+  rental_price: number;
+  type: "INVENTORY_MENU" | "VENUE_SPEC" | "KITCHEN_SUPPLY";
+  workspace_id?: string;
+  updated_at?: string;
+  selectedQuantity: number;
 }
 
 export default CheckedOut;

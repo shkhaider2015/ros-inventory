@@ -20,13 +20,16 @@ export const cart = createSlice({
 export const { addToCart, removeFromCart } = cart.actions;
 
 interface IItem {
+  description: string;
+  icon_url: string | undefined;
   id: string;
-  title: string;
-  url: string;
-  price: number;
-  units: number;
-  desc: string;
-  updatedAt: string;
+  name: string;
+  quantity: number;
+  selectedQuantity: number;
+  rental_price: number;
+  type: 'INVENTORY_MENU' | 'VENUE_SPEC' | 'KITCHEN_SUPPLY';
+  workspace_id?: string;
+  updated_at?: string
 }
 
 export default cart.reducer;
