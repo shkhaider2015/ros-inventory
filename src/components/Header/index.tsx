@@ -1,7 +1,10 @@
+// "use client";
 import Image from "next/image";
 import styles from "./styles.module.css";
 
 const Header = () => {
+  // const cartItems = useSelector((state: any) => state.cart);
+
   return (
     <header className={styles.container}>
       <div className={styles.leftCon}>
@@ -18,12 +21,26 @@ const Header = () => {
       </div>
 
       <div className={styles.rightContainer}>
-        <div className={styles.cartContainer} >
-          <Image src={'/images/icons/Basket.svg'} alt="basket" width={22} height={22} />
-        </div>
+        {/* <div className={styles.cartContainer}>
+          {cartItems?.length > 0 && (
+            <div className={styles.itemsCount}>{cartItems?.length}</div>
+          )}
+
+          <Image
+            src={"/images/icons/Basket.svg"}
+            alt="basket"
+            width={22}
+            height={22}
+          />
+        </div> */}
         <div className={styles.iconCon}>
           {/* <QuestionCircleOutlined className={styles.icon} /> */}
-          <Image  src={'/images/icons/questionMark.svg'} alt="question" width={22} height={22} />
+          <Image
+            src={"/images/icons/questionMark.svg"}
+            alt="question"
+            width={22}
+            height={22}
+          />
         </div>
       </div>
     </header>

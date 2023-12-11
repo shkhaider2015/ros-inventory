@@ -111,3 +111,7 @@
     cursor: pointer;
     background-color: rgba(224, 224, 224, 0.58)
 }
+
+@media screen and (max-width: 900px) {
+    
+}

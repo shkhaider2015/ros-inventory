@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import CounterButton from "../common/CounterButton";
 import Button from "../common/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart, updateQuantity } from "@/store/features/checkedItems";
+import { removeFromCart } from "@/store/features/checkedItems";
 
 const CheckedOut = () => {
   const cartItems: IItem[] = useSelector((state: any) => state.cart);
@@ -28,7 +28,7 @@ const CheckedOut = () => {
         </div>
       </div>
       {cartItems?.map((item: IItem) => (
-        <>
+        <div className={styles.lineAndItem} >
           <div className={styles.hrLine} />
           <Item
             {...item}
@@ -37,11 +37,8 @@ const CheckedOut = () => {
               console.log("Remove call");
               dispatch(removeFromCart(item?.id));
             }}
-            onChangeCounterBtn={(val:number) => {
-              dispatch(updateQuantity({...item, selectedQuantity: val}))
-            }}
           />
-        </>
+        </div>
       ))}
       {/* {data.map((item, index) => (
         <>
@@ -78,7 +75,6 @@ const Item = ({
   description,
   selectedQuantity,
   onRemove,
-  onChangeCounterBtn,
 }: any) => {
   return (
     <div className={styles.itemContainer}>
@@ -88,7 +84,7 @@ const Item = ({
         </div>
         <div className={styles.textCon}>
           <div className={styles.title}>{name}</div>
-          <div className={styles.description}>
+          <div className={styles.desc}>
             {description.length > 62
               ? description.slice(0, 62) + "..."
               : description}
@@ -98,7 +94,7 @@ const Item = ({
       <div className={styles.itemBottomSec}>
         <div className={styles.emptyDiv} />
         <div className={styles.counterBtn}>
-          <CounterButton value={selectedQuantity} onChange={(val) => onChangeCounterBtn(val)}  />
+          <CounterButton value={selectedQuantity} />
         </div>
         <div className={styles.deletCon}>
           <div className={styles.deleteIcon} onClick={() => onRemove()}>

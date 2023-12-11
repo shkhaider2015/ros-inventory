@@ -6,71 +6,77 @@ import EventSupplyItem from "@/components/EventSupplyItem";
 import VenueSpecificationItem from "@/components/VenueSpecificationItem";
 import InsuranceRequirements from "@/components/InsuranceRequirements";
 import ElementHead from "@/components/ElementHead";
+import Image from "next/image";
 
 const HomeScreen = () => {
   const data: IInventoryItem[] = [
     {
-      id: '1',
+      id: "1",
       name: "Stove",
-      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      description:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       quantity: 20,
       rental_price: 102,
       icon_url: "/images/dummy/k1.png",
       updated_at: "Updated: Nov 10, 2023   11:00PM GST",
-      type: "KITCHEN_SUPPLY"
+      type: "KITCHEN_SUPPLY",
     },
     {
-      id: '2',
+      id: "2",
       name: "Cooktop",
-      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      description:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       quantity: 10,
       rental_price: 152,
       icon_url: "/images/dummy/k2.png",
       updated_at: "Updated: Nov 01, 2023   11:00PM GST",
-      type: "KITCHEN_SUPPLY"
+      type: "KITCHEN_SUPPLY",
     },
     {
-      id: '3',
+      id: "3",
       name: "High Top ",
-      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      description:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       rental_price: 12,
       quantity: 15,
       icon_url: "/images/dummy/es1.png",
       updated_at: "Nov 15, 2023   11:00PM GST",
-      type: "INVENTORY_MENU"
+      type: "INVENTORY_MENU",
     },
     {
-      id: '4',
+      id: "4",
       name: "Coffee table",
-      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      description:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       rental_price: 10,
       quantity: 91,
       icon_url: "/images/dummy/es2.png",
       updated_at: "Nov 02, 2023   11:00PM GST",
-      type: "INVENTORY_MENU"
+      type: "INVENTORY_MENU",
     },
     {
-      id: '5',
+      id: "5",
       name: "Chairs",
-      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      description:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       rental_price: 11,
       quantity: 11,
       icon_url: "/images/dummy/es3.png",
       updated_at: "Nov 23, 2023   11:00PM GST",
-      type: "INVENTORY_MENU"
+      type: "INVENTORY_MENU",
     },
     {
-      id: '6',
+      id: "6",
       name: "Sofa Set",
-      description: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
+      description:
+        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.",
       rental_price: 20,
       quantity: 10,
       icon_url: "/images/dummy/es4.png",
       updated_at: "Nov 12, 2023   11:00PM GST",
-      type: "INVENTORY_MENU"
+      type: "INVENTORY_MENU",
     },
   ];
-
 
   const venueData: IVenueItem[] = [
     {
@@ -95,8 +101,6 @@ const HomeScreen = () => {
     },
   ];
 
-
-
   return (
     <main className={styles.container}>
       <EventTopRow />
@@ -106,9 +110,11 @@ const HomeScreen = () => {
           <InventoryDetails />
           <ElementHead name="EVENT_SUPPLY" text="Event Supply" />
           {/* <div className={styles.header}></div> */}
-          {data.filter(item => item.type === "INVENTORY_MENU").map((item, index) => (
-            <EventSupplyItem {...item} key={item.name + index} />
-          ))}
+          {data
+            .filter((item) => item.type === "INVENTORY_MENU")
+            .map((item, index) => (
+              <EventSupplyItem {...item} key={item.name + index} />
+            ))}
 
           <ElementHead name="VENUE_SPECIFICATION" text="Venue Specifications" />
 
@@ -120,15 +126,29 @@ const HomeScreen = () => {
 
           <ElementHead name="KITCHEN_SUPPLY" text="Kitchen Supply" />
 
-          {data.filter(item => item.type === 'KITCHEN_SUPPLY' ).map((item, index) => (
-            <EventSupplyItem {...item} key={item.name + index} />
-          ))}
+          {data
+            .filter((item) => item.type === "KITCHEN_SUPPLY")
+            .map((item, index) => (
+              <EventSupplyItem {...item} key={item.name + index} />
+            ))}
           <ElementHead
             name="INSURANCE_REQUIREMENTS"
             text="Insurance Requirements"
           />
 
           <InsuranceRequirements />
+          {/* <div className={styles.upArrow}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="34"
+              height="34"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="M18 18L12 12L6 18" stroke="#ffffff" stroke-width="2" />
+              <path d="M18 12L12 6L6 12" stroke="#ffffff" stroke-width="2" />
+            </svg>
+          </div> */}
         </section>
 
         {/* Right Side Column */}
@@ -174,9 +194,9 @@ interface IInventoryItem {
   name: string;
   quantity: number;
   rental_price: number;
-  type: 'INVENTORY_MENU' | 'VENUE_SPEC' | 'KITCHEN_SUPPLY';
+  type: "INVENTORY_MENU" | "VENUE_SPEC" | "KITCHEN_SUPPLY";
   workspace_id?: string;
-  updated_at?: string
+  updated_at?: string;
 }
 
 export default HomeScreen;

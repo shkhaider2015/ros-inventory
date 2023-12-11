@@ -1,7 +1,7 @@
 
 .dropdown {
     margin: 0 auto;
-    z-index: 10000;
+    z-index: 2;
     width: 300px;
     position: relative;
   }

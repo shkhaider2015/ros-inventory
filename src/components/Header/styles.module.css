@@ -6,6 +6,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 0% 5% 0% 5%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .leftCon {
@@ -43,6 +46,7 @@
 }
 
 .cartContainer {
+    position: relative;
     width: 40px;
     height: 40px;
     border-radius: 20px;
@@ -50,6 +54,26 @@
     justify-content: center;
     align-items: center;
     display: none;
+}
+
+.cartContainer:hover {
+    cursor: pointer;
+}
+
+.itemsCount {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 15px;
+    background-color: #6200EE;
+    color: #fff;
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 0;
+    top: 0;
+    margin: -5px -5px 0px 0px;
 }
 
 @media screen and (max-width: 900px) {
