@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image';
 import styles from './styles.module.css';
-import { Image_URL_Base } from '@/lib/constants';
+import TextEditor from '../TextEditor';
 
 const InventoryDetails = (props:IInventoryDetails) => {
     console.log("Props : ", props);
@@ -9,7 +9,7 @@ const InventoryDetails = (props:IInventoryDetails) => {
     return <div className={styles.container} >
         <div className={styles.headSec} >
             <div className={styles.imageCon} >
-                <Image src={Image_URL_Base+ props.logo_url} alt='inventory picture' width={120} height={120} />
+                <Image src={props.logo_url || ''} alt='inventory picture' width={120} height={120} />
             </div>
             <div className={styles.textCon} >
                 <div className={styles.topText} >Inventory & Specifications Deck</div>
@@ -30,8 +30,8 @@ const InventoryDetails = (props:IInventoryDetails) => {
             </div>
         </div>
         <div className={styles.detailsSec} >
-            {details.split('\n').map((item, index) => <>{item}<br key={index}/></>)}
-           
+            {/* {details.split('\n').map((item, index) => <>{item}<br key={index}/></>)} */}
+           <TextEditor value={props.description} isReadOnly />
         </div>
         <div className={styles.detailsShadow} />
 
@@ -43,14 +43,12 @@ it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney 
 it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.\n
 it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.\n
 it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.\n
-
-
 `
 
 interface IInventoryDetails {
     description: string;
     email_address: string;
-    logo_url: Blob | string | undefined;
+    logo_url: string | undefined;
     phone_number: string;
     secondary_email_address: string;
     secondary_phone_number: string;
