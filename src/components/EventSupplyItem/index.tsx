@@ -6,6 +6,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import Button from "../common/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/store/features/checkedItems";
+import { Image_URL_Base } from "@/lib/constants";
 
 const EventSupplyItem = (props: IInventoryItem) => {
   const { name, icon_url, rental_price, quantity, description, updated_at, id } = props;
@@ -23,7 +24,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
   return (
     <div className={styles.container}>
       <div className={styles.leftCol}>
-        <Image src={icon_url || ''} alt="" width={150} height={150} />
+        <Image src={Image_URL_Base + icon_url || ''} alt="" width={150} height={150} />
       </div>
       <div className={styles.rightCol}>
         <div className={styles.topSec}>

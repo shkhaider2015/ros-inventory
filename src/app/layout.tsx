@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Providers } from "@/store/provider";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 const inter = Inter({
   subsets: ["latin"],

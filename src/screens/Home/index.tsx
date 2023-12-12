@@ -7,8 +7,12 @@ import VenueSpecificationItem from "@/components/VenueSpecificationItem";
 import InsuranceRequirements from "@/components/InsuranceRequirements";
 import ElementHead from "@/components/ElementHead";
 import Image from "next/image";
+import Tabs from "@/components/Tabs";
 
-const HomeScreen = () => {
+const HomeScreen = (props:{
+  workspaceInfo: IInventoryInfo,
+  items: IInventoryItem[]
+}) => {
   const data: IInventoryItem[] = [
     {
       id: "1",
@@ -101,16 +105,18 @@ const HomeScreen = () => {
     },
   ];
 
+  
   return (
     <main className={styles.container}>
       <EventTopRow />
+      {/* <Tabs /> */}
       <div className={styles.sectionContainer}>
         {/* Left Side Column */}
         <section className={styles.section}>
-          <InventoryDetails />
+          <InventoryDetails {...props.workspaceInfo} />
           <ElementHead name="EVENT_SUPPLY" text="Event Supply" />
           {/* <div className={styles.header}></div> */}
-          {data
+          {props.items
             .filter((item) => item.type === "INVENTORY_MENU")
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />
@@ -126,7 +132,7 @@ const HomeScreen = () => {
 
           <ElementHead name="KITCHEN_SUPPLY" text="Kitchen Supply" />
 
-          {data
+          {props.items
             .filter((item) => item.type === "KITCHEN_SUPPLY")
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />

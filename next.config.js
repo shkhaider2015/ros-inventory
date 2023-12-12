@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['dummyimage.com']
+        domains: ['ros-rosbucket221548-newdev.s3.amazonaws.com']
     }
 }
 
