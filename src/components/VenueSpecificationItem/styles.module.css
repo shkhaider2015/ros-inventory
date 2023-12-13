@@ -14,21 +14,34 @@
     gap: 15px;
 }
 .secondRow {
-    width: 80%;
+    width: 100%;
     margin-top: 25px;
     font-size: 13px;
     font-weight: 400;
     color: #777777;
+    height: 100px;
+    overflow-y: hidden;
+    padding-right: 10%;
+    padding-bottom: 10px;
+    border: 1px solid rgb(255, 255, 255);
 }
+.scrollable {
+    overflow-y: scroll;
+    border: 1px solid rgb(234, 234, 234);
+}
+
 .thirdRow {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
-    margin-top: 25px;
+    margin-top: 15px;
+    width: 200px;
     
 }
-
+.thirdRow:hover {
+    cursor: pointer;
+}
 
 .iconContainer {
     width: 50px;

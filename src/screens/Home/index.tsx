@@ -125,8 +125,8 @@ const HomeScreen = (props:{
           <ElementHead name="VENUE_SPECIFICATION" text="Venue Specifications" />
 
           <div className={styles.venueContainer}>
-            {venueData.map((item, index) => (
-              <VenueSpecificationItem {...item} key={item.title + index} />
+            {props.items.filter(item => item.type === "VENUE_SPEC").map((item, index) => (
+              <VenueSpecificationItem {...item} key={item.id + index} />
             ))}
           </div>
 
@@ -185,7 +185,7 @@ interface IVenueItem {
 interface IInventoryInfo {
   description: string;
   email_address: string;
-  logo_url: Blob | string | undefined;
+  logo_url: string | undefined;
   phone_number: string;
   secondary_email_address: string;
   secondary_phone_number: string;
