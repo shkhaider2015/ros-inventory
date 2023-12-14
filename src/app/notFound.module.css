@@ -1,0 +1,30 @@
+.container {
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dataCon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.code {
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.vrLine {
+    height: 80px;
+    width: 3px;
+    background-color: #000000b9;
+}
+
+.msg {
+    font-size: 18px;
+    font-weight: 600;
+}
