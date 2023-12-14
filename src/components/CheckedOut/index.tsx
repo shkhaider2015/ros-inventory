@@ -29,11 +29,10 @@ const CheckedOut = () => {
         </div>
       </div>
       {cartItems?.map((item: IItem) => (
-        <div className={styles.lineAndItem} >
+        <div className={styles.lineAndItem} key={item.id} >
           <div className={styles.hrLine} />
           <Item
             {...item}
-            key={item?.id}
             onRemove={() => {
               console.log("Remove call");
               dispatch(removeFromCart(item?.id));
