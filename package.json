@@ -5,7 +5,7 @@
   "engineStrict": true,
   "engines": {
     "npm": "please-use-yarn",
-    "yarn": ">= 1.22.19",
+    "yarn": ">= 1.22.0",
     "node": ">= 18.14.0"
   },
   "scripts": {
