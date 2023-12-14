@@ -29,7 +29,7 @@ const CheckedOut = () => {
         </div>
       </div>
       {cartItems?.map((item: IItem) => (
-        <div className={styles.lineAndItem} key={item.id} >
+        <div className={styles.lineAndItem} key={item?.id} >
           <div className={styles.hrLine} />
           <Item
             {...item}
