@@ -1,4 +1,5 @@
 import HomeScreen from "@/screens/Home";
+import NotFoundData from "@/screens/NotFoundData";
 import axios from "axios";
 import { Suspense } from "react";
 
@@ -29,6 +30,10 @@ async function getData(eventId: string) {
     );
 
     let data = await res.data;
+    // console.log("Data at server : ", data);
+    // console.log("Error : ");
+    
+    
     let { workspaceInfo, items } = data;
     workspaceInfo = workspaceInfo[0];
     workspaceInfo = {
@@ -77,13 +82,18 @@ async function getData(eventId: string) {
       items,
     };
   } catch (error) {
-    console.log("Error : ", error);
-    return null;
+    // console.log("Error at server : ", error);
+    return null
   }
 }
 
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
+  console.log("data at ", data);
+  
+  if(!data) return <Suspense>
+    <NotFoundData />
+  </Suspense>
 
   return (
     <Suspense>

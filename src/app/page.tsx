@@ -1,11 +1,10 @@
+import NotFoundData from "@/screens/NotFoundData";
 import { Suspense } from "react";
 
 export default async function Home({ searchParams }: IHome) {
   return (
     <Suspense>
-      <div>
-        <h4>ROS Inventory</h4>
-      </div>
+      <NotFoundData />
     </Suspense>
   );
 }

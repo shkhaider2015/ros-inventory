@@ -11,7 +11,7 @@ const CheckedOut = () => {
   const cartItems: IItem[] = useSelector((state: any) => state.cart);
   const dispatch = useDispatch();
 
-  console.log("Cart Items : ", cartItems);
+  // console.log("Cart Items : ", cartItems);
 
   return (
     <div className={styles.container}>
