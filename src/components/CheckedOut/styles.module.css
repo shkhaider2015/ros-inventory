@@ -4,6 +4,8 @@
     /* background-color: #FFFFFF; */
     background: linear-gradient(180deg, #FFF 0%, rgba(255, 255, 255, 0.00) 132.6%);
     border: 1px solid rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 90px;
 }
 
 .topSec {
@@ -113,5 +115,8 @@
 }
 
 @media screen and (max-width: 900px) {
-    
+    .container {
+        position: relative;
+        top: 0px;
+    }
 }

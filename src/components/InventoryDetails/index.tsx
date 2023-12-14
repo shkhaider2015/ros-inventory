@@ -4,12 +4,12 @@ import styles from './styles.module.css';
 import TextEditor from '../TextEditor';
 
 const InventoryDetails = (props:IInventoryDetails) => {
-    console.log("Props : ", props);
+    // console.log("Props : ", props);
     
     return <div className={styles.container} >
         <div className={styles.headSec} >
             <div className={styles.imageCon} >
-                <Image src={props.logo_url || ''} alt='inventory picture' width={120} height={120} />
+                <Image src={props.logo_url || ''} alt='inventory picture' width={120} height={120} style={{ borderRadius: 10 }} />
             </div>
             <div className={styles.textCon} >
                 <div className={styles.topText} >Inventory & Specifications Deck</div>
@@ -30,20 +30,12 @@ const InventoryDetails = (props:IInventoryDetails) => {
             </div>
         </div>
         <div className={styles.detailsSec} >
-            {/* {details.split('\n').map((item, index) => <>{item}<br key={index}/></>)} */}
            <TextEditor value={props.description} isReadOnly />
         </div>
         <div className={styles.detailsShadow} />
 
     </div>
 }
-
-const details = `
-it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur. it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.\n
-it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.\n
-it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.\n
-it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.\n
-`
 
 interface IInventoryDetails {
     description: string;

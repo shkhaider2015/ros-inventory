@@ -4,13 +4,14 @@ import styles from "./styles.module.css";
 import CounterButton from "../common/CounterButton";
 import Button from "../common/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart } from "@/store/features/checkedItems";
+import { removeFromCart, updateQuantity } from "@/store/features/checkedItems";
+import { _toTitleCase } from "@/lib/func";
 
 const CheckedOut = () => {
   const cartItems: IItem[] = useSelector((state: any) => state.cart);
   const dispatch = useDispatch();
 
-  // console.log("Cart Items : ", cartItems);
+  console.log("Cart Items : ", cartItems);
 
   return (
     <div className={styles.container}>
@@ -37,6 +38,9 @@ const CheckedOut = () => {
               console.log("Remove call");
               dispatch(removeFromCart(item?.id));
             }}
+            onChangeCounter={(val:number) =>  {
+              dispatch(updateQuantity({...item, selectedQuantity: val}))
+            }}
           />
         </div>
       ))}
@@ -62,6 +66,7 @@ const CheckedOut = () => {
           alt="thick"
           width={25}
           height={25}
+          style={{ borderRadius: 10 }}
         />
         Last Saved: Nov 15, 2023 - 11:00PM GST
       </div>
@@ -75,6 +80,7 @@ const Item = ({
   description,
   selectedQuantity,
   onRemove,
+  onChangeCounter,
 }: any) => {
   return (
     <div className={styles.itemContainer}>
@@ -83,7 +89,7 @@ const Item = ({
           <Image src={icon_url || ""} alt="product" width={60} height={60} />
         </div>
         <div className={styles.textCon}>
-          <div className={styles.title}>{name}</div>
+          <div className={styles.title}>{_toTitleCase(name)}</div>
           <div className={styles.desc}>
             {description.length > 62
               ? description.slice(0, 62) + "..."
@@ -94,7 +100,7 @@ const Item = ({
       <div className={styles.itemBottomSec}>
         <div className={styles.emptyDiv} />
         <div className={styles.counterBtn}>
-          <CounterButton value={selectedQuantity} />
+          <CounterButton value={selectedQuantity} onChange={onChangeCounter} />
         </div>
         <div className={styles.deletCon}>
           <div className={styles.deleteIcon} onClick={() => onRemove()}>

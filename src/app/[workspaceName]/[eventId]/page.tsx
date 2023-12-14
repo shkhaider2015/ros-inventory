@@ -84,7 +84,6 @@ async function getData(eventId: string) {
 
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
-  // console.log("Data : ", data);
 
   return (
     <Suspense>

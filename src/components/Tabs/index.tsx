@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./styles.module.css";
+import { scroller } from "react-scroll";
 
 const tabsData: {
   id: string;
@@ -34,6 +35,17 @@ const tabsData: {
 
 const Tabs = () => {
   const [selectedTab, setSelectedTab] = useState<string>("1");
+
+  const _onSelectTab = (id: string) => {
+    setSelectedTab(id);
+    scroller.scrollTo(`scrollto_${id}`, {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: -70,
+    });
+  };
+
   return (
     <div className={styles.container}>
       {tabsData.map((item) => (
@@ -42,7 +54,7 @@ const Tabs = () => {
           id={item.id}
           title={item.title}
           isSelected={selectedTab === item.id}
-          onClick={() => setSelectedTab(item.id)}
+          onClick={() => _onSelectTab(item.id)}
         />
       ))}
     </div>
@@ -52,11 +64,12 @@ const Tabs = () => {
 const Tab: React.FC<ITab> = ({ title, isSelected, onClick }) => {
   return (
     <div
-      className={`${styles.tabItem} ${isSelected ? styles.selectedItem : ""}`}
+      className={`${styles.tabItem}`}
       onClick={onClick}
     >
-      <div className={styles.label}>{title}</div>
-      <div className={`${styles.hrLine}`} />
+      <div className={`${styles.label} ${isSelected ? styles.selectedLabel : ""} `}>{title}</div>
+      <div className={`${styles.hrLine} ${isSelected ? styles.selectedLine : "" } `} />
+      
     </div>
   );
 };
