@@ -4,24 +4,31 @@ import InventoryDetails from "@/components/InventoryDetails";
 import CheckedOut from "@/components/CheckedOut";
 import EventSupplyItem from "@/components/EventSupplyItem";
 import VenueSpecificationItem from "@/components/VenueSpecificationItem";
-import InsuranceRequirements from "@/components/InsuranceRequirements";
 import ElementHead from "@/components/ElementHead";
 import Tabs from "@/components/Tabs";
+import Image from "next/image";
+import SocialMediaIcon from "@/components/SocialMediaIcons";
+import DocumentSection from "@/components/DocumentSection";
 
-const HomeScreen = (props:{
-  workspaceInfo: IInventoryInfo,
-  items: IInventoryItem[]
+const HomeScreen = (props: {
+  workspaceInfo: IInventoryInfo;
+  items: IInventoryItem[];
+  eventInfo: any;
+  contacts: any[];
+  socialMedia: IScoialMedia[];
 }) => {
-
-  
   return (
     <main className={styles.container}>
-      <EventTopRow />
+      <EventTopRow {...props.eventInfo} />
       <Tabs />
       <div className={styles.sectionContainer}>
         {/* Left Side Column */}
         <section className={styles.section}>
-          <InventoryDetails {...props.workspaceInfo} />
+          <InventoryDetails
+            info={props.workspaceInfo}
+            contacts={props.contacts}
+          />
+          <DocumentSection item={props.items.find(item => item.type === "ABOUT_THE_VENUE" )} />
           <ElementHead name="scrollto_2" text="Event Supply" />
           {/* <div className={styles.header}></div> */}
           {props.items
@@ -33,9 +40,11 @@ const HomeScreen = (props:{
           <ElementHead name="scrollto_3" text="Venue Specifications" />
 
           <div className={styles.venueContainer}>
-            {props.items.filter(item => item.type === "VENUE_SPEC").map((item, index) => (
-              <VenueSpecificationItem {...item} key={item.id + index} />
-            ))}
+            {props.items
+              .filter((item) => item.type === "VENUE_SPEC")
+              .map((item, index) => (
+                <VenueSpecificationItem {...item} key={item.id + index} />
+              ))}
           </div>
 
           <ElementHead name="scrollto_4" text="Kitchen Supply" />
@@ -45,12 +54,14 @@ const HomeScreen = (props:{
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
-          <ElementHead
-            name="scrollto_5"
-            text="Insurance Requirements"
-          />
+          <ElementHead name="scrollto_5" text="Insurance Requirements" />
 
-          <InsuranceRequirements />
+          <DocumentSection item={props.items.find(item => item.type === "INSURANCE_REQUIREMENTS" )} section_type={"Insurance Requirements"} />
+          <DocumentSection item={props.items.find(item => item.type === "FOOD_AND_BEVERAGE" )} section_type={"Food and Beverage"} />
+          <DocumentSection item={props.items.find(item => item.type === "MISC" )} section_type={"Misc"} />
+
+          <SocialMediaIcon items={props.socialMedia} />
+
           {/* <div className={styles.upArrow}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -92,9 +103,22 @@ interface IInventoryItem {
   name: string;
   quantity: number;
   rental_price: number;
-  type: "INVENTORY_MENU" | "VENUE_SPEC" | "KITCHEN_SUPPLY";
+  type: | 'INVENTORY_MENU'
+  | 'VENUE_SPEC'
+  | 'KITCHEN_SUPPLY'
+  | 'ABOUT_THE_VENUE'
+  | 'INSURANCE_REQUIREMENTS'
+  | 'FOOD_AND_BEVERAGE'
+  | 'MISC';
   workspace_id?: string;
   updated_at?: string;
+}
+
+interface IScoialMedia {
+  id: string;
+  platform_name: string;
+  url: string;
+  icon: string;
 }
 
 export default HomeScreen;

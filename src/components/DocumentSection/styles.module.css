@@ -3,12 +3,20 @@
     border: 1px solid rgba(0, 0, 0, 0.08);
     padding: 30px 15px;
     border-radius: 20px;
+    margin-top: 30px;
 }
 .titleContainer {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 15px;
+}
+
+.iconColumn {
+    height: 150px;
+}
+.textColumn {
+    height: 150px;
 }
 
 .iconContainer {
@@ -20,6 +28,10 @@
     align-items: center;
     background-color: #D9D9D9;
 }
+
+.descContainer {
+    
+} 
 
 .hrLine {
     width: 100%;
@@ -34,14 +46,32 @@
 .title {
     font-size: 16;
     font-weight: 600;
+    padding-left: 10px;
 }
 .desc {
     font-size: 13px;
     font-weight: 400;
     color: #545454;
-    margin-top: 10px;
-    width: 80%;
+    margin-top: 5px;
+    width: 100%;
+    max-height: 100px;
+    overflow-y: auto;
+    padding-right: 10%;
 }
+
+.desc::-webkit-scrollbar {
+    width: 2px;
+}
+
+.desc::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.desc::-webkit-scrollbar-thumb {
+    background-color: #6200EE;
+}
+
+
 
 .docsContainer {}
 .docsTitle {
@@ -50,9 +80,6 @@
     color: #6200EE;
     margin: 10px 0px 10px 0px;
 }
-
-
-
 
 
 .docContainer {
@@ -88,4 +115,23 @@
     justify-content: center;
     align-items: center;
     background-color: #F0F0F0;
+}
+
+.btnCon {
+    padding: 25px 0px 0px 0px;
+}
+
+.btn {
+    width: 180px;
+    padding: 8px 15px 8px 15px;
+    background-color: #E6E6E6;
+    border: 2px solid #E6E6E6;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border .3s;
+}
+
+.btn:hover {
+    cursor: pointer;
+    border: 2px solid #000;
 }

@@ -32,9 +32,15 @@ async function getData(eventId: string) {
     let data = await res.data;
     // console.log("Data at server : ", data);
     // console.log("Error : ");
-    
-    
-    let { workspaceInfo, items } = data;
+
+    let eventInfo = {
+      id: "94585fb4-7993-43e1-8334-7af65bfdf370",
+      name: "Dummy Name - New WS",
+      start_date: "November 30, 2023 2:00PM",
+      end_date: "January 30, 2023 2:00PM",
+    };
+
+    let { workspaceInfo, items, social_media, contacts } = data;
     workspaceInfo = workspaceInfo[0];
     workspaceInfo = {
       ...workspaceInfo,
@@ -77,29 +83,80 @@ async function getData(eventId: string) {
       } else return item;
     });
 
+    // filter social media
+    social_media = social_media?.map(({ __typename, ...item }: any) => {
+      let itemX = item;
+      let iconURL = _getIconUrl(item?.platform_name);
+      itemX = {...itemX, icon: iconURL}
+      return itemX
+    });
+
+    // filter contacts
+    contacts = contacts?.map(({ __typename, ...item }: any) => item);
+    // contacts = contacts.filter((_:any, ind:number) => ind%2 === 0)
+
     return {
       workspaceInfo,
       items,
+      eventInfo,
+      social_media,
+      contacts,
     };
   } catch (error) {
     // console.log("Error at server : ", error);
-    return null
+    return null;
   }
+}
+
+function _getIconUrl(platform: string): string {
+  let final_url = null;
+
+  switch (platform.toLowerCase()) {
+    case "facebook":
+      final_url = "/images/socials/facebook.png";
+      break;
+    case "twitter":
+      final_url = "/images/socials/twitter.png";
+      break;
+    case "instagram":
+      final_url = "/images/socials/Instagram.png";
+      break;
+    case "thread":
+      final_url = "/images/socials/thread.png";
+      break;
+    case "snapchat":
+      final_url = "/images/socials/Snapchat.png";
+      break;
+    case "pinterest":
+      final_url = "/images/socials/Pinterest.png";
+      break;
+    default:
+      final_url = platform || '';
+      break;
+  }
+
+  return final_url;
 }
 
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
-  console.log("data at ", data);
-  
-  if(!data) return <Suspense>
-    <NotFoundData />
-  </Suspense>
+  console.log("Social Media ", data?.social_media);
+
+  if (!data)
+    return (
+      <Suspense>
+        <NotFoundData />
+      </Suspense>
+    );
 
   return (
     <Suspense>
       <HomeScreen
         workspaceInfo={data?.workspaceInfo}
         items={data?.items || []}
+        eventInfo={data?.eventInfo}
+        contacts={data?.contacts}
+        socialMedia={data?.social_media}
       />
     </Suspense>
   );
