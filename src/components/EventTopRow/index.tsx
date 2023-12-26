@@ -10,8 +10,8 @@ import styles from "./styles.module.css";
 //   { label: "Insurance Requirements", value: "INSURANCE_REQUIREMENTS" },
 // ];
 
-const EventTopRow = () => {
-
+const EventTopRow = (props:any) => {
+  
   return (
     <div className={styles.container}>
       {/* <div className={styles.topCon}>
@@ -26,8 +26,8 @@ const EventTopRow = () => {
       <div className={styles.bottomCon}>
         <div className={styles.leftSec}>
           <div className={styles.desc}>VISITING FROM</div>
-          <div className={styles.title}>Gil’s Birthday Party</div>
-          <div className={styles.date}>November 30, 2023 2:00PM</div>
+          <div className={styles.title}>{props?.name}</div>
+          <div className={styles.date}>{props?.start_date}</div>
         </div>
         <div className={styles.rightSec}>
           <Button label="Back to event" type="Secondary" />
@@ -36,5 +36,7 @@ const EventTopRow = () => {
     </div>
   );
 };
+
+
 
 export default EventTopRow;
