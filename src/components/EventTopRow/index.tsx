@@ -30,7 +30,7 @@ const EventTopRow = (props:any) => {
           <div className={styles.date}>{props?.start_date}</div>
         </div>
         <div className={styles.rightSec}>
-          <Button label="Back to event" type="Secondary" />
+          <Button label="Back to event" type="Secondary" onClick={() => window.open(props?.link, "_blank")} />
         </div>
       </div>
     </div>

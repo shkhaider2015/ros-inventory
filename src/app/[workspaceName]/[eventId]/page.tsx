@@ -38,6 +38,7 @@ async function getData(eventId: string) {
       name: "Dummy Name - New WS",
       start_date: "November 30, 2023 2:00PM",
       end_date: "January 30, 2023 2:00PM",
+      link: `${"https://mydev.runofshowapp.com"}/events/${"94585fb4-7993-43e1-8334-7af65bfdf370"}/events-details`
     };
 
     let { workspaceInfo, items, social_media, contacts } = data;
