@@ -47,7 +47,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
           {/* Bottom */}
           <div className={styles.bottomLeftSec}>
             <div className={styles.bottomLeftUnit}>
-              Units Available: <span>{quantity}</span>{" "}
+              Units Available: <span>{quantity - selectedQuantity }</span>{" "}
             </div>
             <div className={styles.bottomLeftUpdate}>{updated_at}</div>
           </div>
@@ -79,9 +79,15 @@ interface IInventoryItem {
   name: string;
   quantity: number;
   rental_price: number;
-  type: 'INVENTORY_MENU' | 'VENUE_SPEC' | 'KITCHEN_SUPPLY';
+  type: | 'INVENTORY_MENU'
+  | 'VENUE_SPEC'
+  | 'KITCHEN_SUPPLY'
+  | 'ABOUT_THE_VENUE'
+  | 'INSURANCE_REQUIREMENTS'
+  | 'FOOD_AND_BEVERAGE'
+  | 'MISC';
   workspace_id?: string;
-  updated_at?: string
+  updated_at?: string;
 }
 
 export default EventSupplyItem;

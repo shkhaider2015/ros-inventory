@@ -4,11 +4,11 @@ import InventoryDetails from "@/components/InventoryDetails";
 import CheckedOut from "@/components/CheckedOut";
 import EventSupplyItem from "@/components/EventSupplyItem";
 import VenueSpecificationItem from "@/components/VenueSpecificationItem";
-import InsuranceRequirements from "@/components/InsuranceRequirements";
 import ElementHead from "@/components/ElementHead";
 import Tabs from "@/components/Tabs";
 import Image from "next/image";
 import SocialMediaIcon from "@/components/SocialMediaIcons";
+import DocumentSection from "@/components/DocumentSection";
 
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
@@ -28,6 +28,7 @@ const HomeScreen = (props: {
             info={props.workspaceInfo}
             contacts={props.contacts}
           />
+          <DocumentSection item={props.items.find(item => item.type === "ABOUT_THE_VENUE" )} />
           <ElementHead name="scrollto_2" text="Event Supply" />
           {/* <div className={styles.header}></div> */}
           {props.items
@@ -55,7 +56,9 @@ const HomeScreen = (props: {
             ))}
           <ElementHead name="scrollto_5" text="Insurance Requirements" />
 
-          <InsuranceRequirements />
+          <DocumentSection item={props.items.find(item => item.type === "INSURANCE_REQUIREMENTS" )} section_type={"Insurance Requirements"} />
+          <DocumentSection item={props.items.find(item => item.type === "FOOD_AND_BEVERAGE" )} section_type={"Food and Beverage"} />
+          <DocumentSection item={props.items.find(item => item.type === "MISC" )} section_type={"Misc"} />
 
           <SocialMediaIcon items={props.socialMedia} />
 
@@ -100,7 +103,13 @@ interface IInventoryItem {
   name: string;
   quantity: number;
   rental_price: number;
-  type: "INVENTORY_MENU" | "VENUE_SPEC" | "KITCHEN_SUPPLY";
+  type: | 'INVENTORY_MENU'
+  | 'VENUE_SPEC'
+  | 'KITCHEN_SUPPLY'
+  | 'ABOUT_THE_VENUE'
+  | 'INSURANCE_REQUIREMENTS'
+  | 'FOOD_AND_BEVERAGE'
+  | 'MISC';
   workspace_id?: string;
   updated_at?: string;
 }

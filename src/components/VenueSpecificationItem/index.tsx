@@ -46,7 +46,13 @@ interface IVenueItem {
   name: string;
   quantity: number;
   rental_price: number;
-  type: "INVENTORY_MENU" | "VENUE_SPEC" | "KITCHEN_SUPPLY";
+  type: | 'INVENTORY_MENU'
+  | 'VENUE_SPEC'
+  | 'KITCHEN_SUPPLY'
+  | 'ABOUT_THE_VENUE'
+  | 'INSURANCE_REQUIREMENTS'
+  | 'FOOD_AND_BEVERAGE'
+  | 'MISC';
   workspace_id?: string;
   updated_at?: string;
 }

@@ -1,7 +1,9 @@
 import Image from "next/image";
 import styles from "./styles.module.css";
+import TextEditor from "../TextEditor";
+import Button from "../common/Button";
 
-const InsuranceRequirements = () => {
+const DocumentSection = (props: { item: IInventoryItem | undefined, section_type?: string }) => {
   const data: IDocItem[] = [
     {
       title: "Document name will come here.pdf",
@@ -16,21 +18,26 @@ const InsuranceRequirements = () => {
   return (
     <div className={styles.container}>
       <div className={styles.titleContainer}>
-        <div className={styles.iconContainer}>
-          <Image
-            src={"/images/icons/HandHeart.svg"}
-            alt=""
-            width={30}
-            height={30}
-          />
-        </div>
-        <div>
-          <div className={styles.title}>Insurance Requirements</div>
-          <div className={styles.desc}>
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some...
+        <div className={styles.iconColumn}>
+          <div className={styles.iconContainer}>
+            <Image
+              src={"/images/icons/HandHeart.svg"}
+              alt=""
+              width={30}
+              height={30}
+            />
           </div>
         </div>
+        <div className={styles.textColumn}>
+        <div className={styles.title}>{props.item?.name || props.section_type}</div>
+          <div className={styles.desc}>
+            <TextEditor value={props.item?.description} isReadOnly={true} />
+          </div>
+        </div>
+
+        {/* <div className={styles.descContainer}>
+          
+        </div> */}
       </div>
       <div className={styles.hrLine} />
       <div className={styles.docsContainer}>
@@ -38,6 +45,9 @@ const InsuranceRequirements = () => {
         {data.map((item, index) => (
           <DocItem {...item} key={item.title + index} />
         ))}
+      </div>
+      <div className={styles.btnCon} >
+        <div className={styles.btn} >+ Upload Document</div>
       </div>
     </div>
   );
@@ -80,4 +90,23 @@ interface IDocItem {
   desc: string;
 }
 
-export default InsuranceRequirements;
+interface IInventoryItem {
+  description: string;
+  icon_url: string | undefined;
+  id: string;
+  name: string;
+  quantity: number;
+  rental_price: number;
+  type:
+    | "INVENTORY_MENU"
+    | "VENUE_SPEC"
+    | "KITCHEN_SUPPLY"
+    | "ABOUT_THE_VENUE"
+    | "INSURANCE_REQUIREMENTS"
+    | "FOOD_AND_BEVERAGE"
+    | "MISC";
+  workspace_id?: string;
+  updated_at?: string;
+}
+
+export default DocumentSection;
