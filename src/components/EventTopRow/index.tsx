@@ -1,4 +1,4 @@
-
+"use client"
 import Button from "../common/Button";
 import styles from "./styles.module.css";
 
