@@ -11,7 +11,7 @@ const EventTopRow = (props:IEventInfo) => {
     <div className={styles.container}>
       <div className={styles.bottomCon}>
         <div className={styles.leftSec}>
-          <div className={styles.desc}>VISITING FROM</div>
+          {/* <div className={styles.desc}>VISITING FROM</div> */}
           <div className={styles.title}>{props?.name}</div>
           <div className={styles.date}>{moment(props?.start).format('MMMM, d YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A')}</div>
         </div>

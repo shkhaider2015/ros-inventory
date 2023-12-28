@@ -4,7 +4,10 @@ import styles from "./styles.module.css";
 
 const SocialMediaIcon: React.FC<{ items: IScoialMedia[] }> = ({ items }) => {
     const _OpenURL = (url:string) => {
-        window.open(url, "_blank")
+      let URL = url.toLowerCase();
+      if(!URL.includes('www')) URL = 'www.' + URL
+      if(!URL.includes("://")) URL = 'https://' + URL
+        window.open(URL, "_blank")
     }
 
   return (

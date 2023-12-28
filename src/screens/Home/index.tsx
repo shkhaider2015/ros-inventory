@@ -8,6 +8,7 @@ import ElementHead from "@/components/ElementHead";
 import Tabs from "@/components/Tabs";
 import SocialMediaIcon from "@/components/SocialMediaIcons";
 import DocumentSection from "@/components/DocumentSection";
+import ExpectedGuest from "@/components/ExpectedGuest";
 
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
@@ -28,6 +29,7 @@ const HomeScreen = (props: {
             info={props.workspaceInfo}
             contacts={props.contacts}
           />
+          <ExpectedGuest />
           <ElementHead name="scrollto_2" text="About The Venue" />
           <DocumentSection
             item={props.items.find((item) => item.type === "ABOUT_THE_VENUE")}

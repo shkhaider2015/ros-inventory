@@ -1,0 +1,50 @@
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+.title {
+    font-size: 14px;
+    font-weight: 600;
+}
+.inputBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border: 1px solid #00000029;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+.count {}
+
+.confermText {
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 20px;
+}
+.radioGroup {
+    margin: 20px 0px 20px 0px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+}
+.btnCon {
+    
+}
+
+.iconTextCon {
+    font-size: 12px;
+    font-weight: 400;
+    font-style: italic;
+    color: #8B8B8B;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+.iconContainer {
+    
+}
