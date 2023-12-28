@@ -100,7 +100,7 @@ const Item = ({
       <div className={styles.itemBottomSec}>
         <div className={styles.emptyDiv} />
         <div className={styles.counterBtn}>
-          <CounterButton value={selectedQuantity} minValue={0} maxValue={quantity} onChange={onChangeCounter} />
+          <CounterButton value={selectedQuantity} minValue={1} maxValue={quantity} onChange={onChangeCounter} />
         </div>
         <div className={styles.deletCon}>
           <div className={styles.deleteIcon} onClick={() => onRemove()}>

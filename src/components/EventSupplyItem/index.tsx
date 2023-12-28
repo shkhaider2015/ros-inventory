@@ -85,6 +85,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
                 setSelectedQuantity(val);
               }}
               maxValue={quantity}
+              minValue={1}
               disable={isAdded}
               value={selectedQuantity}
             />
