@@ -50,7 +50,7 @@ const DocumentSection = (props: {
       <div className={styles.hrLine} />
       <div className={styles.docsContainer}>
         <div className={styles.docsTitle}>2 DOCUMENTS UPLOADED</div>
-        {props.attachements.map((item) => (
+        {props.attachements.filter(item => item.section_type === props.item?.type).map((item) => (
           <DocItem {...item} key={item.id} />
         ))}
       </div>
