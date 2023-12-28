@@ -6,7 +6,6 @@ import EventSupplyItem from "@/components/EventSupplyItem";
 import VenueSpecificationItem from "@/components/VenueSpecificationItem";
 import ElementHead from "@/components/ElementHead";
 import Tabs from "@/components/Tabs";
-import Image from "next/image";
 import SocialMediaIcon from "@/components/SocialMediaIcons";
 import DocumentSection from "@/components/DocumentSection";
 
