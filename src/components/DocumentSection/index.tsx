@@ -1,9 +1,15 @@
+"use client"
 import Image from "next/image";
 import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
 import Button from "../common/Button";
+import { IAttachements, IInventoryItem } from "@/screens/Home";
 
-const DocumentSection = (props: { item: IInventoryItem | undefined, section_type?: string }) => {
+const DocumentSection = (props: {
+  item: IInventoryItem | undefined;
+  attachements: IAttachements[];
+  section_type?: string;
+}) => {
   const data: IDocItem[] = [
     {
       title: "Document name will come here.pdf",
@@ -29,7 +35,9 @@ const DocumentSection = (props: { item: IInventoryItem | undefined, section_type
           </div>
         </div>
         <div className={styles.textColumn}>
-        <div className={styles.title}>{props.item?.name || props.section_type}</div>
+          <div className={styles.title}>
+            {props.item?.name || props.section_type}
+          </div>
           <div className={styles.desc}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
           </div>
@@ -42,18 +50,22 @@ const DocumentSection = (props: { item: IInventoryItem | undefined, section_type
       <div className={styles.hrLine} />
       <div className={styles.docsContainer}>
         <div className={styles.docsTitle}>2 DOCUMENTS UPLOADED</div>
-        {data.map((item, index) => (
-          <DocItem {...item} key={item.title + index} />
+        {props.attachements.map((item) => (
+          <DocItem {...item} key={item.id} />
         ))}
       </div>
-      <div className={styles.btnCon} >
-        <div className={styles.btn} >+ Upload Document</div>
+      <div className={styles.btnCon}>
+        <div className={styles.btn}>+ Upload Document</div>
       </div>
     </div>
   );
 };
 
-const DocItem: React.FC<IDocItem> = ({ title, desc }) => {
+const DocItem: React.FC<IAttachements> = ({ name, description, url }) => {
+  const _downloadFile = () => {
+    window.open(url, "_blank");
+  };
+
   return (
     <div className={styles.docContainer}>
       <div className={styles.leftCol}>
@@ -67,12 +79,12 @@ const DocItem: React.FC<IDocItem> = ({ title, desc }) => {
         </div>
 
         <div className={styles.textCon}>
-          <div className={styles.docTitle}>{title}</div>
-          <div className={styles.decDesc}>{desc}</div>
+          <div className={styles.docTitle}>{name}</div>
+          <div className={styles.decDesc}>{description}</div>
         </div>
       </div>
       <div className={styles.rightCol}>
-        <div className={styles.docIconContainer}>
+        <div className={styles.docIconContainer} onClick={_downloadFile}>
           <Image
             src={"/images/icons/Import.svg"}
             alt="import"
@@ -90,23 +102,23 @@ interface IDocItem {
   desc: string;
 }
 
-interface IInventoryItem {
-  description: string;
-  icon_url: string | undefined;
-  id: string;
-  name: string;
-  quantity: number;
-  rental_price: number;
-  type:
-    | "INVENTORY_MENU"
-    | "VENUE_SPEC"
-    | "KITCHEN_SUPPLY"
-    | "ABOUT_THE_VENUE"
-    | "INSURANCE_REQUIREMENTS"
-    | "FOOD_AND_BEVERAGE"
-    | "MISC";
-  workspace_id?: string;
-  updated_at?: string;
-}
+// interface IInventoryItem {
+//   description: string;
+//   icon_url: string | undefined;
+//   id: string;
+//   name: string;
+//   quantity: number;
+//   rental_price: number;
+//   type:
+//     | "INVENTORY_MENU"
+//     | "VENUE_SPEC"
+//     | "KITCHEN_SUPPLY"
+//     | "ABOUT_THE_VENUE"
+//     | "INSURANCE_REQUIREMENTS"
+//     | "FOOD_AND_BEVERAGE"
+//     | "MISC";
+//   workspace_id?: string;
+//   updated_at?: string;
+// }
 
 export default DocumentSection;

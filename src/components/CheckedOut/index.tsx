@@ -34,7 +34,7 @@ const CheckedOut = () => {
           <Item
             {...item}
             onRemove={() => {
-              console.log("Remove call");
+              // console.log("Remove call");
               dispatch(removeFromCart(item?.id));
             }}
             onChangeCounter={(val:number) =>  {
@@ -80,6 +80,7 @@ const Item = ({
   selectedQuantity,
   onRemove,
   onChangeCounter,
+  quantity
 }: any) => {
   return (
     <div className={styles.itemContainer}>
@@ -99,7 +100,7 @@ const Item = ({
       <div className={styles.itemBottomSec}>
         <div className={styles.emptyDiv} />
         <div className={styles.counterBtn}>
-          <CounterButton value={selectedQuantity} onChange={onChangeCounter} />
+          <CounterButton value={selectedQuantity} minValue={0} maxValue={quantity} onChange={onChangeCounter} />
         </div>
         <div className={styles.deletCon}>
           <div className={styles.deleteIcon} onClick={() => onRemove()}>

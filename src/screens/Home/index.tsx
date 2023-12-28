@@ -13,9 +13,10 @@ import DocumentSection from "@/components/DocumentSection";
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
   items: IInventoryItem[];
-  eventInfo: any;
+  eventInfo: IEventInfo;
   contacts: any[];
   socialMedia: IScoialMedia[];
+  attachements: IAttachements[]
 }) => {
   return (
     <main className={styles.container}>
@@ -28,8 +29,13 @@ const HomeScreen = (props: {
             info={props.workspaceInfo}
             contacts={props.contacts}
           />
-          <DocumentSection item={props.items.find(item => item.type === "ABOUT_THE_VENUE" )} />
-          <ElementHead name="scrollto_2" text="Event Supply" />
+          <ElementHead name="scrollto_2" text="About The Venue" />
+          <DocumentSection
+            item={props.items.find((item) => item.type === "ABOUT_THE_VENUE")}
+            section_type={"About The Venue"}
+            attachements={props.attachements}
+          />
+          <ElementHead name="scrollto_3" text="Event Supply" />
           {/* <div className={styles.header}></div> */}
           {props.items
             .filter((item) => item.type === "INVENTORY_MENU")
@@ -37,7 +43,7 @@ const HomeScreen = (props: {
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
 
-          <ElementHead name="scrollto_3" text="Venue Specifications" />
+          <ElementHead name="scrollto_4" text="Venue Specifications" />
 
           <div className={styles.venueContainer}>
             {props.items
@@ -47,18 +53,34 @@ const HomeScreen = (props: {
               ))}
           </div>
 
-          <ElementHead name="scrollto_4" text="Kitchen Supply" />
+          <ElementHead name="scrollto_5" text="Kitchen Supply" />
 
           {props.items
             .filter((item) => item.type === "KITCHEN_SUPPLY")
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
-          <ElementHead name="scrollto_5" text="Insurance Requirements" />
+          <ElementHead name="scrollto_6" text="Insurance Requirements" />
 
-          <DocumentSection item={props.items.find(item => item.type === "INSURANCE_REQUIREMENTS" )} section_type={"Insurance Requirements"} />
-          <DocumentSection item={props.items.find(item => item.type === "FOOD_AND_BEVERAGE" )} section_type={"Food and Beverage"} />
-          <DocumentSection item={props.items.find(item => item.type === "MISC" )} section_type={"Misc"} />
+          <DocumentSection
+            item={props.items.find(
+              (item) => item.type === "INSURANCE_REQUIREMENTS"
+            )}
+            section_type={"Insurance Requirements"}
+            attachements={props.attachements}
+          />
+          <ElementHead name="scrollto_7" text="Food and Beverage" />
+          <DocumentSection
+            item={props.items.find((item) => item.type === "FOOD_AND_BEVERAGE")}
+            section_type={"Food and Beverage"}
+            attachements={props.attachements}
+          />
+          <ElementHead name="scrollto_8" text="Misc" />
+          <DocumentSection
+            item={props.items.find((item) => item.type === "MISC")}
+            section_type={"Misc"}
+            attachements={props.attachements}
+          />
 
           <SocialMediaIcon items={props.socialMedia} />
 
@@ -96,20 +118,21 @@ interface IInventoryInfo {
   id?: string;
 }
 
-interface IInventoryItem {
+export interface IInventoryItem {
   description: string;
   icon_url: string | undefined;
   id: string;
   name: string;
   quantity: number;
   rental_price: number;
-  type: | 'INVENTORY_MENU'
-  | 'VENUE_SPEC'
-  | 'KITCHEN_SUPPLY'
-  | 'ABOUT_THE_VENUE'
-  | 'INSURANCE_REQUIREMENTS'
-  | 'FOOD_AND_BEVERAGE'
-  | 'MISC';
+  type:
+    | "INVENTORY_MENU"
+    | "VENUE_SPEC"
+    | "KITCHEN_SUPPLY"
+    | "ABOUT_THE_VENUE"
+    | "INSURANCE_REQUIREMENTS"
+    | "FOOD_AND_BEVERAGE"
+    | "MISC";
   workspace_id?: string;
   updated_at?: string;
 }
@@ -119,6 +142,25 @@ interface IScoialMedia {
   platform_name: string;
   url: string;
   icon: string;
+}
+
+export interface IEventInfo {
+  id: string;
+  name: string;
+  location: string;
+  start: string;
+  end: string;
+  link: string;
+}
+
+export interface IAttachements {
+  id: string;
+  description: string;
+  file_type: string;
+  name: string;
+  section_type: string;
+  url: string;
+  workspace_id: string;
 }
 
 export default HomeScreen;

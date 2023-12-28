@@ -15,7 +15,7 @@ export const cart = createSlice({
       return (state = state.filter((item) => item.id !== action.payload));
     },
     updateQuantity: (state, action) => {
-      console.log("Value : ", action.payload)
+      // console.log("Value : ", action.payload)
       return state.map(item => item.id === action.payload?.id ? (action.payload) : item)
     }
   },

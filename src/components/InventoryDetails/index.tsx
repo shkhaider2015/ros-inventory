@@ -5,7 +5,7 @@ import TextEditor from "../TextEditor";
 
 const InventoryDetails = (props: IInventoryDetails) => {
   const { info, contacts } = props;
-  console.log("Props : ", props);
+  // console.log("Props : ", props);
 
   return (
     <div className={styles.container}>

@@ -13,8 +13,8 @@
 }
 
 .tabItem {
-    /* padding: 15px 15px 15px 15px; */
-    width: 150px;
+    padding: 0px 15px 0px 15px;
+    /* width: 150px; */
     height: 40px;
     background-color: #ffffff;
     text-align: center;

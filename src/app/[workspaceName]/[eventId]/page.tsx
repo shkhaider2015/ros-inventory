@@ -33,7 +33,7 @@ async function getData(eventId: string) {
     // console.log("Data at server : ", data);
     // console.log("Error : ");
 
-    let eventInfo = {
+    let eventInfo1 = {
       id: "94585fb4-7993-43e1-8334-7af65bfdf370",
       name: "Dummy Name - New WS",
       start_date: "November 30, 2023 2:00PM",
@@ -41,7 +41,7 @@ async function getData(eventId: string) {
       link: `${"https://mydev.runofshowapp.com"}/events/${"94585fb4-7993-43e1-8334-7af65bfdf370"}/events-details`
     };
 
-    let { workspaceInfo, items, social_media, contacts } = data;
+    let { workspaceInfo, items, social_media, contacts, eventInfo, attachments } = data;
     workspaceInfo = workspaceInfo[0];
     workspaceInfo = {
       ...workspaceInfo,
@@ -96,12 +96,29 @@ async function getData(eventId: string) {
     contacts = contacts?.map(({ __typename, ...item }: any) => item);
     // contacts = contacts.filter((_:any, ind:number) => ind%2 === 0)
 
+    // Event Info
+    eventInfo = {
+      id: eventInfo?.id,
+      name: eventInfo?.name,
+      location: eventInfo?.location,
+      start: eventInfo?.starts,
+      end: eventInfo?.ends,
+      link: `${"https://my.runofshowapp.com/"}/events/${eventInfo?.id}/events-details`
+    }
+
+    // filter Attachements
+    attachments = attachments?.map((item:any) => ({
+      ...item,
+      url : image_url + item?.url
+    }))
+
     return {
       workspaceInfo,
       items,
       eventInfo,
       social_media,
       contacts,
+      attachments
     };
   } catch (error) {
     // console.log("Error at server : ", error);
@@ -141,7 +158,7 @@ function _getIconUrl(platform: string): string {
 
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
-  console.log("Social Media ", data?.social_media);
+  // console.log("Social Media ", data?.social_media);
 
   if (!data)
     return (
@@ -158,6 +175,7 @@ export default async function Inventory(params: IInventory) {
         eventInfo={data?.eventInfo}
         contacts={data?.contacts}
         socialMedia={data?.social_media}
+        attachements={data?.attachments}
       />
     </Suspense>
   );

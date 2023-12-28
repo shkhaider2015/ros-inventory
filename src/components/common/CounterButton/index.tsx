@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import styles from "./styles.module.css";
 
 const CounterButton: React.FC<ICounterButton> = (props) => {
@@ -13,6 +13,9 @@ const CounterButton: React.FC<ICounterButton> = (props) => {
   } = props;
   const [count, setCount] = useState<number>(value);
 
+  useLayoutEffect(() => {
+    setCount(value)
+  }, [value])
   const _increment = () => {
     if (disable) return;
     setCount((pS) => {
