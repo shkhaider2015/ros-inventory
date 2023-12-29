@@ -14,8 +14,8 @@ const InventoryDetails = (props: IInventoryDetails) => {
           <Image
             src={info.logo_url || ""}
             alt="inventory picture"
-            width={120}
-            height={120}
+            width={180}
+            height={180}
             style={{ borderRadius: 10 }}
           />
         </div>

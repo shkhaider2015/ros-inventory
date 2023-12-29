@@ -1,3 +1,4 @@
+import { fileExtensionImages } from "@/lib/func";
 import HomeScreen from "@/screens/Home";
 import NotFoundData from "@/screens/NotFoundData";
 import axios from "axios";
@@ -109,7 +110,8 @@ async function getData(eventId: string) {
     // filter Attachements
     attachments = attachments?.map((item:any) => ({
       ...item,
-      url : image_url + item?.url
+      url : image_url + item?.url,
+      file_logo: fileExtensionImages[item?.file_type]
     }))
 
     return {

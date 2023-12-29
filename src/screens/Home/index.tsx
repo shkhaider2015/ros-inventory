@@ -162,6 +162,7 @@ export interface IAttachements {
   section_type: string;
   url: string;
   workspace_id: string;
+  file_logo?: string;
 }
 
 export default HomeScreen;

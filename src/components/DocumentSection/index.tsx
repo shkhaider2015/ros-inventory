@@ -1,26 +1,19 @@
-"use client"
+"use client";
 import Image from "next/image";
 import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
 import Button from "../common/Button";
 import { IAttachements, IInventoryItem } from "@/screens/Home";
+import axios from "axios";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
   attachements: IAttachements[];
   section_type?: string;
 }) => {
-  const data: IDocItem[] = [
-    {
-      title: "Document name will come here.pdf",
-      desc: "Uploaded: Nov 01, 2023   11:00PM GST",
-    },
-    {
-      title: "Document name will come here.pdf",
-      desc: "Uploaded: Nov 02, 2023   10:00PM GST",
-    },
-  ];
 
+  console.log("File ", props.attachements);
+  
   return (
     <div className={styles.container}>
       <div className={styles.titleContainer}>
@@ -49,10 +42,19 @@ const DocumentSection = (props: {
       </div>
       <div className={styles.hrLine} />
       <div className={styles.docsContainer}>
-        <div className={styles.docsTitle}>2 DOCUMENTS UPLOADED</div>
-        {props.attachements.filter(item => item.section_type === props.item?.type).map((item) => (
-          <DocItem {...item} key={item.id} />
-        ))}
+        <div className={styles.docsTitle}>
+          {
+            props.attachements.filter(
+              (item) => item.section_type === props.item?.type
+            ).length
+          }{" "}
+          DOCUMENTS UPLOADED
+        </div>
+        {props.attachements
+          .filter((item) => item.section_type === props.item?.type)
+          .map((item) => (
+            <DocItem {...item} key={item.id} />
+          ))}
       </div>
       <div className={styles.btnCon}>
         <div className={styles.btn}>+ Upload Document</div>
@@ -61,21 +63,34 @@ const DocumentSection = (props: {
   );
 };
 
-const DocItem: React.FC<IAttachements> = ({ name, description, url }) => {
+const DocItem: React.FC<IAttachements> = ({ name, description, url, file_logo }) => {
   const _downloadFile = () => {
-    window.open(url, "_blank");
+    window.open(url, "_blank");    
   };
 
   return (
     <div className={styles.docContainer}>
       <div className={styles.leftCol}>
         <div className={styles.docIconContainer}>
-          <Image
+          {
+            file_logo ? <Image
+            src={file_logo}
+            alt=""
+            width={20}
+            height={20}
+          /> : <Image
+          src={"/images/icons/FileText.svg"}
+          alt=""
+          width={20}
+          height={20}
+        />
+          }
+          {/* <Image
             src={"/images/icons/FileText.svg"}
             alt=""
             width={20}
             height={20}
-          />
+          /> */}
         </div>
 
         <div className={styles.textCon}>
@@ -97,10 +112,7 @@ const DocItem: React.FC<IAttachements> = ({ name, description, url }) => {
   );
 };
 
-interface IDocItem {
-  title: string;
-  desc: string;
-}
+
 
 // interface IInventoryItem {
 //   description: string;
