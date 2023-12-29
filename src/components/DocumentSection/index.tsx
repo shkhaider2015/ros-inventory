@@ -2,9 +2,7 @@
 import Image from "next/image";
 import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
-import Button from "../common/Button";
 import { IAttachements, IInventoryItem } from "@/screens/Home";
-import axios from "axios";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
