@@ -16,15 +16,22 @@ const DocumentSection = (props: {
   const [loading, setLoading] = useState<boolean>(false);
 
   const _uploadFileToServer = async (fileData: IUploadData): Promise<any> => {
-    let URL = "https://myapi.runofshowapp.com/api/inventory/uploadFileClient";
-    if(!fileData.workspace_id) return Promise.reject("Workspace_id in undefined")
-    if(!fileData.section_type) return Promise.reject("section_type in undefined")
+    let URL = "http://localhost:3005/api/handleFile";
+    if (!fileData.workspace_id)
+      return Promise.reject("Workspace_id in undefined");
+    if (!fileData.section_type)
+      return Promise.reject("section_type in undefined");
+    if (!URL) return Promise.reject("URL in undefined");
     try {
-      let res: AxiosResponse<{ url: string }> = await axios.post(URL, fileData, {
-        headers: {
-          "Content-Type": fileData.file_type,
-        },
-      });
+      let res: AxiosResponse<{ url: string }> = await axios.post(
+        URL,
+        fileData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       return Promise.resolve(res.data.url);
     } catch (error: any) {
@@ -39,20 +46,20 @@ const DocumentSection = (props: {
 
   const _handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let file = e.target.files?.[0];
-    let workspaceId = props.item?.workspace_id
+    let workspaceId = props.item?.workspace_id;
     let sectionType = props.item?.type;
 
     if (!file) return;
     try {
       setLoading(true);
-      let data:IUploadData = {
+      let data: IUploadData = {
         name: file.name,
         description: file.name,
         workspace_id: workspaceId,
         file_name: `inventory-${workspaceId}-${Date.now()}-file`,
         file_type: file.type,
-        section_type: sectionType
-      }
+        section_type: sectionType,
+      };
       let s3URL = await _uploadFileToServer(data);
       console.log("S3URL : ", s3URL);
     } catch (error) {
