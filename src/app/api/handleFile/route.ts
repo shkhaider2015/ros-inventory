@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: NextRequest) {
   return NextResponse.json(
     {
       message: "Get Re",
