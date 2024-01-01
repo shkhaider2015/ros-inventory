@@ -9,7 +9,7 @@ async function getData(eventId: string) {
   const image_url =
     "https://ros-rosbucket221548-newdev.s3.amazonaws.com/public/";
   const client_file_url =
-    "https://ros-rosbucket221548-newdev.s3.amazonaws.com/";
+    "https://ros-rosbucket221548-newdev.s3.amazonaws.com/inventory/";
   const Spec_Icons: string[] = [
     "/images/icons/flash.svg",
     "/images/icons/lightning.svg",
