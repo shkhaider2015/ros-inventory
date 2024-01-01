@@ -2,11 +2,11 @@
 import Image from "next/image";
 import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
-import Button from "../common/Button";
 import { IAttachements, IInventoryItem } from "@/screens/Home";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useState } from "react";
 import Loader from "../common/Loader";
+import { useRouter } from "next/navigation";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
@@ -15,16 +15,20 @@ const DocumentSection = (props: {
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const _uploadFileToServer = async (fileData: IUploadData): Promise<any> => {
-    let URL = "http://localhost:3005/api/handleFile";
+  const router = useRouter();
+
+  const _uploadFileDataToServer = async (
+    fileData: IUploadData
+  ): Promise<any> => {
+    let mainURL =
+      "https://myapi.runofshowapp.com/api/inventory/uploadFileClient";
     if (!fileData.workspace_id)
       return Promise.reject("Workspace_id in undefined");
     if (!fileData.section_type)
       return Promise.reject("section_type in undefined");
-    if (!URL) return Promise.reject("URL in undefined");
     try {
       let res: AxiosResponse<{ url: string }> = await axios.post(
-        URL,
+        mainURL,
         fileData,
         {
           headers: {
@@ -44,12 +48,37 @@ const DocumentSection = (props: {
     }
   };
 
+  const _uploadFileToS3Bucket = async (
+    file: File,
+    url: string
+  ): Promise<any> => {
+    if (!file) return Promise.reject("File not found");
+    if (!url) return Promise.reject("S3 URL not found");
+    try {
+      let res = axios.put(url, file, {
+        headers: {
+          "Content-Type": file.type,
+        },
+      });
+
+      console.log("File Uploaded Successfully");
+      return res;
+    } catch (error) {
+      console.error("File Upload error : ", error);
+      return Promise.reject("Upload file to s3 bucket failed");
+    }
+  };
+
   const _handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let file = e.target.files?.[0];
     let workspaceId = props.item?.workspace_id;
     let sectionType = props.item?.type;
 
     if (!file) return;
+    if (!props.item?.event_id) {
+      console.log("Event Id not found");
+      return;
+    }
     try {
       setLoading(true);
       let data: IUploadData = {
@@ -57,15 +86,19 @@ const DocumentSection = (props: {
         description: file.name,
         workspace_id: workspaceId,
         file_name: `inventory-${workspaceId}-${Date.now()}-file`,
-        file_type: file.type,
+        file_type: _getExtension(file.name),
         section_type: sectionType,
+        event_id: props.item.event_id,
       };
-      let s3URL = await _uploadFileToServer(data);
-      console.log("S3URL : ", s3URL);
+      let s3URL = await _uploadFileDataToServer(data);
+       await _uploadFileToS3Bucket(file, s3URL);
+      router.refresh();
     } catch (error) {
       console.error("_handleUpload Error : ", error);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
 
@@ -114,14 +147,14 @@ const DocumentSection = (props: {
           ))}
       </div>
       <div className={styles.btnCon}>
-        <label className={styles.btn} htmlFor="upload-file">
+        <label className={styles.btn} htmlFor={`upload-${props.section_type}`}>
           {loading ? (
             <Loader />
           ) : (
             <input
               type="file"
               name="upload-file"
-              id="upload-file"
+              id={`upload-${props.section_type}`}
               onChange={_handleUpload}
             />
           )}
@@ -183,6 +216,13 @@ const DocItem: React.FC<IAttachements> = ({
   );
 };
 
+function _getExtension(uri: string): string {
+  let splitData = uri.split(".");
+  let extension = splitData[splitData.length - 1];
+
+  return extension;
+}
+
 interface IUploadData {
   name: string;
   file_type: string;
@@ -190,6 +230,7 @@ interface IUploadData {
   workspace_id: string | undefined;
   description: string;
   section_type: string | undefined;
+  event_id: string | undefined;
 }
 
 export default DocumentSection;

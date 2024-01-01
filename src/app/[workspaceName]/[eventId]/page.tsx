@@ -8,6 +8,8 @@ async function getData(eventId: string) {
   const URL = "https://myapi.runofshowapp.com/api/inventory/detailsByEventId";
   const image_url =
     "https://ros-rosbucket221548-newdev.s3.amazonaws.com/public/";
+  const client_file_url =
+    "https://ros-rosbucket221548-newdev.s3.amazonaws.com/";
   const Spec_Icons: string[] = [
     "/images/icons/flash.svg",
     "/images/icons/lightning.svg",
@@ -39,10 +41,17 @@ async function getData(eventId: string) {
       name: "Dummy Name - New WS",
       start_date: "November 30, 2023 2:00PM",
       end_date: "January 30, 2023 2:00PM",
-      link: `${"https://mydev.runofshowapp.com"}/events/${"94585fb4-7993-43e1-8334-7af65bfdf370"}/events-details`
+      link: `${"https://mydev.runofshowapp.com"}/events/${"94585fb4-7993-43e1-8334-7af65bfdf370"}/events-details`,
     };
 
-    let { workspaceInfo, items, social_media, contacts, eventInfo, attachments } = data;
+    let {
+      workspaceInfo,
+      items,
+      social_media,
+      contacts,
+      eventInfo,
+      attachments,
+    } = data;
     workspaceInfo = workspaceInfo[0];
     workspaceInfo = {
       ...workspaceInfo,
@@ -52,6 +61,7 @@ async function getData(eventId: string) {
     items = items?.map((item: any) => ({
       ...item,
       icon_url: image_url + item?.icon_url,
+      event_id: eventId
     }));
 
     // set spec icons
@@ -89,8 +99,8 @@ async function getData(eventId: string) {
     social_media = social_media?.map(({ __typename, ...item }: any) => {
       let itemX = item;
       let iconURL = _getIconUrl(item?.platform_name);
-      itemX = {...itemX, icon: iconURL}
-      return itemX
+      itemX = { ...itemX, icon: iconURL };
+      return itemX;
     });
 
     // filter contacts
@@ -104,15 +114,24 @@ async function getData(eventId: string) {
       location: eventInfo?.location,
       start: eventInfo?.starts,
       end: eventInfo?.ends,
-      link: `${"https://my.runofshowapp.com/"}/events/${eventInfo?.id}/events-details`
-    }
+      link: `${"https://my.runofshowapp.com/"}/events/${
+        eventInfo?.id
+      }/events-details`,
+    };
 
-    // filter Attachements
-    attachments = attachments?.map((item:any) => ({
-      ...item,
-      url : image_url + item?.url,
-      file_logo: fileExtensionImages[item?.file_type]
-    }))
+    attachments = attachments?.map((item: any) => {
+      let itemX = item;
+      let extension = _getExtension(item?.name);
+
+      // Access url is change for client side
+      if (itemX?.uploaded_via === "CLIENT")
+        itemX.url = client_file_url + itemX?.url + "." + extension;
+      else itemX.url = image_url + itemX?.url;
+
+      itemX.file_logo = fileExtensionImages[item?.file_type];
+
+      return itemX;
+    });
 
     return {
       workspaceInfo,
@@ -120,7 +139,7 @@ async function getData(eventId: string) {
       eventInfo,
       social_media,
       contacts,
-      attachments
+      attachments,
     };
   } catch (error) {
     // console.log("Error at server : ", error);
@@ -151,16 +170,23 @@ function _getIconUrl(platform: string): string {
       final_url = "/images/socials/Pinterest.png";
       break;
     default:
-      final_url = platform || '';
+      final_url = platform || "";
       break;
   }
 
   return final_url;
 }
 
+function _getExtension(uri: string): string {
+  let splitData = uri.split(".");
+  let extension = splitData[splitData.length - 1];
+
+  return extension;
+}
+
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
-  // console.log("Social Media ", data?.social_media);
+  // console.log("Social Media ", data?.attachments);
 
   if (!data)
     return (
