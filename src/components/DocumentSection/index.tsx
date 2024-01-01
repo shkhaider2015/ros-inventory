@@ -3,15 +3,107 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
 import { IAttachements, IInventoryItem } from "@/screens/Home";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import React, { useState } from "react";
+import Loader from "../common/Loader";
+import { useRouter } from "next/navigation";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
   attachements: IAttachements[];
   section_type?: string;
 }) => {
+  const [loading, setLoading] = useState<boolean>(false);
 
-  console.log("File ", props.attachements);
-  
+  const router = useRouter();
+
+  const _uploadFileDataToServer = async (
+    fileData: IUploadData
+  ): Promise<any> => {
+    let mainURL =
+      "https://myapi.runofshowapp.com/api/inventory/uploadFileClient";
+    if (!fileData.workspace_id)
+      return Promise.reject("Workspace_id in undefined");
+    if (!fileData.section_type)
+      return Promise.reject("section_type in undefined");
+    try {
+      let res: AxiosResponse<{ url: string }> = await axios.post(
+        mainURL,
+        fileData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return Promise.resolve(res.data.url);
+    } catch (error: any) {
+      console.log("Error : ", error);
+
+      let err = null;
+      if (error instanceof AxiosError) err = error.message;
+      else err = error;
+      return Promise.reject(err);
+    }
+  };
+
+  const _uploadFileToS3Bucket = async (
+    file: File,
+    url: string
+  ): Promise<any> => {
+    if (!file) return Promise.reject("File not found");
+    if (!url) return Promise.reject("S3 URL not found");
+    try {
+      let res = axios.put(url, file, {
+        headers: {
+          "Content-Type": file.type,
+        },
+      });
+
+      console.log("File Uploaded Successfully");
+      return res;
+    } catch (error) {
+      console.error("File Upload error : ", error);
+      return Promise.reject("Upload file to s3 bucket failed");
+    }
+  };
+
+  const _handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    let file = e.target.files?.[0];
+    let workspaceId = props.item?.workspace_id;
+    let sectionType = props.item?.type;
+
+    if (!file) return;
+    if (!props.item?.event_id) {
+      console.log("Event Id not found");
+      return;
+    }
+    try {
+      setLoading(true);
+      let data: IUploadData = {
+        name: file.name,
+        description: file.name,
+        workspace_id: workspaceId,
+        file_name: `inventory-${workspaceId}-${Date.now()}-file`,
+        file_type: _getExtension(file.name),
+        section_type: sectionType,
+        event_id: props.item.event_id,
+      };
+      let s3URL = await _uploadFileDataToServer(data);
+       await _uploadFileToS3Bucket(file, s3URL);
+      router.refresh();
+    } catch (error) {
+      console.error("_handleUpload Error : ", error);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+  };
+
+  // console.log("File ", props.attachements);
+
   return (
     <div className={styles.container}>
       <div className={styles.titleContainer}>
@@ -55,34 +147,48 @@ const DocumentSection = (props: {
           ))}
       </div>
       <div className={styles.btnCon}>
-        <div className={styles.btn}>+ Upload Document</div>
+        <label className={styles.btn} htmlFor={`upload-${props.section_type}`}>
+          {loading ? (
+            <Loader />
+          ) : (
+            <input
+              type="file"
+              name="upload-file"
+              id={`upload-${props.section_type}`}
+              onChange={_handleUpload}
+            />
+          )}
+          + Upload Document
+        </label>
       </div>
     </div>
   );
 };
 
-const DocItem: React.FC<IAttachements> = ({ name, description, url, file_logo }) => {
+const DocItem: React.FC<IAttachements> = ({
+  name,
+  description,
+  url,
+  file_logo,
+}) => {
   const _downloadFile = () => {
-    window.open(url, "_blank");    
+    window.open(url, "_blank");
   };
 
   return (
     <div className={styles.docContainer}>
       <div className={styles.leftCol}>
         <div className={styles.docIconContainer}>
-          {
-            file_logo ? <Image
-            src={file_logo}
-            alt=""
-            width={20}
-            height={20}
-          /> : <Image
-          src={"/images/icons/FileText.svg"}
-          alt=""
-          width={20}
-          height={20}
-        />
-          }
+          {file_logo ? (
+            <Image src={file_logo} alt="" width={20} height={20} />
+          ) : (
+            <Image
+              src={"/images/icons/FileText.svg"}
+              alt=""
+              width={20}
+              height={20}
+            />
+          )}
           {/* <Image
             src={"/images/icons/FileText.svg"}
             alt=""
@@ -110,25 +216,21 @@ const DocItem: React.FC<IAttachements> = ({ name, description, url, file_logo })
   );
 };
 
+function _getExtension(uri: string): string {
+  let splitData = uri.split(".");
+  let extension = splitData[splitData.length - 1];
 
+  return extension;
+}
 
-// interface IInventoryItem {
-//   description: string;
-//   icon_url: string | undefined;
-//   id: string;
-//   name: string;
-//   quantity: number;
-//   rental_price: number;
-//   type:
-//     | "INVENTORY_MENU"
-//     | "VENUE_SPEC"
-//     | "KITCHEN_SUPPLY"
-//     | "ABOUT_THE_VENUE"
-//     | "INSURANCE_REQUIREMENTS"
-//     | "FOOD_AND_BEVERAGE"
-//     | "MISC";
-//   workspace_id?: string;
-//   updated_at?: string;
-// }
+interface IUploadData {
+  name: string;
+  file_type: string;
+  file_name: string;
+  workspace_id: string | undefined;
+  description: string;
+  section_type: string | undefined;
+  event_id: string | undefined;
+}
 
 export default DocumentSection;

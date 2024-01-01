@@ -16,7 +16,7 @@ const HomeScreen = (props: {
   eventInfo: IEventInfo;
   contacts: any[];
   socialMedia: IScoialMedia[];
-  attachements: IAttachements[]
+  attachements: IAttachements[];
 }) => {
   return (
     <main className={styles.container}>
@@ -134,6 +134,7 @@ export interface IInventoryItem {
     | "INSURANCE_REQUIREMENTS"
     | "FOOD_AND_BEVERAGE"
     | "MISC";
+  event_id: string;
   workspace_id?: string;
   updated_at?: string;
 }
