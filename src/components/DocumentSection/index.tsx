@@ -7,6 +7,8 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useState } from "react";
 import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
+import Button from "../common/Button";
+import ROSModal from "../common/ROSModal";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
@@ -17,6 +19,7 @@ const DocumentSection = (props: {
   workspace_id: string;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [showDetails, setShowDetails] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -25,8 +28,7 @@ const DocumentSection = (props: {
   ): Promise<any> => {
     let mainURL =
       "https://myapi.runofshowapp.com/api/inventory/uploadFileClient";
-    if (!props.workspace_id)
-      return Promise.reject("Workspace_id in undefined");
+    if (!props.workspace_id) return Promise.reject("Workspace_id in undefined");
     if (!fileData.section_type)
       return Promise.reject("section_type in undefined");
     try {
@@ -127,6 +129,22 @@ const DocumentSection = (props: {
           <div className={styles.desc}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
           </div>
+          <div className={styles.btnContainer}>
+            {props.item?.description && (
+              <div
+                className={styles.thirdRow}
+                onClick={() => setShowDetails(true)}
+              >
+                <div className={styles.title}>View Details</div>
+                <Image
+                  src={"/images/icons/arrow-up.svg"}
+                  alt="arrow"
+                  width={22}
+                  height={22}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
         {/* 
@@ -165,6 +183,14 @@ const DocumentSection = (props: {
           + Upload Document
         </label>
       </div>
+      <ROSModal open={showDetails} onClose={() => setShowDetails(false)} >
+          <div className={styles.sectionModalContainer} >
+            {/* <div className={styles.dsModalTitle} >Title</div> */}
+            <div className={styles.sectionModalContent} >
+            <TextEditor value={props.item?.description} isReadOnly={true} />
+            </div>
+          </div>
+      </ROSModal>
     </div>
   );
 };
