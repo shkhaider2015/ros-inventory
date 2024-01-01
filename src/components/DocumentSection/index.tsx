@@ -12,6 +12,9 @@ const DocumentSection = (props: {
   item: IInventoryItem | undefined;
   attachements: IAttachements[];
   section_type?: string;
+  section_title: string;
+  event_id: string;
+  workspace_id: string;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -22,7 +25,7 @@ const DocumentSection = (props: {
   ): Promise<any> => {
     let mainURL =
       "https://myapi.runofshowapp.com/api/inventory/uploadFileClient";
-    if (!fileData.workspace_id)
+    if (!props.workspace_id)
       return Promise.reject("Workspace_id in undefined");
     if (!fileData.section_type)
       return Promise.reject("section_type in undefined");
@@ -71,11 +74,11 @@ const DocumentSection = (props: {
 
   const _handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let file = e.target.files?.[0];
-    let workspaceId = props.item?.workspace_id;
-    let sectionType = props.item?.type;
+    let workspaceId = props.workspace_id;
+    let sectionType = props.section_type;
 
     if (!file) return;
-    if (!props.item?.event_id) {
+    if (!props.event_id) {
       console.log("Event Id not found");
       return;
     }
@@ -88,10 +91,10 @@ const DocumentSection = (props: {
         file_name: `inventory-${workspaceId}-${Date.now()}-file`,
         file_type: _getExtension(file.name),
         section_type: sectionType,
-        event_id: props.item.event_id,
+        event_id: props.event_id,
       };
       let s3URL = await _uploadFileDataToServer(data);
-       await _uploadFileToS3Bucket(file, s3URL);
+      await _uploadFileToS3Bucket(file, s3URL);
       router.refresh();
     } catch (error) {
       console.error("_handleUpload Error : ", error);
@@ -119,16 +122,17 @@ const DocumentSection = (props: {
         </div>
         <div className={styles.textColumn}>
           <div className={styles.title}>
-            {props.item?.name || props.section_type}
+            {props.item?.name || props.section_title}
           </div>
           <div className={styles.desc}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
           </div>
         </div>
 
-        {/* <div className={styles.descContainer}>
-          
-        </div> */}
+        {/* 
+          <div className={styles.descContainer}>
+          </div> 
+        */}
       </div>
       <div className={styles.hrLine} />
       <div className={styles.docsContainer}>

@@ -51,8 +51,11 @@ async function getData(eventId: string) {
       contacts,
       eventInfo,
       attachments,
+      checkout_client_info,
+      cart_items
     } = data;
     workspaceInfo = workspaceInfo[0];
+
     workspaceInfo = {
       ...workspaceInfo,
       logo_url: image_url + workspaceInfo?.logo_url,
@@ -119,6 +122,23 @@ async function getData(eventId: string) {
       }/events-details`,
     };
 
+    // filter checkout info
+    if(checkout_client_info?.length > 0) checkout_client_info = checkout_client_info[0]
+
+    // filter cartItems 
+    cart_items = cart_items.map((item:any) =>  {
+      let itemX = item;
+      let itemFromList = items?.find((itemY:any) => itemY?.id === itemX?.item );
+      itemFromList = {
+        ...itemFromList,
+        rental_price: item?.total_price,
+        selectedQuantity: itemX?.quantity
+      }
+
+      return itemFromList;
+    })
+
+    // filter attachements
     attachments = attachments?.map((item: any) => {
       let itemX = item;
       let extension = _getExtension(item?.name);
@@ -140,6 +160,9 @@ async function getData(eventId: string) {
       social_media,
       contacts,
       attachments,
+      checkout_client_info,
+      cart_items,
+      event_id: eventId
     };
   } catch (error) {
     // console.log("Error at server : ", error);
@@ -186,7 +209,8 @@ function _getExtension(uri: string): string {
 
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
-  // console.log("Social Media ", data?.attachments);
+  // console.log("guest ", data?.checkout_client_info);
+  // console.log("checkout items ", data?.cart_items);
 
   if (!data)
     return (
@@ -204,6 +228,9 @@ export default async function Inventory(params: IInventory) {
         contacts={data?.contacts}
         socialMedia={data?.social_media}
         attachements={data?.attachments}
+        guest_info={data.checkout_client_info}
+        cart_items={data.cart_items}
+        event_id={data?.event_id}
       />
     </Suspense>
   );

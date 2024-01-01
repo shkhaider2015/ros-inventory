@@ -17,6 +17,9 @@ const HomeScreen = (props: {
   contacts: any[];
   socialMedia: IScoialMedia[];
   attachements: IAttachements[];
+  guest_info: IGuestInfo;
+  cart_items: any[];
+  event_id: string
 }) => {
   return (
     <main className={styles.container}>
@@ -29,12 +32,15 @@ const HomeScreen = (props: {
             info={props.workspaceInfo}
             contacts={props.contacts}
           />
-          <ExpectedGuest />
+          <ExpectedGuest initialData={props.guest_info} />
           <ElementHead name="scrollto_2" text="About The Venue" />
           <DocumentSection
             item={props.items.find((item) => item.type === "ABOUT_THE_VENUE")}
-            section_type={"About The Venue"}
+            section_type={"ABOUT_THE_VENUE"}
+            section_title={"About The Venue"}
             attachements={props.attachements}
+            event_id={props.event_id}
+            workspace_id={props.workspaceInfo.workspace_id}
           />
           <ElementHead name="scrollto_3" text="Event Supply" />
           {/* <div className={styles.header}></div> */}
@@ -67,20 +73,29 @@ const HomeScreen = (props: {
             item={props.items.find(
               (item) => item.type === "INSURANCE_REQUIREMENTS"
             )}
-            section_type={"Insurance Requirements"}
+            section_type={"INSURANCE_REQUIREMENTS"}
+            section_title={"Insurance Requirements"}
             attachements={props.attachements}
+            event_id={props.event_id}
+            workspace_id={props.workspaceInfo.workspace_id}
           />
           <ElementHead name="scrollto_7" text="Food and Beverage" />
           <DocumentSection
             item={props.items.find((item) => item.type === "FOOD_AND_BEVERAGE")}
-            section_type={"Food and Beverage"}
+            section_type={"FOOD_AND_BEVERAGE"}
+            section_title={"Food and Beverage"}
             attachements={props.attachements}
+            event_id={props.event_id}
+            workspace_id={props.workspaceInfo.workspace_id}
           />
           <ElementHead name="scrollto_8" text="Misc" />
           <DocumentSection
             item={props.items.find((item) => item.type === "MISC")}
-            section_type={"Misc"}
+            section_type={"MISC"}
+            section_title={"Misc"}
             attachements={props.attachements}
+            event_id={props.event_id}
+            workspace_id={props.workspaceInfo.workspace_id}
           />
 
           <SocialMediaIcon items={props.socialMedia} />
@@ -101,7 +116,7 @@ const HomeScreen = (props: {
 
         {/* Right Side Column */}
         <aside className={styles.aside}>
-          <CheckedOut />
+          <CheckedOut event_id={props.event_id} initialData={props.cart_items} />
         </aside>
       </div>
     </main>
@@ -164,6 +179,11 @@ export interface IAttachements {
   url: string;
   workspace_id: string;
   file_logo?: string;
+}
+
+export interface IGuestInfo {
+  checkin_at_door: number;
+  expected_guest_count: number;
 }
 
 export default HomeScreen;
