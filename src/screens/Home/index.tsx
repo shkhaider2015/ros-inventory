@@ -7,6 +7,7 @@ import VenueSpecificationItem from "@/components/VenueSpecificationItem";
 import InsuranceRequirements from "@/components/InsuranceRequirements";
 import ElementHead from "@/components/ElementHead";
 import NewTabs from "@/components/NewTabs";
+// import Tabs from "@/components/Tabs";
 
 const HomeScreen = (props:{
   workspaceInfo: IInventoryInfo,

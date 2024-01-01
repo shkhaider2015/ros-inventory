@@ -1,8 +1,10 @@
+
 "use client";
-import React, { useState ,useRef,useCallback} from "react";
+import React, { useState, useRef, useCallback } from "react";
 import styles from "./styles.module.css";
 import Image from 'next/image';
-import myImage from '../NewTabs/arrow-right.svg';
+import myImage from "public/images/icons/arrow-right.svg";
+import { Link} from 'react-scroll';
 
 const tabsData: {
   id: string;
@@ -18,41 +20,40 @@ const tabsData: {
   },
   {
     id: "3",
-    title: "Technical Spec",
+    title: "Event Supply",
   },
   {
     id: "4",
-    title: "Food & Beverage",
+    title: "Venue Specification",
   },
   {
     id: "5",
-    title: "Prep Area",
+    title: "Kitchen Supply",
   },
   {
     id: "6",
-    title: "Misc",
+    title: "Insurance Requirements",
   },
   {
     id: "7",
-    title: "Venue specification",
+    title: "Food & Beverage",
   },
   {
     id: "8",
-    title: "Kitchen Supply",
+    title: "Misc",
   },
 ];
-
 
 const NewTabs: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<string>("1");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
- 
+
   const _onSelectTab = useCallback((id: string) => {
     setSelectedTab(id);
   }, []);
 
   const scrollRight = () => {
-    console.log("Scroll right button clicked"); 
+    console.log("Scroll right button clicked");
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft += 200; // Adjust the scroll value as needed
     }
@@ -62,21 +63,28 @@ const NewTabs: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.tabs} ref={scrollContainerRef}>
         {tabsData.map((item) => (
-          <Tab
+          <Link
             key={item.id}
-            id={item.id}
-            title={item.title}
-            isSelected={selectedTab === item.id}
-            onClick={() => _onSelectTab(item.id)}
-          />
+            activeClass={styles.selectedItem}
+            to={`scrollto_${item.id}`}
+            spy={true}
+            smooth={true}
+            offset={-70}
+            duration={1500}
+          >
+            <Tab
+              id={item.id}
+              title={item.title}
+              isSelected={selectedTab === item.id}
+              onClick={() => _onSelectTab(item.id)}
+            />
+          </Link>
         ))}
       </div>
-      
-        <button className={styles.next} onClick={scrollRight}>
-          
-        <Image src={myImage} alt="Arrow Right" layout="contain"   objectFit="contain"/>
-        </button>
-      
+
+      <button className={styles.next} onClick={scrollRight}>
+        <Image src={myImage} alt="Arrow Right" layout="contain" objectFit="contain" />
+      </button>
     </div>
   );
 };
