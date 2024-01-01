@@ -35,6 +35,12 @@
     
 }
 
+.bottomRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .iconTextCon {
     font-size: 12px;
     font-weight: 400;

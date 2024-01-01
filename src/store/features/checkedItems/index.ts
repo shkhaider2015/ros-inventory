@@ -8,6 +8,9 @@ export const cart = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    initializeData: (state, action) => {
+      return action.payload
+    },
     addToCart: (state, action) => {
       state.push(action.payload);
     },
@@ -21,7 +24,7 @@ export const cart = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity } = cart.actions;
+export const { addToCart, removeFromCart, updateQuantity, initializeData } = cart.actions;
 
 interface IItem {
   description: string;

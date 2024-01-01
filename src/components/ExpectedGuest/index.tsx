@@ -1,13 +1,48 @@
 "use client";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import CounterButton from "../common/CounterButton";
 import styles from "./styles.module.css";
 import Image from "next/image";
 import RadioButton from "../common/RadioButton";
+import { useDispatch, useSelector } from "react-redux";
+import { updateGuest } from "@/store/features/GuestInfo";
+import Button from "../common/Button";
+import { IGuestInfo } from "@/screens/Home";
 
-const ExpectedGuest = () => {
+const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
+  const guestInfo = useSelector((state: any) => state.guestInfo);
   const [guestCount, setGuestCount] = useState<number>(10);
   const [isYes, setIsYes] = useState<"YES" | "NO" | undefined>();
+
+  const dispatch = useDispatch();
+
+  // console.log("Guest Info in expected : ", props.initialData);
+
+  useLayoutEffect(() => {
+    if(guestInfo) {
+      setGuestCount(guestInfo.expected_guest_count)
+      setIsYes(pS => guestInfo.checkin_at_door === 1 ? "YES" : "NO" )
+    }
+  }, [guestInfo])
+
+  useLayoutEffect(() => {
+    if(props.initialData){
+      const {checkin_at_door, expected_guest_count} = props.initialData;
+      dispatch(updateGuest({
+        checkin_at_door,
+        expected_guest_count
+      }))
+    }
+  }, [props.initialData])
+
+  const _saveInfo = () => {
+    let obj = {
+      expected_guest_count: guestCount,
+      checkin_at_door: isYes ? 1 : 0,
+    };
+
+    dispatch(updateGuest(obj));
+  };
 
   return (
     <div className={styles.container}>
@@ -17,7 +52,12 @@ const ExpectedGuest = () => {
         <CounterButton
           minValue={1}
           maxValue={100}
-          onChange={(value) => setGuestCount(value * 10)}
+          value={props.initialData.expected_guest_count / 10}
+          onChange={(value) => {
+            let val = value * 10;
+            // dispatch(updateGuest({ expected_guest_count: val }));
+            setGuestCount(val);
+          }}
         />
       </div>
       <div className={styles.confermText}>
@@ -29,7 +69,14 @@ const ExpectedGuest = () => {
             name="yes"
             label="Yes"
             value={isYes === "YES"}
-            onChange={(val) => (val ? setIsYes("YES") : setIsYes("NO"))}
+            onChange={(val) => {
+              if (val) {
+                setIsYes("YES");
+                // dispatch(updateGuest({ checkin_at_door: 1 }));
+              } else {
+                setIsYes("NO");
+              }
+            }}
           />
         </div>
         <div className={styles.btnCon}>
@@ -37,21 +84,33 @@ const ExpectedGuest = () => {
             name="no"
             label="No"
             value={isYes === "NO"}
-            onChange={(val) => (val ? setIsYes("NO") : setIsYes("YES"))}
+            onChange={(val) => {
+              if (val) {
+                setIsYes("NO");
+                // dispatch(updateGuest({ checkin_at_door: 0 }));
+              } else {
+                setIsYes("YES");
+              }
+            }}
           />
         </div>
       </div>
-      <div className={styles.iconTextCon}>
-        <div className={styles.iconContainer}>
-          <Image
-            src={"/images/icons/tick-circle.svg"}
-            alt="thick"
-            width={25}
-            height={25}
-            style={{ borderRadius: 10 }}
-          />
+      <div className={styles.bottomRow}>
+        <div className={styles.iconTextCon}>
+          <div className={styles.iconContainer}>
+            <Image
+              src={"/images/icons/tick-circle.svg"}
+              alt="thick"
+              width={25}
+              height={25}
+              style={{ borderRadius: 10 }}
+            />
+          </div>
+          Last Saved: Nov 15, 2023 - 11:00PM GST
         </div>
-        Last Saved: Nov 15, 2023 - 11:00PM GST
+        <div className={styles.saveBtn}>
+          <Button type="Primary" label="Save" onClick={_saveInfo} />
+        </div>
       </div>
     </div>
   );

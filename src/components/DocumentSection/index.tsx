@@ -7,13 +7,19 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useState } from "react";
 import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
+import Button from "../common/Button";
+import ROSModal from "../common/ROSModal";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
   attachements: IAttachements[];
   section_type?: string;
+  section_title: string;
+  event_id: string;
+  workspace_id: string;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [showDetails, setShowDetails] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -22,8 +28,7 @@ const DocumentSection = (props: {
   ): Promise<any> => {
     let mainURL =
       "https://myapi.runofshowapp.com/api/inventory/uploadFileClient";
-    if (!fileData.workspace_id)
-      return Promise.reject("Workspace_id in undefined");
+    if (!props.workspace_id) return Promise.reject("Workspace_id in undefined");
     if (!fileData.section_type)
       return Promise.reject("section_type in undefined");
     try {
@@ -71,11 +76,11 @@ const DocumentSection = (props: {
 
   const _handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let file = e.target.files?.[0];
-    let workspaceId = props.item?.workspace_id;
-    let sectionType = props.item?.type;
+    let workspaceId = props.workspace_id;
+    let sectionType = props.section_type;
 
     if (!file) return;
-    if (!props.item?.event_id) {
+    if (!props.event_id) {
       console.log("Event Id not found");
       return;
     }
@@ -88,10 +93,10 @@ const DocumentSection = (props: {
         file_name: `inventory-${workspaceId}-${Date.now()}-file`,
         file_type: _getExtension(file.name),
         section_type: sectionType,
-        event_id: props.item.event_id,
+        event_id: props.event_id,
       };
       let s3URL = await _uploadFileDataToServer(data);
-       await _uploadFileToS3Bucket(file, s3URL);
+      await _uploadFileToS3Bucket(file, s3URL);
       router.refresh();
     } catch (error) {
       console.error("_handleUpload Error : ", error);
@@ -119,16 +124,33 @@ const DocumentSection = (props: {
         </div>
         <div className={styles.textColumn}>
           <div className={styles.title}>
-            {props.item?.name || props.section_type}
+            {props.item?.name || props.section_title}
           </div>
           <div className={styles.desc}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
           </div>
+          <div className={styles.btnContainer}>
+            {props.item?.description && (
+              <div
+                className={styles.thirdRow}
+                onClick={() => setShowDetails(true)}
+              >
+                <div className={styles.title}>View Details</div>
+                <Image
+                  src={"/images/icons/arrow-up.svg"}
+                  alt="arrow"
+                  width={22}
+                  height={22}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* <div className={styles.descContainer}>
-          
-        </div> */}
+        {/* 
+          <div className={styles.descContainer}>
+          </div> 
+        */}
       </div>
       <div className={styles.hrLine} />
       <div className={styles.docsContainer}>
@@ -161,6 +183,14 @@ const DocumentSection = (props: {
           + Upload Document
         </label>
       </div>
+      <ROSModal open={showDetails} onClose={() => setShowDetails(false)} >
+          <div className={styles.sectionModalContainer} >
+            {/* <div className={styles.dsModalTitle} >Title</div> */}
+            <div className={styles.sectionModalContent} >
+            <TextEditor value={props.item?.description} isReadOnly={true} />
+            </div>
+          </div>
+      </ROSModal>
     </div>
   );
 };
