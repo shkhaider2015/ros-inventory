@@ -52,6 +52,7 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
         <CounterButton
           minValue={1}
           maxValue={100}
+          value={props.initialData.expected_guest_count / 10}
           onChange={(value) => {
             let val = value * 10;
             // dispatch(updateGuest({ expected_guest_count: val }));
