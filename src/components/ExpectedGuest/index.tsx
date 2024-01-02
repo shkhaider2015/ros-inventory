@@ -9,6 +9,7 @@ import { updateGuest } from "@/store/features/GuestInfo";
 import Button from "../common/Button";
 import { IGuestInfo } from "@/screens/Home";
 import moment from "moment";
+import ROSInput from "../common/ROSInput";
 
 const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
   const guestInfo = useSelector((state: any) => state.guestInfo);
@@ -53,7 +54,7 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>Expected Guest Count</div>
-      <div className={styles.inputBox}>
+      {/* <div className={styles.inputBox}>
         <div className={styles.count}>{guestInfo.expected_guest_count}</div>
         <CounterButton
           minValue={1}
@@ -65,7 +66,14 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
             // setGuestCount(val);
           }}
         />
-      </div>
+      </div> */}
+      {/* <div className={styles.inputBox}> */}
+        <ROSInput value={guestInfo.expected_guest_count} className={styles.inputCon} type="number" onChange={e => {
+          let val = Number(e.target.value);
+          if(val < 0) val = 0
+          dispatch(updateGuest({ expected_guest_count: val }));
+        }} />
+      {/* </div> */}
       <div className={styles.confermText}>
         Please confirm if you have someone to check in your guests
       </div>
