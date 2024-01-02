@@ -22,7 +22,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
   const cartItems = useSelector((state: any) => state.cart);
   const [isAdded, setIsAdded] = useState(false);
   const dispatch = useDispatch();
-  const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(0);
 
   // useLayoutEffect(() => {
   //   if(cartItems?.some((item:any) => item?.id === id)) setIsAdded(true);
@@ -37,7 +37,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
       setSelectedQuantity(currentItem?.selectedQuantity);
     } else {
       setIsAdded(false);
-      setSelectedQuantity(1);
+      setSelectedQuantity(0);
     }
   }, [cartItems]);
 
@@ -85,7 +85,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
                 setSelectedQuantity(val);
               }}
               maxValue={quantity}
-              minValue={1}
+              minValue={0}
               disable={isAdded}
               value={selectedQuantity}
             />

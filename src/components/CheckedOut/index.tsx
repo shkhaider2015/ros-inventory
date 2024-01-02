@@ -198,7 +198,7 @@ const Item = ({
         <div className={styles.counterBtn}>
           <CounterButton
             value={selectedQuantity}
-            minValue={1}
+            minValue={0}
             maxValue={quantity}
             onChange={onChangeCounter}
           />
