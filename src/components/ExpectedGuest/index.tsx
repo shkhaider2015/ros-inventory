@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateGuest } from "@/store/features/GuestInfo";
 import Button from "../common/Button";
 import { IGuestInfo } from "@/screens/Home";
+import moment from "moment";
 
 const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
   const guestInfo = useSelector((state: any) => state.guestInfo);
@@ -111,7 +112,8 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
               style={{ borderRadius: 10 }}
             />
           </div>
-          Last Saved: Nov 15, 2023 - 11:00PM GST
+          {/* Last Saved: Nov 15, 2023 - 11:00PM GST */}
+          Last Saved: {moment(props.initialData.updated_at).format('MMM DD, YYYY - hh:mmA')}
         </div>
         <div className={styles.saveBtn}>
           <Button type="Primary" label="Save" onClick={_saveInfo} />

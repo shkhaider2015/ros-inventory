@@ -1,6 +1,5 @@
 "use client"
 import { IEventInfo } from "@/screens/Home";
-import Button from "../common/Button";
 import styles from "./styles.module.css";
 import moment from "moment";
 

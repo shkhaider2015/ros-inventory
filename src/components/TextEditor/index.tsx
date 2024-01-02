@@ -111,6 +111,7 @@ const TextEditor: React.FC<ITextEditor> = props => {
         <Editor
           ref={editor}
           readOnly={isReadOnly}
+          editorKey='editor'
           handleKeyCommand={handleKeyCommand}
           editorState={editorState}
           customStyleMap={styleMap}
