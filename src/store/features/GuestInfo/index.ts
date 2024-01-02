@@ -3,7 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 
-const initialValues = {
+const initialValues:IState = {
     expected_guest_count: 0,
     checkin_at_door: 0,
 }
@@ -19,6 +19,11 @@ export const GuestInfo = createSlice({
         }
     }
 })
+
+interface IState {
+    expected_guest_count: number,
+    checkin_at_door: number
+}
 
 export const { updateGuest } = GuestInfo.actions;
 

@@ -2,6 +2,7 @@
 import Image from "next/image";
 import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
+import { _toTitleCase } from "@/lib/func";
 
 const InventoryDetails = (props: IInventoryDetails) => {
   const { info, contacts } = props;
@@ -86,7 +87,7 @@ const ContactsListing: React.FC<{ contacts: IContactList[] }> = ({
               width={22}
               height={22}
             />
-            <span className={styles.iconsText}>{item.name}</span>
+            <span className={styles.iconsText}>{`${_toTitleCase(item.name)} ${item?.title ? "- ["+_toTitleCase(item.title)+"]" : ""} `}</span>
           </div>
           <div className={styles.iconTextCon}>
             <Image
@@ -133,6 +134,7 @@ interface IInventoryInfo {
 interface IContactList {
   id: string;
   name: string;
+  title: string;
   phone_number: string;
   email: string;
 }
