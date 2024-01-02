@@ -29,6 +29,10 @@
     border-bottom: 1px solid #F0EDF3;
     margin: 20px 0px;
 }
+.shipdetail{
+    display:inline-flex;
+
+}
 
 .shippingTex {
     font-size: 12px;
@@ -37,6 +41,24 @@
     line-height: 21px;
     margin: 20px 0px;
     padding: 0px 25px;
+    gap:10px
+}
+.printer{
+    display:inline-flex;
+    width: 80px;
+    height: 40px;
+    top: 900px;
+    left: 1238px;
+    padding: 9px 8px 10px 6px;
+    border-radius: 10px;
+    gap: 5px;
+    background-color: rgba(239, 230, 253, 1);
+   border:none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 10px;
+    /* margin-right: 10px; */
 }
 
 .bottomSec {
@@ -52,7 +74,8 @@
 
 .saveBtn {
     width: 90%;
-    margin: 0px auto 0px auto;
+    margin: 10px auto 0px auto;
+    
 }
 .itemContainer {}
 

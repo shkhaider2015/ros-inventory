@@ -8,6 +8,7 @@ import { initializeData, removeFromCart, updateQuantity } from "@/store/features
 import { _toTitleCase } from "@/lib/func";
 import axios from "axios";
 import { useEffect } from "react";
+import Printer from "public/images/icons/printer.svg";
 
 const CheckedOut:React.FC<{ event_id: string, initialData:IItem[] }> = (props) => {
   const cartItems: IItem[] = useSelector((state: any) => state.cart);
@@ -93,9 +94,20 @@ const CheckedOut:React.FC<{ event_id: string, initialData:IItem[] }> = (props) =
       <Item />
       <div className={styles.hrLine} />
       <Item /> */}
+      
+      <div className={styles.shipdetail}>
       <div className={styles.shippingTex}>
         Shipping & taxes are calculated later
       </div>
+      {/* print button */}
+        <button className={styles.printer}>
+        <Image src={Printer} alt="printer">
+      
+        </Image>
+        Print
+        </button>
+      </div>  
+
       <Button className={styles.saveBtn} onClick={_onSave} label="Save" type="Primary" />
       <div className={styles.bottomSec}>
         <Image

@@ -81,7 +81,7 @@
   /* Styling for individual tab items */
   .tabItem {
     
-  
+  cursor: pointer;
     /* min-width: 135px;
     min-height: 45px; */
     display: inline-flex; 
