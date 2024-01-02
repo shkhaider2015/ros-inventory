@@ -231,7 +231,7 @@ const DocItem: React.FC<IAttachements> = ({
     window.open(url, "_blank");
   };
 
-  console.log("FileType ", file_type);
+  // console.log("FileType ", file_type);
 
   return (
     <div className={styles.docContainer}>
