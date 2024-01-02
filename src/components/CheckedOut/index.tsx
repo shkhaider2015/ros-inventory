@@ -14,6 +14,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import { useSnackbar } from "@/hooks/useSnackbar";
+import ROSSnackbar from "../common/ROSSnackbar";
 
 const CheckedOut: React.FC<{
   event_id: string;
@@ -25,6 +27,7 @@ const CheckedOut: React.FC<{
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const { isActive, type, message, openSnackBar } = useSnackbar();
 
   // console.log("Cart Items : ", props.initialData);
 
@@ -59,8 +62,10 @@ const CheckedOut: React.FC<{
       });
 
       router.refresh();
+      openSnackBar("Data saved successfully", "success");
     } catch (error) {
       console.log("Save api error : ", error);
+      openSnackBar("Something went wrong", "danger");
     } finally {
       setLoading(false)
     }
@@ -165,6 +170,7 @@ const CheckedOut: React.FC<{
         {/* Last Saved: Nov 15, 2023 - 11:00PM GST */}
         Last Saved: {moment(props.updated_at).format("MMM DD, YYYY - hh:mmA")}
       </div>
+      <ROSSnackbar isActive={isActive} type={type} message={message}  />
     </div>
   );
 };
