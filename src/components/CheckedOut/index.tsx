@@ -35,7 +35,7 @@ const CheckedOut: React.FC<{
   }, [props.initialData]);
 
   const _onSave = async () => {
-    console.log("_onSave() : ", cartItems);
+    // console.log("_onSave() : ", cartItems);
 
     let data = {
       ...guestInfo,
@@ -51,6 +51,7 @@ const CheckedOut: React.FC<{
     let URL = "https://myapi.runofshowapp.com/api/inventory/checkout";
 
     try {
+      setLoading(true);
       await axios.post(URL, data, {
         headers: {
           "Content-Type": "application/json",
@@ -60,6 +61,8 @@ const CheckedOut: React.FC<{
       router.refresh();
     } catch (error) {
       console.log("Save api error : ", error);
+    } finally {
+      setLoading(false)
     }
   };
 
