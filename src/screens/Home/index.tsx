@@ -179,6 +179,7 @@ export interface IAttachements {
   url: string;
   workspace_id: string;
   file_logo?: string;
+  uploaded_via: "CLIENT" | "ADMIN"
 }
 
 export interface IGuestInfo {

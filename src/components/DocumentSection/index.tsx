@@ -183,13 +183,13 @@ const DocumentSection = (props: {
           + Upload Document
         </label>
       </div>
-      <ROSModal open={showDetails} onClose={() => setShowDetails(false)} >
-          <div className={styles.sectionModalContainer} >
-            {/* <div className={styles.dsModalTitle} >Title</div> */}
-            <div className={styles.sectionModalContent} >
+      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
+        <div className={styles.sectionModalContainer}>
+          {/* <div className={styles.dsModalTitle} >Title</div> */}
+          <div className={styles.sectionModalContent}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
-            </div>
           </div>
+        </div>
       </ROSModal>
     </div>
   );
@@ -200,6 +200,7 @@ const DocItem: React.FC<IAttachements> = ({
   description,
   url,
   file_logo,
+  uploaded_via,
 }) => {
   const _downloadFile = () => {
     window.open(url, "_blank");
@@ -233,6 +234,16 @@ const DocItem: React.FC<IAttachements> = ({
         </div>
       </div>
       <div className={styles.rightCol}>
+        {uploaded_via === "CLIENT" && (
+          <div className={styles.docIconContainer} onClick={() => {}}>
+            <Image
+              src={"/images/icons/delete.svg"}
+              alt="import"
+              width={22}
+              height={22}
+            />
+          </div>
+        )}
         <div className={styles.docIconContainer} onClick={_downloadFile}>
           <Image
             src={"/images/icons/Import.svg"}
