@@ -80,57 +80,68 @@ const ContactsListing: React.FC<{ contacts: IContactList[] }> = ({
         contacts.length > 3 ? styles.containerListingPadding : ""
       } `}
     >
-      {contacts.map((item) => (
-        <div key={item.id} className={styles.bottomText}>
-          <div className={styles.iconTextCon}>
-            <Image
-              src={"/images/icons/User_Rounded.svg"}
-              alt="phone call"
-              className={styles.iconIcon}
-              width={22}
-              height={22}
-            />
-            <span className={styles.iconsText}>{`${_toTitleCase(
-              item.name
-            )}`}</span>
-          </div>
-          {item.title && (
-            <div className={styles.iconTextCon}>
-              <Image
-                src={"/images/icons/Lable.svg"}
-                alt="phone call"
-                className={styles.iconIcon}
-                width={22}
-                height={22}
-              />
-              <span className={styles.iconsText}>{`${_toTitleCase(
-                item.title
-              )} `}</span>
-            </div>
-          )}
-
-          <div className={styles.iconTextCon}>
-            <Image
-              src={"/images/icons/PhoneCallingRounded.svg"}
-              alt="phone call"
-              className={styles.iconIcon}
-              width={22}
-              height={22}
-            />
-            <span className={styles.iconsText}>{item.phone_number}</span>
-          </div>
-          <div className={styles.iconTextCon}>
-            <Image
-              src={"/images/icons/email.svg"}
-              alt="phone call"
-              className={styles.iconIcon}
-              width={22}
-              height={22}
-            />
-            <span className={styles.iconsText}>{item.email}</span>
-          </div>
-        </div>
-      ))}
+      <table>
+        <tbody>
+          {contacts.map((item) => (
+            <tr key={item.id} >
+              <td>
+                <div className={styles.iconTextCon}>
+                  <Image
+                    src={"/images/icons/User_Rounded.svg"}
+                    alt="phone call"
+                    className={styles.iconIcon}
+                    width={22}
+                    height={22}
+                  />
+                  <span className={styles.iconsText}>{`${_toTitleCase(
+                    item.name
+                  )}`}</span>
+                </div>
+              </td>
+              <td>
+                {item.title && (
+                  <div className={styles.iconTextCon}>
+                    <Image
+                      src={"/images/icons/Lable.svg"}
+                      alt="phone call"
+                      className={styles.iconIcon}
+                      width={22}
+                      height={22}
+                    />
+                    <span className={styles.iconsText}>{`${_toTitleCase(
+                      item.title
+                    )} `}</span>
+                  </div>
+                )}
+              </td>
+              <td>
+                <div className={styles.iconTextCon}>
+                  <Image
+                    src={"/images/icons/PhoneCallingRounded.svg"}
+                    alt="phone call"
+                    className={styles.iconIcon}
+                    width={22}
+                    height={22}
+                  />
+                  <span className={styles.iconsText}>{item.phone_number}</span>
+                </div>
+              </td>
+              <td>
+                <div className={styles.iconTextCon}>
+                  <Image
+                    src={"/images/icons/email.svg"}
+                    alt="phone call"
+                    className={styles.iconIcon}
+                    width={22}
+                    height={22}
+                  />
+                  <span className={styles.iconsText}>{item.email}</span>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

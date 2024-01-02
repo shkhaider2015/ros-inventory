@@ -117,3 +117,17 @@
     /* border: 2px solid red; */
     margin-bottom: -30px;
 }
+
+.containerListing table {
+    border-collapse: collapse;
+    border-spacing: 0 50px;
+    width: 100%;
+  }
+
+.containerListing table tbody tr {
+    
+}
+.containerListing table tbody tr td {
+    text-align: left;
+    padding: 8px 0px;
+  }
