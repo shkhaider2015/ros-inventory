@@ -91,7 +91,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
             />
             <div>
               <Button
-                label="Add to cart"
+                label={isAdded ? "Edit in cart" : "Add to cart"}
                 disable={isAdded}
                 onClick={() => {
                   dispatch(addToCart({ ...props, selectedQuantity }));
