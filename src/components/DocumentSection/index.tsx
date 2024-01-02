@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
 import { IAttachements, IInventoryItem } from "@/screens/Home";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
 import Button from "../common/Button";
@@ -200,11 +200,38 @@ const DocItem: React.FC<IAttachements> = ({
   description,
   url,
   file_logo,
+  file_type,
   uploaded_via,
 }) => {
-  const _downloadFile = () => {
+  const [isChrome, setIsChrome] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (navigator.userAgent.indexOf("Chrome") != -1) {
+      setIsChrome(true);
+    }
+  }, []);
+  const _downloadFile = async () => {
+    if (isChrome && file_type === "pdf") {
+      try {
+        const response = await axios.get(url, { responseType: "blob" });
+        const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+        const a = document.createElement("a");
+        a.href = fileURL;
+        a.download = "download-file." + file_type; // You can specify the file name
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(fileURL);
+      } catch (error) {
+        console.log("File download error : ", error);
+      }
+      return;
+    }
+
     window.open(url, "_blank");
   };
+
+  console.log("FileType ", file_type);
 
   return (
     <div className={styles.docContainer}>
