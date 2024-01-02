@@ -24,7 +24,6 @@ const InventoryDetails = (props: IInventoryDetails) => {
           <div className={styles.topText}>Inventory & Specifications Deck</div>
           <ContactsListing contacts={contacts} />
           {contacts.length > 3 && <div className={styles.contactShadow} />}
-          
 
           {/* <div className={styles.bottomText}>
             <div className={styles.iconTextCon}>
@@ -76,7 +75,11 @@ const ContactsListing: React.FC<{ contacts: IContactList[] }> = ({
   contacts,
 }) => {
   return (
-    <div className={`${styles.containerListing} ${contacts.length > 3 ? styles.containerListingPadding : "" } `}>
+    <div
+      className={`${styles.containerListing} ${
+        contacts.length > 3 ? styles.containerListingPadding : ""
+      } `}
+    >
       {contacts.map((item) => (
         <div key={item.id} className={styles.bottomText}>
           <div className={styles.iconTextCon}>
@@ -87,8 +90,25 @@ const ContactsListing: React.FC<{ contacts: IContactList[] }> = ({
               width={22}
               height={22}
             />
-            <span className={styles.iconsText}>{`${_toTitleCase(item.name)} ${item?.title ? "- ["+_toTitleCase(item.title)+"]" : ""} `}</span>
+            <span className={styles.iconsText}>{`${_toTitleCase(
+              item.name
+            )}`}</span>
           </div>
+          {item.title && (
+            <div className={styles.iconTextCon}>
+              <Image
+                src={"/images/icons/Lable.svg"}
+                alt="phone call"
+                className={styles.iconIcon}
+                width={22}
+                height={22}
+              />
+              <span className={styles.iconsText}>{`${_toTitleCase(
+                item.title
+              )} `}</span>
+            </div>
+          )}
+
           <div className={styles.iconTextCon}>
             <Image
               src={"/images/icons/PhoneCallingRounded.svg"}
