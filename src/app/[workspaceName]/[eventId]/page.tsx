@@ -131,9 +131,9 @@ async function getData(eventId: string) {
       let itemFromList = items?.find((itemY:any) => itemY?.id === itemX?.item );
       itemFromList = {
         ...itemFromList,
-        rental_price: item?.total_price,
+        rental_price: itemX?.unit_price_when_purchased,
         selectedQuantity: itemX?.quantity,
-        cart_id: item.id
+        cart_id: itemX.id
       }
 
       return itemFromList;
