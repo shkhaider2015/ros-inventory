@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateGuest } from "@/store/features/GuestInfo";
 import Button from "../common/Button";
 import { IGuestInfo } from "@/screens/Home";
+import moment from "moment";
 
 const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
   const guestInfo = useSelector((state: any) => state.guestInfo);
@@ -18,12 +19,12 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
 
   // console.log("Guest Info in expected : ", props.initialData);
 
-  useLayoutEffect(() => {
-    if(guestInfo) {
-      setGuestCount(guestInfo.expected_guest_count)
-      setIsYes(pS => guestInfo.checkin_at_door === 1 ? "YES" : "NO" )
-    }
-  }, [guestInfo])
+  // useLayoutEffect(() => {
+  //   if(guestInfo) {
+  //     setGuestCount(guestInfo.expected_guest_count)
+  //     setIsYes(pS => guestInfo.checkin_at_door === 1 ? "YES" : "NO" )
+  //   }
+  // }, [guestInfo])
 
   useLayoutEffect(() => {
     if(props.initialData){
@@ -53,15 +54,15 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
     <div className={styles.container}>
       <div className={styles.title}>Expected Guest Count</div>
       <div className={styles.inputBox}>
-        <div className={styles.count}>{guestCount}</div>
+        <div className={styles.count}>{guestInfo.expected_guest_count}</div>
         <CounterButton
           minValue={1}
           maxValue={100}
           value={props.initialData.expected_guest_count ? props.initialData.expected_guest_count  / 10 : 10}
           onChange={(value) => {
             let val = value * 10;
-            // dispatch(updateGuest({ expected_guest_count: val }));
-            setGuestCount(val);
+            dispatch(updateGuest({ expected_guest_count: val }));
+            // setGuestCount(val);
           }}
         />
       </div>
@@ -73,14 +74,15 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
           <RadioButton
             name="yes"
             label="Yes"
-            value={isYes === "YES"}
+            value={guestInfo.checkin_at_door === 1}
             onChange={(val) => {
-              if (val) {
-                setIsYes("YES");
-                // dispatch(updateGuest({ checkin_at_door: 1 }));
-              } else {
-                setIsYes("NO");
-              }
+              dispatch(updateGuest({ checkin_at_door: 1 }));
+              // if (val) {
+              //   setIsYes("YES");
+              //   // dispatch(updateGuest({ checkin_at_door: 1 }));
+              // } else {
+              //   setIsYes("NO");
+              // }
             }}
           />
         </div>
@@ -88,14 +90,15 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
           <RadioButton
             name="no"
             label="No"
-            value={isYes === "NO"}
+            value={guestInfo.checkin_at_door === 0}
             onChange={(val) => {
-              if (val) {
-                setIsYes("NO");
-                // dispatch(updateGuest({ checkin_at_door: 0 }));
-              } else {
-                setIsYes("YES");
-              }
+              dispatch(updateGuest({ checkin_at_door: 0 }));
+              // if (val) {
+              //   setIsYes("NO");
+              //   // dispatch(updateGuest({ checkin_at_door: 0 }));
+              // } else {
+              //   setIsYes("YES");
+              // }
             }}
           />
         </div>
@@ -111,10 +114,11 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
               style={{ borderRadius: 10 }}
             />
           </div>
-          Last Saved: Nov 15, 2023 - 11:00PM GST
+          {/* Last Saved: Nov 15, 2023 - 11:00PM GST */}
+          Last Saved: {moment(props.initialData.updated_at).format('MMM DD, YYYY - hh:mmA')}
         </div>
         <div className={styles.saveBtn}>
-          <Button type="Primary" label="Save" onClick={_saveInfo} />
+          {/* <Button type="Primary" label="Save" onClick={_saveInfo} /> */}
         </div>
       </div>
     </div>

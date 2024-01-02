@@ -116,7 +116,7 @@ const HomeScreen = (props: {
 
         {/* Right Side Column */}
         <aside className={styles.aside}>
-          <CheckedOut event_id={props.event_id} initialData={props.cart_items} />
+          <CheckedOut event_id={props.event_id} initialData={props.cart_items} updated_at={props.guest_info.updated_at} />
         </aside>
       </div>
     </main>
@@ -184,6 +184,8 @@ export interface IAttachements {
 export interface IGuestInfo {
   checkin_at_door: number;
   expected_guest_count: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export default HomeScreen;

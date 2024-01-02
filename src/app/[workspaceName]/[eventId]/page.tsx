@@ -132,7 +132,8 @@ async function getData(eventId: string) {
       itemFromList = {
         ...itemFromList,
         rental_price: item?.total_price,
-        selectedQuantity: itemX?.quantity
+        selectedQuantity: itemX?.quantity,
+        cart_id: item.id
       }
 
       return itemFromList;
