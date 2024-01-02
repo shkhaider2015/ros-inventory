@@ -17,21 +17,30 @@ const tabsData: {
   },
   {
     id: "3",
-    title: "Technical Spec",
+    title: "Event Supply",
   },
   {
     id: "4",
-    title: "Food & Beverage",
+    title: "Venue Specifications",
   },
   {
     id: "5",
-    title: "Prep Area",
+    title: "Kitchen Supply",
   },
   {
     id: "6",
+    title: "Insurance Requirements",
+  },
+  {
+    id: "7",
+    title: "Food & Beverage",
+  },
+  {
+    id: "8",
     title: "Misc",
   },
 ];
+
 
 const Tabs = () => {
   const [selectedTab, setSelectedTab] = useState<string>("1");

@@ -3,10 +3,9 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 import React, { useState } from "react";
 import TextEditor from "../TextEditor";
+import ROSModal from "../common/ROSModal";
 
-const IconArray:string[] = [
-  '/public/'
-]
+const IconArray: string[] = ["/public/"];
 
 const VenueSpecificationItem: React.FC<IVenueItem> = (props) => {
   const { icon_url, name, description } = props;
@@ -20,14 +19,11 @@ const VenueSpecificationItem: React.FC<IVenueItem> = (props) => {
         </div>
         <div className={styles.title}>{name}</div>
       </div>
-      <div className={`${styles.secondRow} ${showDetails ? styles.scrollable : ""} `}>
+      <div className={`${styles.secondRow}`}>
         <TextEditor value={description} isReadOnly />
       </div>
-      <div
-        className={styles.thirdRow}
-        onClick={() => setShowDetails(!showDetails)}
-      >
-        <div className={styles.title}>{showDetails ? "Hide" : "View"} Details</div>
+      <div className={styles.thirdRow} onClick={() => setShowDetails(true)}>
+        <div className={styles.title}>View Details</div>
         <Image
           src={"/images/icons/arrow-up.svg"}
           alt="arrow"
@@ -35,6 +31,20 @@ const VenueSpecificationItem: React.FC<IVenueItem> = (props) => {
           height={22}
         />
       </div>
+
+      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
+        <div className={styles.modalContainer}>
+          <div className={styles.headSec}>
+            <div className={styles.iconContainer}>
+              <Image src={icon_url || ""} alt="icon" width={22} height={22} />
+            </div>
+            <div className={styles.title}>{name}</div>
+          </div>
+          <div className={styles.editorText}>
+            <TextEditor value={description} />
+          </div>
+        </div>
+      </ROSModal>
     </div>
   );
 };
@@ -46,7 +56,14 @@ interface IVenueItem {
   name: string;
   quantity: number;
   rental_price: number;
-  type: "INVENTORY_MENU" | "VENUE_SPEC" | "KITCHEN_SUPPLY";
+  type:
+    | "INVENTORY_MENU"
+    | "VENUE_SPEC"
+    | "KITCHEN_SUPPLY"
+    | "ABOUT_THE_VENUE"
+    | "INSURANCE_REQUIREMENTS"
+    | "FOOD_AND_BEVERAGE"
+    | "MISC";
   workspace_id?: string;
   updated_at?: string;
 }

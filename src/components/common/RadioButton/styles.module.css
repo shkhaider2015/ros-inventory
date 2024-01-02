@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.btn {
+    display: none;
+}
+
+.label {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.customBtn {
+    width: 25px;
+    /* Size of the custom radio button */
+    height: 25px;
+    /* Size of the custom radio button */
+    border: 1px solid #B0B0B0;
+    /* Border color */
+    border-radius: 50%;
+    /* Make it circular */
+    background-color: white;
+    /* Background color when not selected */
+    transition: background-color 0.3s, border-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.customBtn:hover {
+    cursor: pointer;
+}
+
+
+
+/* Style the custom radio button indicator when checked */
+.customBtnChecked {
+    
+}
+
+.customBtnChecked::after {
+    content: "";
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #000;
+
+}

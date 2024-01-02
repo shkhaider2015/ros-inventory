@@ -4,27 +4,45 @@ import InventoryDetails from "@/components/InventoryDetails";
 import CheckedOut from "@/components/CheckedOut";
 import EventSupplyItem from "@/components/EventSupplyItem";
 import VenueSpecificationItem from "@/components/VenueSpecificationItem";
-import InsuranceRequirements from "@/components/InsuranceRequirements";
 import ElementHead from "@/components/ElementHead";
-import NewTabs from "@/components/NewTabs";
-// import Tabs from "@/components/Tabs";
+import Tabs from "@/components/Tabs";
+import SocialMediaIcon from "@/components/SocialMediaIcons";
+import DocumentSection from "@/components/DocumentSection";
+import ExpectedGuest from "@/components/ExpectedGuest";
 
-const HomeScreen = (props:{
-  workspaceInfo: IInventoryInfo,
-  items: IInventoryItem[]
+const HomeScreen = (props: {
+  workspaceInfo: IInventoryInfo;
+  items: IInventoryItem[];
+  eventInfo: IEventInfo;
+  contacts: any[];
+  socialMedia: IScoialMedia[];
+  attachements: IAttachements[];
+  guest_info: IGuestInfo;
+  cart_items: any[];
+  event_id: string
 }) => {
-
-  
   return (
     <main className={styles.container}>
-      <EventTopRow />
-      {/* <Tabs /> */}
-      <NewTabs/>
+      <EventTopRow {...props.eventInfo} />
+      <Tabs />
       <div className={styles.sectionContainer}>
         {/* Left Side Column */}
         <section className={styles.section}>
-          <InventoryDetails {...props.workspaceInfo} />
-          <ElementHead name="scrollto_2" text="Event Supply" />
+          <InventoryDetails
+            info={props.workspaceInfo}
+            contacts={props.contacts}
+          />
+          <ExpectedGuest initialData={props.guest_info} />
+          <ElementHead name="scrollto_2" text="About The Venue" />
+          <DocumentSection
+            item={props.items.find((item) => item.type === "ABOUT_THE_VENUE")}
+            section_type={"ABOUT_THE_VENUE"}
+            section_title={"About The Venue"}
+            attachements={props.attachements}
+            event_id={props.event_id}
+            workspace_id={props.workspaceInfo.workspace_id}
+          />
+          <ElementHead name="scrollto_3" text="Event Supply" />
           {/* <div className={styles.header}></div> */}
           {props.items
             .filter((item) => item.type === "INVENTORY_MENU")
@@ -32,27 +50,56 @@ const HomeScreen = (props:{
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
 
-          <ElementHead name="scrollto_3" text="Venue Specifications" />
+          <ElementHead name="scrollto_4" text="Venue Specifications" />
 
           <div className={styles.venueContainer}>
-            {props.items.filter(item => item.type === "VENUE_SPEC").map((item, index) => (
-              <VenueSpecificationItem {...item} key={item.id + index} />
-            ))}
+            {props.items
+              .filter((item) => item.type === "VENUE_SPEC")
+              .map((item, index) => (
+                <VenueSpecificationItem {...item} key={item.id + index} />
+              ))}
           </div>
 
-          <ElementHead name="scrollto_4" text="Kitchen Supply" />
+          <ElementHead name="scrollto_5" text="Kitchen Supply" />
 
           {props.items
             .filter((item) => item.type === "KITCHEN_SUPPLY")
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
-          <ElementHead
-            name="scrollto_5"
-            text="Insurance Requirements"
+          <ElementHead name="scrollto_6" text="Insurance Requirements" />
+
+          <DocumentSection
+            item={props.items.find(
+              (item) => item.type === "INSURANCE_REQUIREMENTS"
+            )}
+            section_type={"INSURANCE_REQUIREMENTS"}
+            section_title={"Insurance Requirements"}
+            attachements={props.attachements}
+            event_id={props.event_id}
+            workspace_id={props.workspaceInfo.workspace_id}
+          />
+          <ElementHead name="scrollto_7" text="Food and Beverage" />
+          <DocumentSection
+            item={props.items.find((item) => item.type === "FOOD_AND_BEVERAGE")}
+            section_type={"FOOD_AND_BEVERAGE"}
+            section_title={"Food and Beverage"}
+            attachements={props.attachements}
+            event_id={props.event_id}
+            workspace_id={props.workspaceInfo.workspace_id}
+          />
+          <ElementHead name="scrollto_8" text="Misc" />
+          <DocumentSection
+            item={props.items.find((item) => item.type === "MISC")}
+            section_type={"MISC"}
+            section_title={"Misc"}
+            attachements={props.attachements}
+            event_id={props.event_id}
+            workspace_id={props.workspaceInfo.workspace_id}
           />
 
-          <InsuranceRequirements />
+          <SocialMediaIcon items={props.socialMedia} />
+
           {/* <div className={styles.upArrow}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +116,7 @@ const HomeScreen = (props:{
 
         {/* Right Side Column */}
         <aside className={styles.aside}>
-          <CheckedOut />
+          <CheckedOut event_id={props.event_id} initialData={props.cart_items} />
         </aside>
       </div>
     </main>
@@ -87,16 +134,56 @@ interface IInventoryInfo {
   id?: string;
 }
 
-interface IInventoryItem {
+export interface IInventoryItem {
   description: string;
   icon_url: string | undefined;
   id: string;
   name: string;
   quantity: number;
   rental_price: number;
-  type: "INVENTORY_MENU" | "VENUE_SPEC" | "KITCHEN_SUPPLY";
+  type:
+    | "INVENTORY_MENU"
+    | "VENUE_SPEC"
+    | "KITCHEN_SUPPLY"
+    | "ABOUT_THE_VENUE"
+    | "INSURANCE_REQUIREMENTS"
+    | "FOOD_AND_BEVERAGE"
+    | "MISC";
+  event_id: string;
   workspace_id?: string;
   updated_at?: string;
+}
+
+interface IScoialMedia {
+  id: string;
+  platform_name: string;
+  url: string;
+  icon: string;
+}
+
+export interface IEventInfo {
+  id: string;
+  name: string;
+  location: string;
+  start: string;
+  end: string;
+  link: string;
+}
+
+export interface IAttachements {
+  id: string;
+  description: string;
+  file_type: string;
+  name: string;
+  section_type: string;
+  url: string;
+  workspace_id: string;
+  file_logo?: string;
+}
+
+export interface IGuestInfo {
+  checkin_at_door: number;
+  expected_guest_count: number;
 }
 
 export default HomeScreen;

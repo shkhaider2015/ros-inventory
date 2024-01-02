@@ -7,23 +7,50 @@ import Button from "../common/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/store/features/checkedItems";
 import { _toTitleCase } from "@/lib/func";
+import { IInventoryItem } from "@/screens/Home";
 
 const EventSupplyItem = (props: IInventoryItem) => {
-  const { name, icon_url, rental_price, quantity, description, updated_at, id } = props;
+  const {
+    name,
+    icon_url,
+    rental_price,
+    quantity,
+    description,
+    updated_at,
+    id,
+  } = props;
   const cartItems = useSelector((state: any) => state.cart);
   const [isAdded, setIsAdded] = useState(false);
   const dispatch = useDispatch();
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
 
+  // useLayoutEffect(() => {
+  //   if(cartItems?.some((item:any) => item?.id === id)) setIsAdded(true);
+  //   else setIsAdded(false)
+
+  // }, [cartItems])
+
   useLayoutEffect(() => {
-    if(cartItems?.some((item:any) => item?.id === id)) setIsAdded(true);
-    else setIsAdded(false)
-  }, [cartItems])
+    let currentItem: any = cartItems?.find((item: any) => item?.id === id);
+    if (currentItem) {
+      setIsAdded(true);
+      setSelectedQuantity(currentItem?.selectedQuantity);
+    } else {
+      setIsAdded(false);
+      setSelectedQuantity(1);
+    }
+  }, [cartItems]);
 
   return (
     <div className={styles.container}>
       <div className={styles.leftCol}>
-        <Image src={icon_url || ''} alt="" width={150} height={150} style={{ borderRadius: 10 }} />
+        <Image
+          src={icon_url || ""}
+          alt=""
+          width={150}
+          height={150}
+          style={{ borderRadius: 10 }}
+        />
       </div>
       <div className={styles.rightCol}>
         <div className={styles.topSec}>
@@ -47,7 +74,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
           {/* Bottom */}
           <div className={styles.bottomLeftSec}>
             <div className={styles.bottomLeftUnit}>
-              Units Available: <span>{quantity}</span>{" "}
+              Units Available: <span>{quantity - selectedQuantity}</span>{" "}
             </div>
             <div className={styles.bottomLeftUpdate}>{updated_at}</div>
           </div>
@@ -58,12 +85,18 @@ const EventSupplyItem = (props: IInventoryItem) => {
                 setSelectedQuantity(val);
               }}
               maxValue={quantity}
+              minValue={1}
               disable={isAdded}
+              value={selectedQuantity}
             />
             <div>
-              <Button label="Add to cart" disable={isAdded} onClick={() => {
-                dispatch(addToCart({...props, selectedQuantity}))
-              }} />
+              <Button
+                label="Add to cart"
+                disable={isAdded}
+                onClick={() => {
+                  dispatch(addToCart({ ...props, selectedQuantity }));
+                }}
+              />
             </div>
           </div>
         </div>
@@ -72,16 +105,23 @@ const EventSupplyItem = (props: IInventoryItem) => {
   );
 };
 
-interface IInventoryItem {
-  description: string;
-  icon_url: string | undefined;
-  id: string;
-  name: string;
-  quantity: number;
-  rental_price: number;
-  type: 'INVENTORY_MENU' | 'VENUE_SPEC' | 'KITCHEN_SUPPLY';
-  workspace_id?: string;
-  updated_at?: string
-}
+// interface IInventoryItem {
+//   description: string;
+//   icon_url: string | undefined;
+//   id: string;
+//   name: string;
+//   quantity: number;
+//   rental_price: number;
+//   type:
+//     | "INVENTORY_MENU"
+//     | "VENUE_SPEC"
+//     | "KITCHEN_SUPPLY"
+//     | "ABOUT_THE_VENUE"
+//     | "INSURANCE_REQUIREMENTS"
+//     | "FOOD_AND_BEVERAGE"
+//     | "MISC";
+//   workspace_id?: string;
+//   updated_at?: string;
+// }
 
 export default EventSupplyItem;

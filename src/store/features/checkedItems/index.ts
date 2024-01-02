@@ -8,6 +8,9 @@ export const cart = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    initializeData: (state, action) => {
+      return action.payload
+    },
     addToCart: (state, action) => {
       state.push(action.payload);
     },
@@ -15,13 +18,13 @@ export const cart = createSlice({
       return (state = state.filter((item) => item.id !== action.payload));
     },
     updateQuantity: (state, action) => {
-      console.log("Value : ", action.payload)
+      // console.log("Value : ", action.payload)
       return state.map(item => item.id === action.payload?.id ? (action.payload) : item)
     }
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity } = cart.actions;
+export const { addToCart, removeFromCart, updateQuantity, initializeData } = cart.actions;
 
 interface IItem {
   description: string;

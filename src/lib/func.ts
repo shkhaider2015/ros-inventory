@@ -1,3 +1,15 @@
+import sketch from '../../public/images/icons/extensions/sketch.svg';
+import word from '../../public/images/icons/extensions/word.svg';
+import csv from '../../public/images/icons/extensions/csv.svg';
+import pdf from '../../public/images/icons/extensions/pdf.svg';
+import presentation from '../../public/images/icons/extensions/presentation.svg';
+import png from '../../public/images/icons/extensions/png.svg';
+import jpg from '../../public/images/icons/extensions/jpg.svg';
+import folder from '../../public/images/icons/extensions/folder.svg';
+import worldWideWeb from '../../public/images/icons/extensions/www.svg';
+import anyImage from '../../public/images/icons/extensions/image.svg';
+import Others from '../../public/images/icons/extensions/other.svg';
+
 export const _toTitleCase = (value:string) => {
     if (value.trim() === '') return '';
   let str2 = [];
@@ -7,3 +19,34 @@ export const _toTitleCase = (value:string) => {
   }
   return str2.join(' ');
 }
+
+
+
+
+
+// todo find icon set to support main extensions
+
+export const fileExtensionImages: { [key: string]: any } = {
+  sketch: sketch,
+  doc: word,
+  docx: word,
+  key: presentation,
+  ppt: presentation,
+  pptx: presentation,
+  csv: csv,
+  xls: csv,
+  xlsx: csv,
+  xlsm: csv,
+  png: png,
+  PNG: png,
+  jpg: jpg,
+  image: anyImage,
+  web: worldWideWeb,
+  JPEG: jpg,
+  jpeg: jpg,
+  pdf: pdf,
+  webp: png,
+  other: Others
+};
+
+export const folderImage = folder;

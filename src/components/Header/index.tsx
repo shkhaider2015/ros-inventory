@@ -33,15 +33,14 @@ const Header = () => {
             height={22}
           />
         </div> */}
-        <div className={styles.iconCon}>
-          {/* <QuestionCircleOutlined className={styles.icon} /> */}
+        {/* <div className={styles.iconCon}>
           <Image
             src={"/images/icons/questionMark.svg"}
             alt="question"
             width={22}
             height={22}
           />
-        </div>
+        </div> */}
       </div>
     </header>
   );
