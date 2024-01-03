@@ -261,7 +261,7 @@ const DocItem: React.FC<IAttachements> = ({
         </div>
       </div>
       <div className={styles.rightCol}>
-        {uploaded_via === "CLIENT" && (
+        {/* {uploaded_via === "CLIENT" && (
           <div className={styles.docIconContainer} onClick={() => {}}>
             <Image
               src={"/images/icons/delete.svg"}
@@ -270,7 +270,7 @@ const DocItem: React.FC<IAttachements> = ({
               height={22}
             />
           </div>
-        )}
+        )} */}
         <div className={styles.docIconContainer} onClick={_downloadFile}>
           <Image
             src={"/images/icons/Import.svg"}
