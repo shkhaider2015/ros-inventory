@@ -4,29 +4,31 @@
     margin-left: -125px;
     background-color: #ffffff;
     border: 1px solid gray;
-    border-radius: 20px;
+    border-radius: 10px;
     color: gray;
     text-align: center;
-    border-radius: 2px;
     padding: 8px 16px;
     position: fixed;
     z-index: 2000;
     left: 50%;
     top: 80px;
-    font-size: 1rem;
+    font-size: 12px;
 }
 
 .snackbar.success {
     border: 1px solid rgb(0, 213, 0);
     color: rgb(0, 197, 0);
-    -webkit-box-shadow: 2px 3px 64px -6px rgba(0, 255, 30, 0.35);
-    -moz-box-shadow: 2px 3px 64px -6px rgba(0, 255, 30, 0.35);
-    box-shadow: 2px 3px 64px -6px rgba(0, 255, 30, 0.35);
+    -webkit-box-shadow: 2.96px 8.88px 63.149px 0px rgba(2, 105, 14, 0.15);
+    -moz-box-shadow: 2.96px 8.88px 63.149px 0px rgba(2, 105, 14, 0.15);
+    box-shadow: 2.96px 8.88px 63.149px 0px rgba(2, 105, 14, 0.15);
 }
 
 .snackbar.danger {
     border: 1px solid red;
     color: red;
+    -webkit-box-shadow: 2.96px 8.88px 63.149px 0px rgba(115, 2, 2, 0.15);
+    -moz-box-shadow: 2.96px 8.88px 63.149px 0px rgba(2, 105, 14, 0.15);
+    box-shadow: 2.96px 8.88px 63.149px 0px rgba(2, 105, 14, 0.15);
 }
 
 .snackbar.fadeIn {

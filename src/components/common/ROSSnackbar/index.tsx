@@ -4,6 +4,7 @@ import styles from "./styles.module.css";
 
 const ROSSnackbar: React.FC<IROSSnackbar> = (props) => {
   const { isActive, message, type } = props;
+
   return (
     <div
       className={
