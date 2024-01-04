@@ -3,9 +3,12 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
 import { _toTitleCase } from "@/lib/func";
+import { useState } from "react";
+import ROSModal from "../common/ROSModal";
 
 const InventoryDetails = (props: IInventoryDetails) => {
   const { info, contacts } = props;
+  const [showDetails, setShowDetails] = useState(false);
   // console.log("Props : ", props);
 
   return (
@@ -63,10 +66,34 @@ const InventoryDetails = (props: IInventoryDetails) => {
           </div> */}
         </div>
       </div>
+
       <div className={styles.detailsSec}>
         <TextEditor value={info.description} isReadOnly />
       </div>
       <div className={styles.detailsShadow} />
+
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        {info.description && (
+          <div className={styles.thirdRow} onClick={() => setShowDetails(true)}>
+            <div className={styles.title}>View Details</div>
+            <Image
+              src={"/images/icons/arrow-up.svg"}
+              alt="arrow"
+              width={22}
+              height={22}
+            />
+          </div>
+        )}
+      </div>
+
+      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
+        <div className={styles.inventoryModalContainer}>
+          {/* <div className={styles.dsModalTitle} >Title</div> */}
+          {/* <div className={styles.inventoryModalContent}> */}
+            <TextEditor value={info.description} isReadOnly={true} />
+          {/* </div> */}
+        </div>
+      </ROSModal>
     </div>
   );
 };
@@ -83,7 +110,7 @@ const ContactsListing: React.FC<{ contacts: IContactList[] }> = ({
       <table>
         <tbody>
           {contacts.map((item) => (
-            <tr key={item.id} >
+            <tr key={item.id}>
               <td>
                 <div className={styles.iconTextCon}>
                   <Image
