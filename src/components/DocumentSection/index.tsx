@@ -303,7 +303,11 @@ const DocItem: React.FC<IAttachements> = ({
             />
           </div>
         )}
-        {loading && <Loader size="14" />}
+        {loading && <div
+            className={styles.docIconContainer}
+          >
+            <Loader size="14" />
+          </div> }
         <div className={styles.docIconContainer} onClick={_downloadFile}>
           <Image
             src={"/images/icons/Import.svg"}
