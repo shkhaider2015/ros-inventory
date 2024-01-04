@@ -123,11 +123,12 @@ const DocumentSection = (props: {
           </div>
         </div>
         <div className={styles.textColumn}>
-          <div className={styles.title}>
+          {/* <div className={styles.title}>
             {props.item?.name || props.section_title}
-          </div>
+          </div> */}
           <div className={styles.desc}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
+            <div className={styles.descShadow} />
           </div>
           <div className={styles.btnContainer}>
             {props.item?.description && (

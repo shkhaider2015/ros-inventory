@@ -21,7 +21,7 @@ const InventoryDetails = (props: IInventoryDetails) => {
           />
         </div>
         <div className={styles.textCon}>
-          <div className={styles.topText}>Inventory & Specifications Deck</div>
+          <div className={styles.topText}>Event Operation and Logistics</div>
           <ContactsListing contacts={contacts} />
           {contacts.length > 3 && <div className={styles.contactShadow} />}
 
