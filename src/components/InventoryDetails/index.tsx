@@ -20,6 +20,7 @@ const InventoryDetails = (props: IInventoryDetails) => {
             alt="inventory picture"
             width={250}
             height={220}
+            layout="responsive"
             style={{ borderRadius: 10 }}
           />
         </div>
