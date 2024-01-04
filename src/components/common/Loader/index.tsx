@@ -3,19 +3,26 @@ import React, { CSSProperties } from "react";
 import styles from "./styles.module.css";
 
 const Loader: React.FC<ILoader> = (props) => {
-  const { size = "20px", color = '#6200EE' } = props;
+  const { size = "20px", theme = "DARK" } = props;
 
-  const style:CSSProperties = {
+  const style: CSSProperties = {
     width: size,
     height: size,
-  }
+  };
 
-  return <div className={`${styles.loaderRoot}`} style={style} />;
+  return (
+    <div
+      className={`${styles.loaderRoot} ${
+        theme === "LIGHT" ? styles.lightLoader : ""
+      } ${theme === "PRIMARY" ? styles.primaryLoader : ""} `}
+      style={style}
+    />
+  );
 };
 
 interface ILoader {
   size?: string;
-  color?: string;
+  theme?: "DARK" | "LIGHT" | "PRIMARY";
 }
 
 export default Loader;

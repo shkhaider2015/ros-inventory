@@ -22,12 +22,12 @@
 .loaderRoot {
     width: 20px;
     height: 20px;
-    border-width: 2px;
+    /* border-width: 2px;
     border-color: #000;
     border-style: solid;
     border-radius: 50%;
     border-right-color: transparent;
-    border-bottom-color: transparent;
+    border-bottom-color: transparent; */
     -webkit-transition: all 0.5s ease-in;
     -webkit-animation-name: rotate;
     -webkit-animation-duration: 1.0s;
@@ -39,4 +39,22 @@
     animation-duration: 1.0s;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
+}
+
+.lightLoader {
+    border-width: 2px;
+    border-color: #ffffff;
+    border-style: solid;
+    border-radius: 50%;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.primaryLoader {
+    border-width: 2px;
+    border-color: #4800ff;
+    border-style: solid;
+    border-radius: 50%;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
 }

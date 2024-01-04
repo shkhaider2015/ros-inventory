@@ -3,12 +3,14 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import styles from "./styles.module.css";
 import Image from "next/image";
+import Loader from "../Loader";
 
 const ROSCarousel: React.FC<IROSCarousel> = (props) => {
   const { onClose, open, images } = props;
   const [element, setElement] = useState<Element | null>(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
-
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [isLoaded, setIsLoaded] = useState(false);
   // console.log("Images : ", images);
 
   useEffect(() => {
@@ -23,8 +25,12 @@ const ROSCarousel: React.FC<IROSCarousel> = (props) => {
 
   function _handleClose() {
     setCurrentIndex(-1);
+    
     onClose();
   }
+
+  // console.log("Is Loaded : ", isLoading);
+  
 
   const content = (
     <div
@@ -70,7 +76,7 @@ const ROSCarousel: React.FC<IROSCarousel> = (props) => {
             {images &&
               images.length &&
               images.map((item: string, index: number) => (
-                <Image
+                <img
                   key={index}
                   className={`${styles.image} ${
                     currentIndex == index
@@ -79,20 +85,34 @@ const ROSCarousel: React.FC<IROSCarousel> = (props) => {
                   }`}
                   src={item}
                   alt=""
-                  width={800}
-                  height={600}
-                  layout="responsive"
                 />
               ))}
+            {/* {
+              isLoaded && <div
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Loader size="62px" theme="LIGHT" />
+            </div>
+            } */}
           </div>
+
           <div className={styles.CMright}>
             <div
               className={styles.arrowContainer}
               onClick={() =>
-                setCurrentIndex((pS) => {
+                {
+                //  if(currentIndex < images.length) setIsLoaded(false)
+                  setCurrentIndex((pS) => {
                   if (pS >= images.length - 1) return 0;
+                  
                   return pS + 1;
-                })
+                })}
               }
             >
               <Image
@@ -100,6 +120,7 @@ const ROSCarousel: React.FC<IROSCarousel> = (props) => {
                 alt="expand"
                 width={30}
                 height={30}
+                
               />
             </div>
           </div>
