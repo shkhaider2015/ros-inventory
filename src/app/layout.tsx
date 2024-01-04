@@ -28,6 +28,7 @@ export default function RootLayout({
           <Providers>{children}</Providers>
         </Layout>
         <div id="modal-root"></div>
+        <div id="carousel-root"></div>
       </body>
     </html>
   );

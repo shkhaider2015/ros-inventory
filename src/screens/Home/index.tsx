@@ -152,6 +152,9 @@ export interface IInventoryItem {
   event_id: string;
   workspace_id?: string;
   updated_at?: string;
+  additional_images?: {
+    images: string[]
+  }
 }
 
 interface IScoialMedia {

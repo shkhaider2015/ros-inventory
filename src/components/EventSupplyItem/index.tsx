@@ -8,6 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/store/features/checkedItems";
 import { _toTitleCase } from "@/lib/func";
 import { IInventoryItem } from "@/screens/Home";
+import ROSCarousel from "../common/ROSCarousel";
+
+const images: string[] = [
+  "https://dummyimage.com/1200x800/d99400/fff&text=Carousel",
+  "https://dummyimage.com/1200x800/0bd900/fff&text=Carousel",
+  "https://dummyimage.com/1200x800/0050d9/fff&text=Carousel",
+  "https://dummyimage.com/1200x800/d90019/fff&text=Carousel",
+  "https://dummyimage.com/1200x800/db00db/fff&text=Carousel",
+  "https://dummyimage.com/1200x800/00d9ce/fff&text=Carousel",
+];
 
 const EventSupplyItem = (props: IInventoryItem) => {
   const {
@@ -23,12 +33,8 @@ const EventSupplyItem = (props: IInventoryItem) => {
   const [isAdded, setIsAdded] = useState(false);
   const dispatch = useDispatch();
   const [selectedQuantity, setSelectedQuantity] = useState<number>(0);
+  const [showCarousel, setShowCarousel] = useState<boolean>(false);
 
-  // useLayoutEffect(() => {
-  //   if(cartItems?.some((item:any) => item?.id === id)) setIsAdded(true);
-  //   else setIsAdded(false)
-
-  // }, [cartItems])
 
   useLayoutEffect(() => {
     let currentItem: any = cartItems?.find((item: any) => item?.id === id);
@@ -41,6 +47,8 @@ const EventSupplyItem = (props: IInventoryItem) => {
     }
   }, [cartItems]);
 
+  // console.log("Current Index : ", currentIndex);
+
   return (
     <div className={styles.container}>
       <div className={styles.leftCol}>
@@ -50,6 +58,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
           width={150}
           height={150}
           style={{ borderRadius: 10 }}
+          onClick={() => setShowCarousel(true)}
         />
       </div>
       <div className={styles.rightCol}>
@@ -101,6 +110,17 @@ const EventSupplyItem = (props: IInventoryItem) => {
           </div>
         </div>
       </div>
+      <ROSCarousel
+        open={showCarousel}
+        onClose={() => setShowCarousel(false)}
+        images={
+          props.additional_images && props.additional_images.images && props.additional_images.images.length
+            ? props.additional_images.images
+            : icon_url
+            ? [icon_url]
+            : [""]
+        }
+      />
     </div>
   );
 };

@@ -4,6 +4,18 @@ import NotFoundData from "@/screens/NotFoundData";
 import axios from "axios";
 import { Suspense } from "react";
 
+const images: string[] = [
+  "https://dummyimage.com/1200x800/d99400/fff&text=Carousel",
+  "https://dummyimage.com/1200x800/0bd900/fff&text=Carousel",
+  "https://dummyimage.com/1200x800/0050d9/fff&text=Carousel",
+  "https://dummyimage.com/1200x800/d90019/fff&text=Carousel",
+  "https://dummyimage.com/1200x800/db00db/fff&text=Carousel",
+  "https://dummyimage.com/1200x800/00d9ce/fff&text=Carousel",
+];
+
+
+
+
 async function getData(eventId: string) {
   const URL = "https://myapi.runofshowapp.com/api/inventory/detailsByEventId";
   const image_url =
@@ -97,6 +109,25 @@ async function getData(eventId: string) {
         return itemX;
       } else return item;
     });
+
+    items = items?.map((item:any) => {
+      let additional_images = item.additional_images;
+
+      try {
+        additional_images = JSON.parse(additional_images);
+        if(additional_images.images && additional_images.images.length) {
+          additional_images.images = additional_images.images.map((item:string) => image_url + item)
+        }
+        // return {...item, additional_images}
+      } catch (error) {
+        additional_images = {
+          images: []
+        }
+       
+      } finally {
+        return {...item, additional_images}
+      }
+    })
 
     // filter social media
     social_media = social_media?.map(({ __typename, ...item }: any) => {
@@ -211,7 +242,7 @@ function _getExtension(uri: string): string {
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
   // console.log("guest ", data?.checkout_client_info);
-  // console.log("checkout items ", data?.cart_items);
+  console.log("items additional_images ", data?.items);
 
   if (!data)
     return (
