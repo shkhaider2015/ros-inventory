@@ -22,6 +22,7 @@ const VenueSpecificationItem: React.FC<IVenueItem> = (props) => {
       <div className={`${styles.secondRow}`}>
         <TextEditor value={description} isReadOnly />
       </div>
+      <div className={styles.VSDescShadow} />
       <div className={styles.thirdRow} onClick={() => setShowDetails(true)}>
         <div className={styles.title}>View Details</div>
         <Image
