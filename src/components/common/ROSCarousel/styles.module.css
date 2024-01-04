@@ -92,13 +92,16 @@
     max-height: 100%;
 }
 
-.CMimageSection .visible {
+.CMimageSection .imageVisible {
     opacity: 1;
+    visibility: visible;
     transition: all 2s
 }
 
-.CMimageSection .hidden {
+.CMimageSection .imageHidden {
     opacity: 0;
+    display: none;
+    visibility: hidden;
 }
 
 .arrowContainer {
