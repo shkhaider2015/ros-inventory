@@ -10,14 +10,15 @@
     background: rgba(19, 19, 19, 0.371);
     transition: all .4s;
     z-index: 1000;
+    
 }
 
-.visible {
+.ROSCarouselContainer.visible {
     visibility: visible;
     opacity: 1;
 }
 
-.hidden {
+.ROSCarouselContainer.hidden {
     visibility: hidden;
     opacity: 0;
 }
@@ -94,12 +95,10 @@
 .CMimageSection .visible {
     opacity: 1;
     transition: all 2s
-        /* visibility: hidden; */
 }
 
 .CMimageSection .hidden {
     opacity: 0;
-    /* visibility: visible; */
 }
 
 .arrowContainer {
