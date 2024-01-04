@@ -203,14 +203,18 @@ const DocItem: React.FC<IAttachements> = ({
   file_logo,
   file_type,
   uploaded_via,
+  id,
 }) => {
   const [isChrome, setIsChrome] = useState<boolean>(false);
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (navigator.userAgent.indexOf("Chrome") != -1) {
       setIsChrome(true);
     }
   }, []);
+
   const _downloadFile = async () => {
     if (isChrome && file_type === "pdf") {
       try {
@@ -230,6 +234,30 @@ const DocItem: React.FC<IAttachements> = ({
     }
 
     window.open(url, "_blank");
+  };
+
+  const _deleteClientFile = async (id: string) => {
+    if (!id) return;
+    try {
+      setLoading(true);
+      let URL = "https://myapi.runofshowapp.com/api/inventory/deleteFileClient";
+      await axios.post(
+        URL,
+        { id: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      router.refresh();
+    } catch (error) {
+      console.log("Client Documnent Delete error : ", error);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 800);
+    }
   };
 
   // console.log("FileType ", file_type);
@@ -262,8 +290,11 @@ const DocItem: React.FC<IAttachements> = ({
         </div>
       </div>
       <div className={styles.rightCol}>
-        {/* {uploaded_via === "CLIENT" && (
-          <div className={styles.docIconContainer} onClick={() => {}}>
+        {uploaded_via === "CLIENT" && !loading && (
+          <div
+            className={styles.docIconContainer}
+            onClick={() => _deleteClientFile(id)}
+          >
             <Image
               src={"/images/icons/delete.svg"}
               alt="import"
@@ -271,7 +302,8 @@ const DocItem: React.FC<IAttachements> = ({
               height={22}
             />
           </div>
-        )} */}
+        )}
+        {loading && <Loader size="14" />}
         <div className={styles.docIconContainer} onClick={_downloadFile}>
           <Image
             src={"/images/icons/Import.svg"}
