@@ -17,15 +17,14 @@ const ROSCarousel: React.FC<IROSCarousel> = (props) => {
   }, []);
 
   useLayoutEffect(() => {
-    if(open) setCurrentIndex(0);
-    else setCurrentIndex(-1)
-  }, [open])
+    if (open) setCurrentIndex(0);
+    else setCurrentIndex(-1);
+  }, [open]);
 
   function _handleClose() {
-    setCurrentIndex(-1)
+    setCurrentIndex(-1);
     onClose();
   }
-
 
   const content = (
     <div
@@ -72,8 +71,11 @@ const ROSCarousel: React.FC<IROSCarousel> = (props) => {
               images.length &&
               images.map((item: string, index: number) => (
                 <Image
+                  key={index}
                   className={`${styles.image} ${
-                    currentIndex == index ? styles.imageVisible : styles.imageHidden
+                    currentIndex == index
+                      ? styles.imageVisible
+                      : styles.imageHidden
                   }`}
                   src={item}
                   alt=""
