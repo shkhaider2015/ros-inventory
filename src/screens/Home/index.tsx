@@ -19,7 +19,7 @@ const HomeScreen = (props: {
   attachements: IAttachements[];
   guest_info: IGuestInfo;
   cart_items: any[];
-  event_id: string
+  event_id: string;
 }) => {
   return (
     <main className={styles.container}>
@@ -116,7 +116,11 @@ const HomeScreen = (props: {
 
         {/* Right Side Column */}
         <aside className={styles.aside}>
-          <CheckedOut event_id={props.event_id} initialData={props.cart_items} updated_at={props.guest_info.updated_at} />
+          <CheckedOut
+            event_id={props.event_id}
+            initialData={props.cart_items}
+            updated_at={props.guest_info.updated_at}
+          />
         </aside>
       </div>
     </main>
@@ -153,8 +157,8 @@ export interface IInventoryItem {
   workspace_id?: string;
   updated_at?: string;
   additional_images?: {
-    images: string[]
-  }
+    images: string[];
+  };
 }
 
 interface IScoialMedia {
@@ -171,6 +175,10 @@ export interface IEventInfo {
   start: string;
   end: string;
   link: string;
+  client_name: string | null;
+  client_main_contact: string | null;
+  client_email: string | null;
+  client_phone_number: string | null;
 }
 
 export interface IAttachements {
@@ -182,7 +190,7 @@ export interface IAttachements {
   url: string;
   workspace_id: string;
   file_logo?: string;
-  uploaded_via: "CLIENT" | "ADMIN"
+  uploaded_via: "CLIENT" | "ADMIN";
 }
 
 export interface IGuestInfo {

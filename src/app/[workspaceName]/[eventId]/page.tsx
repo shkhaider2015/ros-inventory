@@ -151,6 +151,7 @@ async function getData(eventId: string) {
       link: `${"https://my.runofshowapp.com/"}/events/${
         eventInfo?.id
       }/events-details`,
+      ...eventInfo
     };
 
     // filter checkout info
