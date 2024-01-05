@@ -21,7 +21,7 @@ const Button: React.FC<IButton> = (props) => {
       onClick={() => (disable || loading ? () => {} : onClick())}
     >
       {icon && <Image src={icon} alt="btn-icon" width={18} height={18} />}
-      {loading && <div className={`${type === 'Primary' ? styles.primaryLoader : styles.secondaryLoader } `} /> }
+      {loading && <div className={`${type === 'Primary' || type === "Danger" ? styles.primaryLoader : styles.secondaryLoader } `} /> }
       {label && <span className={styles.label}>{label}</span>}
     </div>
   );
@@ -30,7 +30,7 @@ const Button: React.FC<IButton> = (props) => {
 interface IButton {
   label?: string | undefined;
   icon?: string | undefined;
-  type?: "Primary" | "Secondary";
+  type?: "Primary" | "Secondary" | "Danger";
   onClick?: () => void;
   className?: string | undefined;
   disable?: boolean;

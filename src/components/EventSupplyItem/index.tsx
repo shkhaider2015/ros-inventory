@@ -35,7 +35,6 @@ const EventSupplyItem = (props: IInventoryItem) => {
   const [selectedQuantity, setSelectedQuantity] = useState<number>(0);
   const [showCarousel, setShowCarousel] = useState<boolean>(false);
 
-
   useLayoutEffect(() => {
     let currentItem: any = cartItems?.find((item: any) => item?.id === id);
     if (currentItem) {
@@ -114,7 +113,9 @@ const EventSupplyItem = (props: IInventoryItem) => {
         open={showCarousel}
         onClose={() => setShowCarousel(false)}
         images={
-          props.additional_images && props.additional_images.images && props.additional_images.images.length
+          props.additional_images &&
+          props.additional_images.images &&
+          props.additional_images.images.length
             ? props.additional_images.images
             : icon_url
             ? [icon_url]

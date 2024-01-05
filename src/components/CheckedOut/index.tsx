@@ -16,6 +16,7 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
+import WarningModal from "../common/WarningModal";
 
 const CheckedOut: React.FC<{
   event_id: string;
@@ -25,6 +26,10 @@ const CheckedOut: React.FC<{
   const cartItems: IItem[] = useSelector((state: any) => state.cart);
   const guestInfo: any = useSelector((state: any) => state.guestInfo);
   const [loading, setLoading] = useState<boolean>(false);
+  const [showDeleteWarning, setShowDeleteWarning] = useState<{
+    main_id: string;
+    cart_id: string | undefined;
+  }>();
   const dispatch = useDispatch();
   const router = useRouter();
   const { isActive, type, message, openSnackBar } = useSnackbar();
@@ -67,16 +72,17 @@ const CheckedOut: React.FC<{
       console.log("Save api error : ", error);
       openSnackBar("Something went wrong", "danger");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
   const _onDelete = async (
-    main_item_id: string,
+    main_item_id: string | undefined,
     cart_item_id: string | undefined
   ) => {
     let URL = "https://myapi.runofshowapp.com/api/inventory/deleteItemFromCart";
 
+    if(!main_item_id) return
     if (!cart_item_id) {
       dispatch(removeFromCart(main_item_id));
       return;
@@ -127,7 +133,7 @@ const CheckedOut: React.FC<{
             <Item
               {...item}
               onRemove={() => {
-                _onDelete(item.id, item.cart_id);
+                setShowDeleteWarning({main_id: item.id, cart_id: item.cart_id});
               }}
               onChangeCounter={(val: number) => {
                 dispatch(updateQuantity({ ...item, selectedQuantity: val }));
@@ -170,7 +176,12 @@ const CheckedOut: React.FC<{
         {/* Last Saved: Nov 15, 2023 - 11:00PM GST */}
         Last Saved: {moment(props.updated_at).format("MMM DD, YYYY - hh:mmA")}
       </div>
-      <ROSSnackbar isActive={isActive} type={type} message={message}  />
+      <ROSSnackbar isActive={isActive} type={type} message={message} />
+      <WarningModal
+        open={typeof showDeleteWarning !== "undefined"}
+        onClose={() => setShowDeleteWarning(undefined)}
+        onOk={() => _onDelete(showDeleteWarning?.main_id, showDeleteWarning?.cart_id)}
+      />
     </div>
   );
 };

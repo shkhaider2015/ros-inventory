@@ -208,6 +208,7 @@ const DocItem: React.FC<IAttachements> = ({
   const [isChrome, setIsChrome] = useState<boolean>(false);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [showDeleteWarning, setShowDeleteWarning] = useState(false);
 
   useEffect(() => {
     if (navigator.userAgent.indexOf("Chrome") != -1) {
@@ -293,7 +294,7 @@ const DocItem: React.FC<IAttachements> = ({
         {uploaded_via === "CLIENT" && !loading && (
           <div
             className={styles.docIconContainer}
-            onClick={() => _deleteClientFile(id)}
+            onClick={() => setShowDeleteWarning(true)}
           >
             <Image
               src={"/images/icons/delete.svg"}
@@ -317,6 +318,29 @@ const DocItem: React.FC<IAttachements> = ({
           />
         </div>
       </div>
+      <ROSModal open={showDeleteWarning} onClose={() => setShowDeleteWarning(false)}>
+        <div className={styles.mainSec}>
+          {/* <div className={styles.title}>Are you sure you want to delete this Document?</div> */}
+          <div className={styles.desc}>
+          Are you sure you want to delete this Document?
+          </div>
+        </div>
+        <div className={styles.footerSec}>
+          <div className={styles.btnCon}>
+            <div>
+              <Button
+                disable={loading}
+                type="Danger"
+                label="Cancel"
+                onClick={() => setShowDeleteWarning(false)}
+              />
+            </div>
+            <div>
+              <Button loading={loading} label="OK" onClick={() => _deleteClientFile(id)} />
+            </div>
+          </div>
+        </div>
+      </ROSModal>
     </div>
   );
 };
