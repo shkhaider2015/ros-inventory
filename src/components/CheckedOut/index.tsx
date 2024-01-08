@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
 import WarningModal from "../common/WarningModal";
+import useModal from "@/hooks/useModal";
 
 const CheckedOut: React.FC<{
   event_id: string;
@@ -33,6 +34,7 @@ const CheckedOut: React.FC<{
   const dispatch = useDispatch();
   const router = useRouter();
   const { isActive, type, message, openSnackBar } = useSnackbar();
+  const { open } = useModal();
 
   // console.log("Cart Items : ", props.initialData);
 
@@ -133,7 +135,11 @@ const CheckedOut: React.FC<{
             <Item
               {...item}
               onRemove={() => {
-                setShowDeleteWarning({main_id: item.id, cart_id: item.cart_id});
+                // setShowDeleteWarning({main_id: item.id, cart_id: item.cart_id});
+                open({
+                  message: "Are you sure you want to delete this item?",
+                  onOk: async () => _onDelete(item.id, item.cart_id)
+                })
               }}
               onChangeCounter={(val: number) => {
                 dispatch(updateQuantity({ ...item, selectedQuantity: val }));
