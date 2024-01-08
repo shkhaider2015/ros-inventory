@@ -18,7 +18,7 @@ const EventTopRow = (props: IEventInfo) => {
             )}
           </div>
           <div className={styles.info}>
-            <table>
+            {/* <table>
               <tbody>
                 {props.client_name && <tr>
                   <td>Customer Name:</td>
@@ -45,7 +45,29 @@ const EventTopRow = (props: IEventInfo) => {
                 
                 
               </tbody>
-            </table>
+            </table> */}
+            {props.client_name && (
+              <div>
+                Customer Name: <span>{props.client_name}</span>
+              </div>
+            )}
+            {props.client_main_contact && (
+              <div>
+                Customer Main Point of Contact:{" "}
+                <span>{props.client_main_contact}</span>
+              </div>
+            )}
+            {props.client_phone_number && (
+              <div>
+                Customer Phone Number: <span>{props.client_phone_number}</span>
+              </div>
+            )}
+            {props.client_email && (
+              <div>
+                Email: <span>{props.client_email}</span>
+              </div>
+            )}
+
             {/* <div>Customer Name: {props.client_name} </div>
             <div>Email: {props.client_email} </div>
             <div>
