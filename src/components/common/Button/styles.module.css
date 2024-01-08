@@ -76,6 +76,17 @@
     cursor: not-allowed;
 }
 
+.Danger.disable {
+    opacity: .4;
+}
+.Danger.disable:hover {
+    background-color: #c90000;
+    border: 1px solid #c90000;
+    color: #FFFFFF;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+    cursor: not-allowed;
+}
+
 
 /* Loader */
 @keyframes rotate {
