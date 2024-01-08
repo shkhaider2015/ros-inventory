@@ -9,6 +9,7 @@ import {
   removeFromCart,
   updateQuantity,
 } from "@/store/features/checkedItems";
+import { updateFormFields } from "@/store/features/formFields";
 import { _toTitleCase } from "@/lib/func";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -25,6 +26,7 @@ const CheckedOut: React.FC<{
   updated_at: string;
 }> = (props) => {
   const cartItems: IItem[] = useSelector((state: any) => state.cart);
+  const formFields = useSelector((state: any) => state.formFields);
   const guestInfo: any = useSelector((state: any) => state.guestInfo);
   const [loading, setLoading] = useState<boolean>(false);
   const [showDeleteWarning, setShowDeleteWarning] = useState<{
@@ -68,6 +70,9 @@ const CheckedOut: React.FC<{
         },
       });
 
+      if (formFields.isFormFieldsChanged) {
+        dispatch(updateFormFields({ isFormFieldsChanged: false }));
+      }
       router.refresh();
       openSnackBar("Data saved successfully", "success");
     } catch (error) {
@@ -84,7 +89,7 @@ const CheckedOut: React.FC<{
   ) => {
     let URL = "https://myapi.runofshowapp.com/api/inventory/deleteItemFromCart";
 
-    if(!main_item_id) return
+    if (!main_item_id) return;
     if (!cart_item_id) {
       dispatch(removeFromCart(main_item_id));
       return;
@@ -138,11 +143,19 @@ const CheckedOut: React.FC<{
                 // setShowDeleteWarning({main_id: item.id, cart_id: item.cart_id});
                 open({
                   message: "Are you sure you want to delete this item?",
-                  onOk: async () => _onDelete(item.id, item.cart_id)
-                })
+                  onOk: async () => {
+                    _onDelete(item.id, item.cart_id);
+                    if (!formFields.isFormFieldsChanged) {
+                      dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                    }
+                  },
+                });
               }}
               onChangeCounter={(val: number) => {
                 dispatch(updateQuantity({ ...item, selectedQuantity: val }));
+                if (!formFields.isFormFieldsChanged) {
+                  dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                }
               }}
             />
           </div>
@@ -186,7 +199,9 @@ const CheckedOut: React.FC<{
       <WarningModal
         open={typeof showDeleteWarning !== "undefined"}
         onClose={() => setShowDeleteWarning(undefined)}
-        onOk={() => _onDelete(showDeleteWarning?.main_id, showDeleteWarning?.cart_id)}
+        onOk={() =>
+          _onDelete(showDeleteWarning?.main_id, showDeleteWarning?.cart_id)
+        }
       />
     </div>
   );

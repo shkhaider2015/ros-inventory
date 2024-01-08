@@ -6,13 +6,15 @@ import Image from "next/image";
 import RadioButton from "../common/RadioButton";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGuest } from "@/store/features/GuestInfo";
+import { updateFormFields } from "@/store/features/formFields";
 import Button from "../common/Button";
 import { IGuestInfo } from "@/screens/Home";
 import moment from "moment";
 import ROSInput from "../common/ROSInput";
 
-const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
+const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
   const guestInfo = useSelector((state: any) => state.guestInfo);
+  const formFields = useSelector((state: any) => state.formFields);
   const [guestCount, setGuestCount] = useState<number>(10);
   const [isYes, setIsYes] = useState<"YES" | "NO" | undefined>();
 
@@ -28,18 +30,20 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
   // }, [guestInfo])
 
   useLayoutEffect(() => {
-    if(props.initialData){
-      let {checkin_at_door, expected_guest_count} = props.initialData;
+    if (props.initialData) {
+      let { checkin_at_door, expected_guest_count } = props.initialData;
 
-      if(typeof checkin_at_door !== 'number') checkin_at_door = 0;
-      if(typeof expected_guest_count !== "number") expected_guest_count = 0;
+      if (typeof checkin_at_door !== "number") checkin_at_door = 0;
+      if (typeof expected_guest_count !== "number") expected_guest_count = 0;
 
-      dispatch(updateGuest({
-        checkin_at_door,
-        expected_guest_count
-      }))
+      dispatch(
+        updateGuest({
+          checkin_at_door,
+          expected_guest_count,
+        })
+      );
     }
-  }, [props.initialData])
+  }, [props.initialData]);
 
   const _saveInfo = () => {
     let obj = {
@@ -49,7 +53,7 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
 
     dispatch(updateGuest(obj));
   };
-// console.log("Props init: ", props.initialData, guestInfo);
+  // console.log("Props init: ", props.initialData, guestInfo);
 
   return (
     <div className={styles.container}>
@@ -68,11 +72,19 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
         />
       </div> */}
       {/* <div className={styles.inputBox}> */}
-        <ROSInput value={guestInfo.expected_guest_count} className={styles.inputCon} type="number" onChange={e => {
+      <ROSInput
+        value={guestInfo.expected_guest_count}
+        className={styles.inputCon}
+        type="number"
+        onChange={(e) => {
           let val = Number(e.target.value);
-          if(val < 0) val = 0
+          if (val < 0) val = 0;
           dispatch(updateGuest({ expected_guest_count: val }));
-        }} />
+          if (!formFields.isFormFieldsChanged) {
+            dispatch(updateFormFields({ isFormFieldsChanged: true }));
+          }
+        }}
+      />
       {/* </div> */}
       <div className={styles.confermText}>
         Please confirm if you have someone to check in your guests
@@ -85,6 +97,9 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
             value={guestInfo.checkin_at_door === 1}
             onChange={(val) => {
               dispatch(updateGuest({ checkin_at_door: 1 }));
+              if (!formFields.isFormFieldsChanged) {
+                dispatch(updateFormFields({ isFormFieldsChanged: true }));
+              }
               // if (val) {
               //   setIsYes("YES");
               //   // dispatch(updateGuest({ checkin_at_door: 1 }));
@@ -101,6 +116,9 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
             value={guestInfo.checkin_at_door === 0}
             onChange={(val) => {
               dispatch(updateGuest({ checkin_at_door: 0 }));
+              if (!formFields.isFormFieldsChanged) {
+                dispatch(updateFormFields({ isFormFieldsChanged: true }));
+              }
               // if (val) {
               //   setIsYes("NO");
               //   // dispatch(updateGuest({ checkin_at_door: 0 }));
@@ -123,7 +141,8 @@ const ExpectedGuest:React.FC<{initialData: IGuestInfo}> = (props) => {
             />
           </div>
           {/* Last Saved: Nov 15, 2023 - 11:00PM GST */}
-          Last Saved: {moment(props.initialData.updated_at).format('MMM DD, YYYY - hh:mmA')}
+          Last Saved:{" "}
+          {moment(props.initialData.updated_at).format("MMM DD, YYYY - hh:mmA")}
         </div>
         <div className={styles.saveBtn}>
           {/* <Button type="Primary" label="Save" onClick={_saveInfo} /> */}

@@ -3,13 +3,39 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
 import { _toTitleCase } from "@/lib/func";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import ROSModal from "../common/ROSModal";
+import { usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const InventoryDetails = (props: IInventoryDetails) => {
   const { info, contacts } = props;
   const [showDetails, setShowDetails] = useState(false);
-  // console.log("Props : ", props);
+
+  const formFields = useSelector((state: any) => state.formFields);
+  const router = useRouter();
+  const pathName = usePathname();
+
+  useEffect(() => {
+    console.log(formFields.isFormFieldsChanged, "formFieldsChanged");
+    if (router) {
+      const handleBeforeUnload = (e: any) => {
+        if (formFields.isFormFieldsChanged) {
+          e.preventDefault();
+          e.returnValue =
+            "Are you sure you want to exit? All changes you have made will be lost!";
+        }
+      };
+
+      // tab close
+      window.addEventListener("beforeunload", handleBeforeUnload);
+
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }
+  }, [router, formFields, pathName]);
 
   return (
     <div className={styles.container}>
@@ -91,7 +117,7 @@ const InventoryDetails = (props: IInventoryDetails) => {
         <div className={styles.inventoryModalContainer}>
           {/* <div className={styles.dsModalTitle} >Title</div> */}
           {/* <div className={styles.inventoryModalContent}> */}
-            <TextEditor value={info.description} isReadOnly={true} />
+          <TextEditor value={info.description} isReadOnly={true} />
           {/* </div> */}
         </div>
       </ROSModal>
@@ -199,3 +225,22 @@ interface IContactList {
 }
 
 export default InventoryDetails;
+
+// const handleRouteChange = (url: string) => {
+//   if (
+//     url !== "/" &&
+//     pathName !== url &&
+//     !isSaved &&
+//     isFormFieldsChanged
+//   ) {
+//     open({
+//       message: "Are you sure you want to exit? All changes will be lost!",
+//       onOk: async () => {
+//         router.push(url);
+//       },
+//     });
+
+//     // prevent navigation
+//     return false;
+//   }
+// };

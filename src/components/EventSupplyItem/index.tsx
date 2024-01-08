@@ -9,6 +9,7 @@ import { addToCart } from "@/store/features/checkedItems";
 import { _toTitleCase } from "@/lib/func";
 import { IInventoryItem } from "@/screens/Home";
 import ROSCarousel from "../common/ROSCarousel";
+import { updateFormFields } from "@/store/features/formFields";
 
 const images: string[] = [
   "https://dummyimage.com/1200x800/d99400/fff&text=Carousel",
@@ -30,6 +31,7 @@ const EventSupplyItem = (props: IInventoryItem) => {
     id,
   } = props;
   const cartItems = useSelector((state: any) => state.cart);
+  const formFields = useSelector((state: any) => state.formFields);
   const [isAdded, setIsAdded] = useState(false);
   const dispatch = useDispatch();
   const [selectedQuantity, setSelectedQuantity] = useState<number>(0);
@@ -91,6 +93,9 @@ const EventSupplyItem = (props: IInventoryItem) => {
               width={150}
               onChange={(val) => {
                 setSelectedQuantity(val);
+                if (!formFields.isFormFieldsChanged) {
+                  dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                }
               }}
               maxValue={quantity}
               minValue={0}
@@ -103,6 +108,9 @@ const EventSupplyItem = (props: IInventoryItem) => {
                 disable={isAdded}
                 onClick={() => {
                   dispatch(addToCart({ ...props, selectedQuantity }));
+                  if (!formFields.isFormFieldsChanged) {
+                    dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                  }
                 }}
               />
             </div>
