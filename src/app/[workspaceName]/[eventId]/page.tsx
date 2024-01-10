@@ -48,13 +48,6 @@ async function getData(eventId: string) {
     // console.log("Data at server : ", data);
     // console.log("Error : ");
 
-    let eventInfo1 = {
-      id: "94585fb4-7993-43e1-8334-7af65bfdf370",
-      name: "Dummy Name - New WS",
-      start_date: "November 30, 2023 2:00PM",
-      end_date: "January 30, 2023 2:00PM",
-      link: `${"https://mydev.runofshowapp.com"}/events/${"94585fb4-7993-43e1-8334-7af65bfdf370"}/events-details`,
-    };
 
     let {
       workspaceInfo,
@@ -243,7 +236,7 @@ function _getExtension(uri: string): string {
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
   // console.log("guest ", data?.checkout_client_info);
-  console.log("items additional_images ", data?.items);
+  // console.log("items additional_images ", data?.items);
 
   if (!data)
     return (

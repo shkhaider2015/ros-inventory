@@ -83,3 +83,9 @@
         margin-bottom: 0px;
      }
 }
+
+@media screen and (max-width: 650px) {
+    .aside {
+        display: none;
+    }
+}
