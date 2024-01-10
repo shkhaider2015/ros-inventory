@@ -263,11 +263,6 @@
     color: #000000c4;
 }
 .desc {
-    /* font-size: 12px;
-    font-weight: 400;
-    color: #848484;
-    padding: 10px 20px 0px 0px;
-    min-height: 70px; */
     font-size: 16px;
     font-weight: 500;
     color: #000000c4;
@@ -276,7 +271,7 @@
 
 .btnCon {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     padding: 15px 10px 10px 0px;
     gap: 15px;
