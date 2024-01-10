@@ -10,6 +10,7 @@ import SocialMediaIcon from "@/components/SocialMediaIcons";
 import DocumentSection from "@/components/DocumentSection";
 import ExpectedGuest from "@/components/ExpectedGuest";
 import GlobalModal from "@/components/common/GlobalModal";
+import NewTabs from "@/components/NewTabs";
 
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
@@ -25,7 +26,8 @@ const HomeScreen = (props: {
   return (
     <main className={styles.container}>
       <EventTopRow {...props.eventInfo} />
-      <Tabs />
+      {/* <Tabs /> */}
+      <NewTabs />
       <div className={styles.sectionContainer}>
         {/* Left Side Column */}
         <section className={styles.section}>
