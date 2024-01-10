@@ -41,6 +41,14 @@
     animation-timing-function: linear;
 }
 
+.darkLoader {
+    border-width: 2px;
+    border-color: #000;
+    border-style: solid;
+    border-radius: 50%;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
 .lightLoader {
     border-width: 2px;
     border-color: #ffffff;

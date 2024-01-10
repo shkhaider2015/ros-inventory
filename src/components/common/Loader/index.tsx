@@ -13,8 +13,8 @@ const Loader: React.FC<ILoader> = (props) => {
   return (
     <div
       className={`${styles.loaderRoot} ${
-        theme === "LIGHT" ? styles.lightLoader : ""
-      } ${theme === "PRIMARY" ? styles.primaryLoader : ""} `}
+        theme === "LIGHT" ? styles.lightLoader : theme === "PRIMARY" ? styles.primaryLoader : styles.darkLoader
+      }`}
       style={style}
     />
   );
