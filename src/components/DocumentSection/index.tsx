@@ -7,8 +7,8 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
-import Button from "../common/Button";
 import ROSModal from "../common/ROSModal";
+import useModal from "@/hooks/useModal";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
@@ -207,8 +207,7 @@ const DocItem: React.FC<IAttachements> = ({
 }) => {
   const [isChrome, setIsChrome] = useState<boolean>(false);
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [showDeleteWarning, setShowDeleteWarning] = useState(false);
+  const { open } = useModal();
 
   useEffect(() => {
     if (navigator.userAgent.indexOf("Chrome") != -1) {
@@ -240,7 +239,6 @@ const DocItem: React.FC<IAttachements> = ({
   const _deleteClientFile = async (id: string) => {
     if (!id) return;
     try {
-      setLoading(true);
       let URL = "https://myapi.runofshowapp.com/api/inventory/deleteFileClient";
       await axios.post(
         URL,
@@ -254,10 +252,6 @@ const DocItem: React.FC<IAttachements> = ({
       router.refresh();
     } catch (error) {
       console.log("Client Documnent Delete error : ", error);
-    } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 800);
     }
   };
 
@@ -291,10 +285,15 @@ const DocItem: React.FC<IAttachements> = ({
         </div>
       </div>
       <div className={styles.rightCol}>
-        {uploaded_via === "CLIENT" && !loading && (
+        {uploaded_via === "CLIENT" && (
           <div
             className={styles.docIconContainer}
-            onClick={() => setShowDeleteWarning(true)}
+            onClick={() =>
+              open({
+                message: "Are you sure you want to delete this Document?",
+                onOk: async () => _deleteClientFile(id),
+              })
+            }
           >
             <Image
               src={"/images/icons/delete.svg"}
@@ -304,11 +303,6 @@ const DocItem: React.FC<IAttachements> = ({
             />
           </div>
         )}
-        {loading && <div
-            className={styles.docIconContainer}
-          >
-            <Loader size="14" />
-          </div> }
         <div className={styles.docIconContainer} onClick={_downloadFile}>
           <Image
             src={"/images/icons/Import.svg"}
@@ -318,29 +312,6 @@ const DocItem: React.FC<IAttachements> = ({
           />
         </div>
       </div>
-      <ROSModal open={showDeleteWarning} onClose={() => setShowDeleteWarning(false)}>
-        <div className={styles.mainSec}>
-          {/* <div className={styles.title}>Are you sure you want to delete this Document?</div> */}
-          <div className={styles.desc}>
-          Are you sure you want to delete this Document?
-          </div>
-        </div>
-        <div className={styles.footerSec}>
-          <div className={styles.btnCon}>
-            <div>
-              <Button
-                disable={loading}
-                type="Danger"
-                label="Cancel"
-                onClick={() => setShowDeleteWarning(false)}
-              />
-            </div>
-            <div>
-              <Button loading={loading} label="OK" onClick={() => _deleteClientFile(id)} />
-            </div>
-          </div>
-        </div>
-      </ROSModal>
     </div>
   );
 };
