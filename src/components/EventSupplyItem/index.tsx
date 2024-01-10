@@ -10,6 +10,7 @@ import { _toTitleCase } from "@/lib/func";
 import { IInventoryItem } from "@/screens/Home";
 import ROSCarousel from "../common/ROSCarousel";
 import { updateFormFields } from "@/store/features/formFields";
+import More from '/public/images/icons/More.svg';
 
 const images: string[] = [
   "https://dummyimage.com/1200x800/d99400/fff&text=Carousel",
@@ -61,6 +62,23 @@ const EventSupplyItem = (props: IInventoryItem) => {
           style={{ borderRadius: 10 }}
           onClick={() => setShowCarousel(true)}
         />
+         {props.additional_images &&
+          props.additional_images.images &&
+          props.additional_images.images.length > 1 && (
+            <div className={styles.blackDiv}>
+              <Image
+                src={More}
+                alt="Icon"
+                width={50}
+                height={30}
+                style={{
+                  position: 'absolute',
+                  top: '-2px',
+                  right: '-12px', // Adjust this value as needed
+                }}
+              />
+            </div>
+          )}
       </div>
       <div className={styles.rightCol}>
         <div className={styles.topSec}>
