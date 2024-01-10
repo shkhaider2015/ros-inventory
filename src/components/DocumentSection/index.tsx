@@ -172,7 +172,7 @@ const DocumentSection = (props: {
       <div className={styles.btnCon}>
         <label className={styles.btn} htmlFor={`upload-${props.section_type}`}>
           {loading ? (
-            <Loader />
+            <Loader theme="DARK" />
           ) : (
             <input
               type="file"
