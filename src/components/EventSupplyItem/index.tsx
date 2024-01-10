@@ -8,17 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/store/features/checkedItems";
 import { _toTitleCase } from "@/lib/func";
 import { IInventoryItem } from "@/screens/Home";
-import ROSCarousel from "../common/ROSCarousel";
+import More from "public/images/icons/More.svg";
 import { updateFormFields } from "@/store/features/formFields";
-
-const images: string[] = [
-  "https://dummyimage.com/1200x800/d99400/fff&text=Carousel",
-  "https://dummyimage.com/1200x800/0bd900/fff&text=Carousel",
-  "https://dummyimage.com/1200x800/0050d9/fff&text=Carousel",
-  "https://dummyimage.com/1200x800/d90019/fff&text=Carousel",
-  "https://dummyimage.com/1200x800/db00db/fff&text=Carousel",
-  "https://dummyimage.com/1200x800/00d9ce/fff&text=Carousel",
-];
+import ROSCarousel from "../common/ROSCarousel";
 
 const EventSupplyItem = (props: IInventoryItem) => {
   const {
@@ -34,9 +26,21 @@ const EventSupplyItem = (props: IInventoryItem) => {
   const formFields = useSelector((state: any) => state.formFields);
   const [isAdded, setIsAdded] = useState(false);
   const dispatch = useDispatch();
-  const [selectedQuantity, setSelectedQuantity] = useState<number>(0);
-  const [showCarousel, setShowCarousel] = useState<boolean>(false);
 
+ 
+  const [showCarousel, setShowCarousel] = useState<boolean>(false);
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
+
+
+  // useLayoutEffect(() => {
+  //   if(cartItems?.some((item:any) => item?.id === id)) setIsAdded(true);
+  //   else setIsAdded(false)
+
+  // }, [cartItems])
+
+
+
+ 
   useLayoutEffect(() => {
     let currentItem: any = cartItems?.find((item: any) => item?.id === id);
     if (currentItem) {
@@ -51,17 +55,37 @@ const EventSupplyItem = (props: IInventoryItem) => {
   // console.log("Current Index : ", currentIndex);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.leftCol}>
-        <Image
-          src={icon_url || ""}
-          alt=""
-          width={150}
-          height={150}
-          style={{ borderRadius: 10 }}
-          onClick={() => setShowCarousel(true)}
-        />
-      </div>
+  <div className={styles.container}>
+   <div className={styles.leftCol}>
+    <Image
+      src={icon_url || ""}
+      alt=""
+      width={160}
+      height={160}
+      style={{ borderRadius: 10 }}
+      onClick={() => setShowCarousel(true)}
+      />
+
+   
+
+          <div className={styles.blackDiv}>
+            <Image
+              src={More}
+              alt="Icon"
+              width={50}
+              height={30}
+              style={{
+                position: 'absolute',
+                top: "-2px",
+                right: "-12px", // Adjust this value as needed
+              }}
+            />
+          </div>
+   
+  
+  </div>
+     
+      
       <div className={styles.rightCol}>
         <div className={styles.topSec}>
           {/* Top */}

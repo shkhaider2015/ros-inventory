@@ -206,6 +206,7 @@ const CheckedOut: React.FC<{
         }
       />
     </div>
+    </div>
   );
 };
 

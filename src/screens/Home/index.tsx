@@ -5,11 +5,12 @@ import CheckedOut from "@/components/CheckedOut";
 import EventSupplyItem from "@/components/EventSupplyItem";
 import VenueSpecificationItem from "@/components/VenueSpecificationItem";
 import ElementHead from "@/components/ElementHead";
-// import Tabs from "@/components/Tabs";
+import Tabs from "@/components/Tabs";
 import SocialMediaIcon from "@/components/SocialMediaIcons";
 import DocumentSection from "@/components/DocumentSection";
 import ExpectedGuest from "@/components/ExpectedGuest";
 import GlobalModal from "@/components/common/GlobalModal";
+
 
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
@@ -25,7 +26,7 @@ const HomeScreen = (props: {
   return (
     <main className={styles.container}>
       <EventTopRow {...props.eventInfo} />
-      <NewTabs />
+      <Tabs />
       <div className={styles.sectionContainer}>
         {/* Left Side Column */}
         <section className={styles.section}>

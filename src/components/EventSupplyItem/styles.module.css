@@ -7,9 +7,29 @@
     margin-top: 20px;
 }
 
-.leftCol {}
-.leftCol img:hover {
-    cursor: pointer;
+.leftCol {
+    position: relative; /* This enables absolute positioning for child elements */
+    display: inline-block;
+
+} 
+
+/* .blackDiv{
+    display:none;
+} */
+
+.blackDiv{
+    position:absolute;
+    background-color: rgba(250,236,234,1) ; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    top:14px;
+    right:3px;
+    border-radius: 8px;
+    height: 28px;
+    width: 28px;
+    
+    
+} 
+.blackDiv :hover{
+opacity: 100%;
 }
 
 .rightCol {
