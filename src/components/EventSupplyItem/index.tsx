@@ -52,14 +52,26 @@ const EventSupplyItem = (props: IInventoryItem) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.leftCol}>
+      <div className={styles.leftCol} onClick={() => setShowCarousel(true)}>
+        {props.additional_images &&
+          props.additional_images.images &&
+          props.additional_images.images.length > 1 && (
+            <div className={styles.multiImageIconCon}>
+              <Image
+                src={"/images/icons/Copy_light.svg"}
+                width={20}
+                height={20}
+                alt="copy icon"
+              />
+            </div>
+          )}
+        <div className={styles.animatedDev} />
         <Image
           src={icon_url || ""}
           alt=""
           width={150}
           height={150}
           style={{ borderRadius: 10 }}
-          onClick={() => setShowCarousel(true)}
         />
       </div>
       <div className={styles.rightCol}>
