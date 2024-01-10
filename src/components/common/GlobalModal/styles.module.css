@@ -1,0 +1,74 @@
+.GContainer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(77, 77, 77, .7);
+    transition: all .4s;
+    z-index: 1000;
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+}
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.contentContainer {
+    position: fixed;
+    padding: 20px;
+    min-height: 100px;
+    width: 40%;
+    border-radius: 20px;
+    background-color: white;
+}
+.closeIcon {
+    opacity: .5;
+}
+.closeIcon:hover {
+    cursor: pointer;
+}
+
+.warningIcon {
+    width: 25px;
+    height: 25px;
+    border: 2px solid rgb(195, 52, 0);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: rgb(195, 52, 0);
+}
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    /* padding: 20px; */
+}
+
+.GDesc {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding: 0px 20px 10px 0px;
+}
+.GFooter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.GBtnContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

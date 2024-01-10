@@ -4,11 +4,11 @@ import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
 import { IAttachements, IInventoryItem } from "@/screens/Home";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
-import Button from "../common/Button";
 import ROSModal from "../common/ROSModal";
+import useModal from "@/hooks/useModal";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
@@ -123,11 +123,12 @@ const DocumentSection = (props: {
           </div>
         </div>
         <div className={styles.textColumn}>
-          <div className={styles.title}>
+          {/* <div className={styles.title}>
             {props.item?.name || props.section_title}
-          </div>
+          </div> */}
           <div className={styles.desc}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
+            <div className={styles.descShadow} />
           </div>
           <div className={styles.btnContainer}>
             {props.item?.description && (
@@ -183,13 +184,13 @@ const DocumentSection = (props: {
           + Upload Document
         </label>
       </div>
-      <ROSModal open={showDetails} onClose={() => setShowDetails(false)} >
-          <div className={styles.sectionModalContainer} >
-            {/* <div className={styles.dsModalTitle} >Title</div> */}
-            <div className={styles.sectionModalContent} >
+      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
+        <div className={styles.sectionModalContainer}>
+          {/* <div className={styles.dsModalTitle} >Title</div> */}
+          <div className={styles.sectionModalContent}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
-            </div>
           </div>
+        </div>
       </ROSModal>
     </div>
   );
@@ -200,10 +201,61 @@ const DocItem: React.FC<IAttachements> = ({
   description,
   url,
   file_logo,
+  file_type,
+  uploaded_via,
+  id,
 }) => {
-  const _downloadFile = () => {
+  const [isChrome, setIsChrome] = useState<boolean>(false);
+  const router = useRouter();
+  const { open } = useModal();
+
+  useEffect(() => {
+    if (navigator.userAgent.indexOf("Chrome") != -1) {
+      setIsChrome(true);
+    }
+  }, []);
+
+  const _downloadFile = async () => {
+    if (isChrome && file_type === "pdf") {
+      try {
+        const response = await axios.get(url, { responseType: "blob" });
+        const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+        const a = document.createElement("a");
+        a.href = fileURL;
+        a.download = "download-file." + file_type; // You can specify the file name
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(fileURL);
+      } catch (error) {
+        console.log("File download error : ", error);
+      }
+      return;
+    }
+
     window.open(url, "_blank");
   };
+
+  const _deleteClientFile = async (id: string) => {
+    if (!id) return;
+    try {
+      let URL = "https://myapi.runofshowapp.com/api/inventory/deleteFileClient";
+      await axios.post(
+        URL,
+        { id: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      router.refresh();
+    } catch (error) {
+      console.log("Client Documnent Delete error : ", error);
+    }
+  };
+
+  // console.log("FileType ", file_type);
 
   return (
     <div className={styles.docContainer}>
@@ -233,6 +285,24 @@ const DocItem: React.FC<IAttachements> = ({
         </div>
       </div>
       <div className={styles.rightCol}>
+        {uploaded_via === "CLIENT" && (
+          <div
+            className={styles.docIconContainer}
+            onClick={() =>
+              open({
+                message: "Are you sure you want to delete this Document?",
+                onOk: async () => _deleteClientFile(id),
+              })
+            }
+          >
+            <Image
+              src={"/images/icons/delete.svg"}
+              alt="import"
+              width={22}
+              height={22}
+            />
+          </div>
+        )}
         <div className={styles.docIconContainer} onClick={_downloadFile}>
           <Image
             src={"/images/icons/Import.svg"}

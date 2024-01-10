@@ -5,10 +5,10 @@ import styles from "./styles.module.css";
 const CounterButton: React.FC<ICounterButton> = (props) => {
   const {
     width = 110,
-    value = 1,
+    value = 0,
     onChange = () => {},
     maxValue = 10,
-    minValue = 1,
+    minValue = 0,
     disable = false,
   } = props;
   const [count, setCount] = useState<number>(value);
@@ -30,7 +30,7 @@ const CounterButton: React.FC<ICounterButton> = (props) => {
     if (disable) return;
     setCount((pS) => {
       if (pS === minValue) return pS;
-      let val = pS > 1 ? pS - 1 : 1;
+      let val = pS > 0 ? pS - 1 : 0;
       onChange(val);
       return val;
     });

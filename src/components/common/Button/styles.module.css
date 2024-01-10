@@ -12,6 +12,7 @@
     /* IE 10 and IE 11 */
     user-select: none;
     /* Standard syntax */
+    padding: 0px 15px 0px 15px;
 }
 
 .Primary {
@@ -28,10 +29,17 @@
     transition: background-color 0.3s ease, border 0.3s ease;
 }
 
+.Danger{
+    background-color: #c90000;
+    border: 1px solid #c90000;
+    color: #FFFFFF;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+
 .label {
     font-size: 14px;
     font-weight: 600;
-    padding: 0px 15px 0px 15px;
+    /* padding: 0px 15px 0px 15px; */
 }
 
 .container:hover {
@@ -43,7 +51,11 @@
     background-color: #6200EE0F;
     color: #6200EE;
 }
-
+.Danger:hover {
+    border: 1px solid #c90000;
+    background-color: #c900000F;
+    color: #c90000;
+}
 .Secondary:hover {
     border: 1px solid #6200EE;
     background-color: #6200EE0F;
@@ -62,4 +74,84 @@
     color: #FFFFFF;
     transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
     cursor: not-allowed;
+}
+
+.Danger.disable {
+    opacity: .4;
+}
+.Danger.disable:hover {
+    background-color: #c90000;
+    border: 1px solid #c90000;
+    color: #FFFFFF;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+    cursor: not-allowed;
+}
+
+
+/* Loader */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.primaryLoader {
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 50%;
+    border-color: #FFFFFF;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    -webkit-transition: all 0.5s ease-in;
+    -webkit-animation-name: rotate;
+    -webkit-animation-duration: 1.0s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+
+    transition: all 0.5s ease-in;
+    animation-name: rotate;
+    animation-duration: 1.0s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.secondaryLoader {
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 50%;
+    border-color: #6200EE;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    -webkit-transition: all 0.5s ease-in;
+    -webkit-animation-name: rotate;
+    -webkit-animation-duration: 1.0s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+
+    transition: all 0.5s ease-in;
+    animation-name: rotate;
+    animation-duration: 1.0s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
