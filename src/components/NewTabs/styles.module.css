@@ -25,6 +25,9 @@
 
   /* Standard syntax */
   user-select: none;
+  position: sticky;
+  top: 80px;
+  z-index: 100;
 }
 
 /* Adjustments for mobile view */

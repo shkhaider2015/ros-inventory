@@ -3,6 +3,7 @@ import React, { useState, useRef, useCallback } from "react";
 import styles from "./styles.module.css";
 import Image from "next/image";
 import myImage from "../NewTabs/arrow-right.svg";
+import { scroller } from "react-scroll";
 
 const tabsData: {
   id: string;
@@ -18,27 +19,27 @@ const tabsData: {
   },
   {
     id: "3",
-    title: "Technical Spec",
+    title: "Event Supply",
   },
   {
     id: "4",
-    title: "Food & Beverage",
+    title: "Venue Specifications",
   },
   {
     id: "5",
-    title: "Prep Area",
+    title: "Kitchen Supply",
   },
   {
     id: "6",
-    title: "Misc",
+    title: "Insurance Requirements",
   },
   {
     id: "7",
-    title: "Venue specification",
+    title: "Food & Beverage",
   },
   {
     id: "8",
-    title: "Kitchen Supply",
+    title: "Misc",
   },
 ];
 
@@ -48,6 +49,12 @@ const NewTabs: React.FC = () => {
 
   const _onSelectTab = useCallback((id: string) => {
     setSelectedTab(id);
+    scroller.scrollTo(`scrollto_${id}`, {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: -140,
+    });
   }, []);
 
   const scrollRight = () => {
@@ -56,8 +63,8 @@ const NewTabs: React.FC = () => {
       // scrollContainerRef.current.scrollLeft += 200; // Adjust the scroll value as needed
       scrollContainerRef.current.scrollBy({
         left: 200,
-        behavior: 'smooth'
-      })
+        behavior: "smooth",
+      });
     }
   };
 

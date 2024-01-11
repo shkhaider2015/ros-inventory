@@ -31,6 +31,7 @@ const HomeScreen = (props: {
       <div className={styles.sectionContainer}>
         {/* Left Side Column */}
         <section className={styles.section}>
+        <ElementHead name="scrollto_1" text="" />
           <InventoryDetails
             info={props.workspaceInfo}
             contacts={props.contacts}
