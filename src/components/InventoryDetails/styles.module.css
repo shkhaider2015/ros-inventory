@@ -217,7 +217,7 @@
     }
     .imageCon {
         width: 20%;
-        border: 1px solid red;
+        /* border: 1px solid red; */
     }
 
     .imageCon img {

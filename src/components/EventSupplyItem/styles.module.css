@@ -291,9 +291,23 @@
         height: 80px !important;
     }
 
-    .mob_multiImageIconCon img {
+    .mob_multiImageIconCon {
         width: 18px !important;
         height: 18px !important;
+        border-radius: 50%;
+        background-color: rgb(232, 232, 232);
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 2px 2px 0px 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mob_multiImageIconCon img {
+        width: 14px !important;
+        height: 14px !important;
     }
 
     .mob_animatedDev {
