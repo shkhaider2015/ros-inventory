@@ -255,6 +255,7 @@
 
     .title {
         font-size: 14px;
+        max-width: 55%;
     }
 
     .unit {
