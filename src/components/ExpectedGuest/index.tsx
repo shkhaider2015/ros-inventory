@@ -32,7 +32,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
     }
   }, [props.initialData]);
 
-  console.log("Props init: ", guestInfo.expected_guest_count);
+  // console.log("Props init: ", guestInfo.expected_guest_count);
 
   return (
     <div className={styles.container}>
@@ -52,17 +52,18 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
       </div> */}
       {/* <div className={styles.inputBox}> */}
       <ROSInput
-        value={
-          guestInfo.expected_guest_count?.toString().length > 1
-            ? guestInfo.expected_guest_count?.toString().replace(/^0+/, "")
-            : guestInfo.expected_guest_count
+        value={parseInt(guestInfo.expected_guest_count).toString()
+          // guestInfo.expected_guest_count?.toString().length > 1
+          //   ? guestInfo.expected_guest_count?.toString().replace(/^0+/, "")
+          //   : guestInfo.expected_guest_count
         }
         className={styles.inputCon}
         type="number"
         onChange={(e) => {
           let val = Number(e.target.value);
           if (val < 0) val = 0;
-          dispatch(updateGuest({ expected_guest_count: val }));
+          let newVal = parseInt(val.toString())
+          dispatch(updateGuest({ expected_guest_count: newVal }));
           if (!formFields.isFormFieldsChanged) {
             dispatch(updateFormFields({ isFormFieldsChanged: true }));
           }
