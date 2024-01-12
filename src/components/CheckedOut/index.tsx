@@ -118,6 +118,9 @@ const CheckedOut: React.FC<{
     }
   };
 
+  // console.log("Initial Cart Items : ", props.initialData);
+  // console.log("Cart Items : ", props.initialData);
+
   return (
     <div className={styles.container}>
       <div className={styles.topSec}>
