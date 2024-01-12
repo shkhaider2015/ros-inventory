@@ -50,49 +50,17 @@ const InventoryDetails = (props: IInventoryDetails) => {
             style={{ borderRadius: 10 }}
           />
         </div>
-        <div className={styles.textCon}>
+        <div className={`${styles.textCon}`}>
           <div className={styles.topText}>Event Operation and Logistics</div>
-          <ContactsListing contacts={contacts} />
+          <ContactsListing className={styles.forDesktop}  contacts={contacts} />
           {contacts.length > 3 && <div className={styles.contactShadow} />}
-
-          {/* <div className={styles.bottomText}>
-            <div className={styles.iconTextCon}>
-              <Image
-                src={"/images/icons/PhoneCallingRounded.svg"}
-                alt="phone call"
-                className={styles.iconIcon}
-                width={22}
-                height={22}
-              />
-              <span className={styles.iconsText}>
-                {props.secondary_phone_number}
-              </span>
-            </div>
-            <div className={styles.iconTextCon}>
-              <Image
-                src={"/images/icons/email.svg"}
-                alt="phone call"
-                className={styles.iconIcon}
-                width={22}
-                height={22}
-              />
-              <span className={styles.iconsText}>{props.email_address}</span>
-            </div>
-            <div className={styles.iconTextCon}>
-              <Image
-                src={"/images/icons/location.svg"}
-                alt="phone call"
-                className={styles.iconIcon}
-                width={22}
-                height={22}
-              />
-              <span className={styles.iconsText}>
-                Avenue 56 #67265 Austin, Texas, USA
-              </span>
-            </div>
-          </div> */}
         </div>
       </div>
+
+      {/* <div className={`${styles.textConMobile}`}> */}
+        <ContactsListing className={styles.forMobile} contacts={contacts} />
+        {contacts.length > 3 && <div className={styles.contactShadow} />}
+      {/* </div> */}
 
       <div className={styles.detailsSec}>
         <TextEditor value={info.description} isReadOnly />
@@ -125,12 +93,13 @@ const InventoryDetails = (props: IInventoryDetails) => {
   );
 };
 
-const ContactsListing: React.FC<{ contacts: IContactList[] }> = ({
+const ContactsListing: React.FC<{ contacts: IContactList[], className?: string }> = ({
   contacts,
+  className
 }) => {
   return (
     <div
-      className={`${styles.containerListing} ${
+      className={`${styles.containerListing} ${className} ${
         contacts.length > 3 ? styles.containerListingPadding : ""
       } `}
     >

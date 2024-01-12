@@ -1,13 +1,11 @@
 "use client";
-import React, { useLayoutEffect, useState } from "react";
-import CounterButton from "../common/CounterButton";
+import React, { useLayoutEffect } from "react";
 import styles from "./styles.module.css";
 import Image from "next/image";
 import RadioButton from "../common/RadioButton";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGuest } from "@/store/features/GuestInfo";
 import { updateFormFields } from "@/store/features/formFields";
-import Button from "../common/Button";
 import { IGuestInfo } from "@/screens/Home";
 import moment from "moment";
 import ROSInput from "../common/ROSInput";
@@ -15,19 +13,8 @@ import ROSInput from "../common/ROSInput";
 const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
   const guestInfo = useSelector((state: any) => state.guestInfo);
   const formFields = useSelector((state: any) => state.formFields);
-  const [guestCount, setGuestCount] = useState<number>(10);
-  const [isYes, setIsYes] = useState<"YES" | "NO" | undefined>();
 
   const dispatch = useDispatch();
-
-  // console.log("Guest Info in expected : ", props.initialData);
-
-  // useLayoutEffect(() => {
-  //   if(guestInfo) {
-  //     setGuestCount(guestInfo.expected_guest_count)
-  //     setIsYes(pS => guestInfo.checkin_at_door === 1 ? "YES" : "NO" )
-  //   }
-  // }, [guestInfo])
 
   useLayoutEffect(() => {
     if (props.initialData) {
@@ -45,15 +32,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
     }
   }, [props.initialData]);
 
-  const _saveInfo = () => {
-    let obj = {
-      expected_guest_count: guestCount,
-      checkin_at_door: isYes ? 1 : 0,
-    };
-
-    dispatch(updateGuest(obj));
-  };
-  // console.log("Props init: ", props.initialData, guestInfo);
+  console.log("Props init: ", guestInfo.expected_guest_count);
 
   return (
     <div className={styles.container}>
@@ -73,7 +52,11 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
       </div> */}
       {/* <div className={styles.inputBox}> */}
       <ROSInput
-        value={guestInfo.expected_guest_count}
+        value={
+          guestInfo.expected_guest_count?.toString().length > 1
+            ? guestInfo.expected_guest_count?.toString().replace(/^0+/, "")
+            : guestInfo.expected_guest_count
+        }
         className={styles.inputCon}
         type="number"
         onChange={(e) => {

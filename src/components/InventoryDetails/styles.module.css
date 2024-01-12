@@ -189,6 +189,10 @@
     background-color: #6200EE;
 }
 
+.containerListing.forMobile {
+    display: none;
+}
+
 @media screen and (max-width: 1350px) {
     .imageCon img {
         width: 200px !important;
@@ -272,6 +276,17 @@
     .iconIcon {
         width: 16px !important;
     }
+
+
+    .containerListing.forDesktop {
+        display: none;
+    }
+    .containerListing.forMobile {
+        display: block;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
 
 
 
