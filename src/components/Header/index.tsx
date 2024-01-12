@@ -1,13 +1,16 @@
 "use client";
 import Image from "next/image";
 import styles from "./styles.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter, usePathname } from "next/navigation";
+import { startProgress } from "@/store/features/ProgressLoader";
 
 const Header = () => {
   const cartItems = useSelector((state: any) => state.cart);
   const router = useRouter();
   const pathName = usePathname();
+  const dispatch = useDispatch();
+
 
   const _gotoCheckout = () => {
     let splitData = pathName.split("/");
@@ -15,6 +18,7 @@ const Header = () => {
       !splitData.includes("checkout") ||
       splitData[splitData.length - 1].toLowerCase() !== "checkout"
     ) {
+      dispatch(startProgress())
       router.push(pathName + "/checkout");
     }
   };

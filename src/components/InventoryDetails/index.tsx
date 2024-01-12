@@ -3,11 +3,12 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 import TextEditor from "../TextEditor";
 import { _toTitleCase } from "@/lib/func";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import ROSModal from "../common/ROSModal";
 import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { endProgress } from "@/store/features/ProgressLoader";
 
 const InventoryDetails = (props: IInventoryDetails) => {
   const { info, contacts } = props;
@@ -16,6 +17,7 @@ const InventoryDetails = (props: IInventoryDetails) => {
   const formFields = useSelector((state: any) => state.formFields);
   const router = useRouter();
   const pathName = usePathname();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log(formFields.isFormFieldsChanged, "formFieldsChanged");
@@ -36,6 +38,13 @@ const InventoryDetails = (props: IInventoryDetails) => {
       };
     }
   }, [router, formFields, pathName]);
+
+  useLayoutEffect(() => {
+    return () => {
+      console.log("This unmount");
+      dispatch(endProgress())
+    }
+  }, [])
 
   return (
     <div className={styles.container}>
