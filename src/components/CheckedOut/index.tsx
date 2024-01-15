@@ -49,8 +49,7 @@ const CheckedOut: React.FC<{
   const _onSave = async () => {
     // console.log("_onSave() : ", cartItems);
 
-    let data = {
-      ...guestInfo,
+    let data:any = {
       event_id: props.event_id,
     };
     data.items = cartItems.map((item) => ({

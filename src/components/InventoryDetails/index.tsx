@@ -155,7 +155,7 @@ const ContactsListing: React.FC<{ contacts: IContactList[], className?: string }
                     width={22}
                     height={22}
                   />
-                  <span className={styles.iconsText}>{item.phone_number}</span>
+                  <a className={styles.iconsText} href={`tel:${item.phone_number}`} >{item.phone_number}</a>
                 </div>
               </td>
               <td>
@@ -167,7 +167,7 @@ const ContactsListing: React.FC<{ contacts: IContactList[], className?: string }
                     width={22}
                     height={22}
                   />
-                  <span className={styles.iconsText}>{item.email}</span>
+                  <a className={styles.iconsText} href={`mailto:${item.email}`} >{item.email}</a>
                 </div>
               </td>
             </tr>
