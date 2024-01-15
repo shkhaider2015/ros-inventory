@@ -13,6 +13,7 @@ import Button from "../common/Button";
 import axios from "axios";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
+import { useRouter } from "next/navigation";
 
 const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
   const [guestCount, setGuestCount] = useState<number>(0);
@@ -21,6 +22,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
   const guestInfo = useSelector((state: any) => state.guestInfo);
   const formFields = useSelector((state: any) => state.formFields);
   const { isActive, type, message, openSnackBar } = useSnackbar();
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -65,7 +67,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
         },
       });
       
-      // router.refresh();
+      router.refresh();
       openSnackBar("Data saved successfully", "success");
     } catch (error) {
       console.log("Save api error : ", error);
