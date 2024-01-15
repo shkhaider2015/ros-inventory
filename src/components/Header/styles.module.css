@@ -36,6 +36,7 @@
 
 .rightContainer {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     gap: 10px;
 }
@@ -93,8 +94,18 @@
     color: #000000;
 }
 
+.cartTextBtn {
+    display: none;
+}
+
 @media screen and (max-width: 650px) {
     .cartContainer {
         display: flex;
+    }
+
+    .cartTextBtn {
+        display: block;
+        font-size: 10px;
+        font-weight: 700;
     }
 }

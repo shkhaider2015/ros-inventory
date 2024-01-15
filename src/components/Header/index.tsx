@@ -20,10 +20,9 @@ const Header = () => {
   };
 
   const _gotoHome = () => {
-    
     if (pathName.includes("checkout")) {
       let splitData = pathName.split("/");
-      splitData.pop()
+      splitData.pop();
       router.push(splitData.join("/"));
     }
   };
@@ -43,7 +42,7 @@ const Header = () => {
       </div>
 
       <div className={styles.rightContainer}>
-        <div
+        {/* <div
           className={`${styles.cartContainer} ${
             pathName.includes("checkout") ? styles.colorContainer : ""
           } `}
@@ -63,7 +62,8 @@ const Header = () => {
             width={25}
             height={25}
           />
-        </div>
+        </div> */}
+        <div className={`${styles.cartTextBtn}`} onClick={_gotoCheckout}>View & Save Cart</div>
         {/* <div className={styles.iconCon}>
           <Image
             src={"/images/icons/questionMark.svg"}
