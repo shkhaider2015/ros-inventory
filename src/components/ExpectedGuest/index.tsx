@@ -66,7 +66,9 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
           "Content-Type": "application/json",
         },
       });
-      dispatch(updateFormFields({ isFormFieldsChanged: false }));
+      if (formFields.isFormFieldsChanged) {
+        dispatch(updateFormFields({ isFormFieldsChanged: false }));
+      }
       router.refresh();
       openSnackBar("Data saved successfully", "success");
     } catch (error) {
