@@ -106,7 +106,10 @@
 
     .cartTextBtn {
         display: block;
-        font-size: 10px;
+        font-size: 12px;
         font-weight: 700;
+        text-decoration: underline;
+        color: #6200EE;
+
     }
 }

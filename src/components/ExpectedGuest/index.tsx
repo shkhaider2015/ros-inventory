@@ -15,7 +15,7 @@ import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
 import { useRouter } from "next/navigation";
 
-const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
+const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (props) => {
   const [guestCount, setGuestCount] = useState<number>(0);
   const [isConfirm, setIsConfirm] = useState<"1" | "0" | "2">("2");
   const [loading, setLoading] = useState<boolean>(false);
@@ -60,7 +60,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
       await axios.post(URL, {
         expected_guest_count: guestCount,
         checkin_at_door: Number(isConfirm),
-        event_id: '94585fb4-7993-43e1-8334-7af65bfdf370'
+        event_id: props.event_id
       }, {
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +77,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
     }
   }
 
-  // console.log("Props init: ", guestInfo.expected_guest_count);
+  // console.log("Props init: ", props.initialData);
 
   return (
     <div className={styles.container}>

@@ -35,7 +35,7 @@ const HomeScreen = (props: {
             info={props.workspaceInfo}
             contacts={props.contacts}
           />
-          <ExpectedGuest initialData={props.guest_info} />
+          <ExpectedGuest initialData={props.guest_info} event_id={props.event_id} />
           <ElementHead name="scrollto_2" text="About The Venue" />
           <DocumentSection
             item={props.items.find((item) => item.type === "ABOUT_THE_VENUE")}
