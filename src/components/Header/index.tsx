@@ -11,15 +11,16 @@ const Header = () => {
   const pathName = usePathname();
   const dispatch = useDispatch();
 
-
   const _gotoCheckout = () => {
     let splitData = pathName.split("/");
     if (
       !splitData.includes("checkout") ||
       splitData[splitData.length - 1].toLowerCase() !== "checkout"
     ) {
-      dispatch(startProgress())
-      router.push(pathName + "/checkout");
+      dispatch(startProgress());
+      setTimeout(() => {
+        router.push(pathName + "/checkout");
+      }, 100);
     }
   };
 
@@ -27,7 +28,10 @@ const Header = () => {
     if (pathName.includes("checkout")) {
       let splitData = pathName.split("/");
       splitData.pop();
-      router.push(splitData.join("/"));
+      dispatch(startProgress());
+      setTimeout(() => {
+        router.push(splitData.join("/"));
+      }, 100);
     }
   };
 
@@ -67,7 +71,9 @@ const Header = () => {
             height={25}
           />
         </div> */}
-        <div className={`${styles.cartTextBtn}`} onClick={_gotoCheckout}>View & Save Cart</div>
+        <div className={`${styles.cartTextBtn}`} onClick={_gotoCheckout}>
+          View & Save Cart
+        </div>
         {/* <div className={styles.iconCon}>
           <Image
             src={"/images/icons/questionMark.svg"}

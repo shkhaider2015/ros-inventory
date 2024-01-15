@@ -4,10 +4,8 @@
     left: 0;
     right: 0;
     height: 5px;
-    width: 0%;
     background-color: #6200EE;
     z-index: 101;
-    transition: width 7s ease-out;
 }
 
 .animate {
