@@ -1,21 +1,22 @@
 /* Container for the tabs and the next button */
 .container {
-    width: 100%;
-    height: 80px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-top: 10px;
-    padding: 30px 10px; /* Adjust the right padding if necessary to prevent overlapping */
-    padding-right: 20px;
-    /* Ensure enough space for the next button */
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    white-space: nowrap;
-    position: relative;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        /* Disable text selection for the button and its children */
+  width: 100%;
+  height: 80px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+  padding: 30px 10px;
+  /* Adjust the right padding if necessary to prevent overlapping */
+  padding-right: 20px;
+  /* Ensure enough space for the next button */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Disable text selection for the button and its children */
   /* Safari */
   -webkit-user-select: none;
 
@@ -24,103 +25,140 @@
 
   /* Standard syntax */
   user-select: none;
-  }
-  
-  /* Adjustments for mobile view */
-  @media screen and (max-width: 600px) {
-    .container {
-      height: 49px; /* Adjust height as necessary */
-      padding-right: 50px; /* Make sure there's enough space for the button */
-    }
-  }
+  position: sticky;
+  top: 80px;
+  z-index: 100;
+}
 
-  
-  /* Inner container for the tabs, to be scrolled */
-  .tabs {
-    display:flex;
-    flex-wrap: nowrap;
-
-  
-  
-  }
-  @media screen and (max-width:600px){
-.tabs{
-    overflow-x: auto; 
+/* Adjustments for mobile view */
+@media screen and (max-width: 600px) {
+  .container {
+    height: 49px;
+    /* Adjust height as necessary */
+    padding-right: 50px;
+    /* Make sure there's enough space for the button */
   }
 }
+
+
+/* Inner container for the tabs, to be scrolled */
+.tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.tabs::-webkit-scrollbar {
+  height: 2px;
+}
+
+.tabs::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.tabs::-webkit-scrollbar-thumb {
+  background-color: #6200EE;
+}
+
+@media screen and (max-width:600px) {
+  .tabs {
+    overflow-x: auto;
+  }
+}
+
+.next {
+  background-color: white;
+  border: none;
+  border-radius: 80%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  outline: none;
+  position: absolute;
+  right: -10px;
+  /* Adjust this to prevent the button from being cut off */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  /* Should be above the tabs */
+  
+}
+
+@media (min-width: 601px) {
   .next {
-    background-color: white;
-    border: none;
-    border-radius: 80%;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    outline: none;
-    position: absolute;
-    right: -10px;/* Adjust this to prevent the button from being cut off */
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2; /* Should be above the tabs */
- 
+    display: none;
+    /* Hide the button on larger screens */
   }
-  @media (min-width: 601px) {
-    .next {
-      display: none; /* Hide the button on larger screens */
-    }
-  }
-  
+}
 
 
-  
-  /* Styling for individual tab items */
-  .tabItem {
-  
-    /* min-width: 135px;
+
+
+/* Styling for individual tab items */
+.tabItem {
+
+  /* min-width: 135px;
     min-height: 45px; */
-    display: inline-flex; 
-    background-color:white; /* Inactive tab background color */
-    /* text-align: center;  */
-    /* Center the text */
-    white-space: nowrap; 
-    /* Prevent text wrapping */
-    padding: 24px 20px; /* Padding around text */
-    border-radius: 12px; /* Rounded corners */
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-    transition: background-color .3s, color .3s; 
-    gap: 10px; /* Gap between items if there are multiple elements inside the tab */
-    margin-right: 10px; /* Margin to separate individual tabs */
+  display: inline-flex;
+  background-color: white;
+  /* Inactive tab background color */
+  /* text-align: center;  */
+  /* Center the text */
+  white-space: nowrap;
+  /* Prevent text wrapping */
+  padding: 24px 20px;
+  /* Padding around text */
+  border-radius: 12px;
+  /* Rounded corners */
+  align-items: center;
+  /* Center content vertically */
+  justify-content: center;
+  /* Center content horizontally */
+  transition: background-color .5s, color .5s;
+  gap: 10px;
+  /* Gap between items if there are multiple elements inside the tab */
+  /* margin-right: 10px; */
+  /* Margin to separate individual tabs */
 }
 
 @media screen and (max-width: 600px) {
-    .tabItem {
-        padding: 16px 12px; /* Adjust padding as needed for smaller screens */
-        height:50px;
+  .tabItem {
+    padding: 16px 12px;
+    /* Adjust padding as needed for smaller screens */
+    height: 50px;
 
-    }
+  }
 }
-  
-  /* Styling for the selected tab item */
-  .selectedItem {
-    background-color: #6200EE17; /* Semi-transparent purple background color */
-    color: #FFFFFF; /* White text color */
-    border-radius: 15px; /* Rounded corners */
-    /* padding-right: 2px; */
-  }
-  
-  /* Styling for labels inside tab items */
-  .label {
-    font-size: 16px; 
-   /* Adjust the font size as necessary */
-  }
-  
-  /* Styling for the selected label */
-  .selectedLabel {
-    color: #6200EE;
+
+/* Styling for the selected tab item */
+.selectedItem {
+  background-color: #6200EE17;
+  /* Semi-transparent purple background color */
+  color: #FFFFFF;
+  /* White text color */
+  border-radius: 15px;
+  /* Rounded corners */
+  /* padding-right: 2px; */
+}
+
+/* Styling for labels inside tab items */
+.label {
+  font-size: 16px;
+  /* Adjust the font size as necessary */
+}
+
+/* Styling for the selected label */
+.selectedLabel {
+  color: #6200EE;
   /* Text color for active tab */
-  }
-  
+}
+
+.tabItem:hover {
+  cursor: pointer;
+}

@@ -20,6 +20,8 @@
     align-items: center;
 }
 
+
+
 .textCon {
     /* width: 70%; */
     padding: 0% 0% 0% 20px;
@@ -108,6 +110,7 @@
     display: flex;
     flex-direction: column;
     /* overflow-x: hidden; */
+
 }
 
 .containerListingPadding {
@@ -137,7 +140,7 @@
 
 .containerListing table tbody tr td {
     text-align: left;
-    padding: 8px 0px;
+    padding: 8px 5px;
 }
 
 
@@ -186,6 +189,30 @@
     background-color: #6200EE;
 }
 
+.containerListing.forMobile {
+    display: none;
+}
+
+@media screen and (max-width: 1350px) {
+    .imageCon img {
+        width: 200px !important;
+        height: 180px !important;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .imageCon img {
+        width: 180px !important;
+        height: 160px !important;
+    }
+
+    .containerListing {
+        width: 80%;
+        overflow-x: auto;
+    }
+}
+
+
 @media screen and (max-width: 1000px) {
 
     /* .headSec {
@@ -196,6 +223,10 @@
         width: 50%;
     }
 
+    .imageCon img {
+        width: 100% !important;
+        height: auto;
+    }
     .textCon {
         width: 50%;
     }
@@ -205,18 +236,63 @@
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
+
+    .container {
+        padding: 10px;
+    }
 
     .headSec {
-        flex-direction: column;
+        /* flex-direction: column; */
         /* border: 1px solid green; */
+        align-items: flex-start;
     }
+
     .imageCon {
-        width: 80%;
+        width: 20%;
+        /* border: 1px solid red; */
+    }
+
+    .imageCon img {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .topText {
+        font-size: 14px;
     }
 
     .textCon {
-        margin-top: 15px;
+        margin-top: 0px;
+        width: 80%;
+        min-height: 30px;
+    }
+
+    .iconsText {
+        font-size: 10px;
+        font-weight: 300;
+    }
+
+    .iconIcon {
+        width: 16px !important;
+    }
+
+
+    .containerListing.forDesktop {
+        display: none;
+    }
+    .containerListing.forMobile {
+        display: block;
         width: 100%;
+        margin-bottom: 5px;
+    }
+
+
+
+
+    .containerListing table tbody tr td {
+        /* min-width: 110px; */
+        text-wrap: nowrap;
+        padding: 2px 2px;
     }
 }

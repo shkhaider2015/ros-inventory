@@ -260,23 +260,25 @@ const DocItem: React.FC<IAttachements> = ({
   return (
     <div className={styles.docContainer}>
       <div className={styles.leftCol}>
-        <div className={styles.docIconContainer}>
-          {file_logo ? (
-            <Image src={file_logo} alt="" width={20} height={20} />
-          ) : (
-            <Image
-              src={"/images/icons/FileText.svg"}
-              alt=""
-              width={20}
-              height={20}
-            />
-          )}
-          {/* <Image
+        <div className={styles.icon_column}>
+          <div className={styles.docIconContainer}>
+            {file_logo ? (
+              <Image src={file_logo} alt="" width={25} height={25} />
+            ) : (
+              <Image
+                src={"/images/icons/FileText.svg"}
+                alt=""
+                width={25}
+                height={25}
+              />
+            )}
+            {/* <Image
             src={"/images/icons/FileText.svg"}
             alt=""
             width={20}
             height={20}
           /> */}
+          </div>
         </div>
 
         <div className={styles.textCon}>

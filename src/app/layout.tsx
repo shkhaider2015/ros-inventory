@@ -24,9 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.className}>
       <body>
-        <Layout>
-          <Providers>{children}</Providers>
-        </Layout>
+        <Providers>
+          <Layout>{children}</Layout>
+        </Providers>
         <div id="modal-root"></div>
         <div id="carousel-root"></div>
       </body>

@@ -9,7 +9,7 @@ import Tabs from "@/components/Tabs";
 import SocialMediaIcon from "@/components/SocialMediaIcons";
 import DocumentSection from "@/components/DocumentSection";
 import ExpectedGuest from "@/components/ExpectedGuest";
-import GlobalModal from "@/components/common/GlobalModal";
+import NewTabs from "@/components/NewTabs";
 
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
@@ -25,10 +25,12 @@ const HomeScreen = (props: {
   return (
     <main className={styles.container}>
       <EventTopRow {...props.eventInfo} />
-      <Tabs />
+      {/* <Tabs /> */}
+      <NewTabs />
       <div className={styles.sectionContainer}>
         {/* Left Side Column */}
         <section className={styles.section}>
+        <ElementHead name="scrollto_1" text="" />
           <InventoryDetails
             info={props.workspaceInfo}
             contacts={props.contacts}
@@ -123,7 +125,7 @@ const HomeScreen = (props: {
             updated_at={props.guest_info.updated_at}
           />
         </aside>
-        <GlobalModal />
+        
       </div>
     </main>
   );

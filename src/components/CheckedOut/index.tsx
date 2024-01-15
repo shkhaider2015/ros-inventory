@@ -49,8 +49,7 @@ const CheckedOut: React.FC<{
   const _onSave = async () => {
     // console.log("_onSave() : ", cartItems);
 
-    let data = {
-      ...guestInfo,
+    let data:any = {
       event_id: props.event_id,
     };
     data.items = cartItems.map((item) => ({
@@ -117,6 +116,9 @@ const CheckedOut: React.FC<{
       setLoading(false);
     }
   };
+
+  // console.log("Initial Cart Items : ", props.initialData);
+  // console.log("Cart Items : ", props.initialData);
 
   return (
     <div className={styles.container}>

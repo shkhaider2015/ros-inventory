@@ -1,8 +1,9 @@
 "use client";
-import React, { useState ,useRef,useCallback} from "react";
+import React, { useState, useRef, useCallback } from "react";
 import styles from "./styles.module.css";
-import Image from 'next/image';
-import myImage from '../NewTabs/arrow-right.svg';
+import Image from "next/image";
+import myImage from "../NewTabs/arrow-right.svg";
+import { scroller } from "react-scroll";
 
 const tabsData: {
   id: string;
@@ -18,43 +19,52 @@ const tabsData: {
   },
   {
     id: "3",
-    title: "Technical Spec",
+    title: "Event Supply",
   },
   {
     id: "4",
-    title: "Food & Beverage",
+    title: "Venue Specifications",
   },
   {
     id: "5",
-    title: "Prep Area",
+    title: "Kitchen Supply",
   },
   {
     id: "6",
-    title: "Misc",
+    title: "Insurance Requirements",
   },
   {
     id: "7",
-    title: "Venue specification",
+    title: "Food & Beverage",
   },
   {
     id: "8",
-    title: "Kitchen Supply",
+    title: "Misc",
   },
 ];
-
 
 const NewTabs: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<string>("1");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
- 
+
   const _onSelectTab = useCallback((id: string) => {
     setSelectedTab(id);
+    scroller.scrollTo(`scrollto_${id}`, {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: -140,
+    });
   }, []);
 
   const scrollRight = () => {
-    console.log("Scroll right button clicked"); 
+    console.log("Scroll right button clicked");
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft += 200; // Adjust the scroll value as needed
+      // scrollContainerRef.current.scrollLeft += 200; // Adjust the scroll value as needed
+      scrollContainerRef.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -71,12 +81,17 @@ const NewTabs: React.FC = () => {
           />
         ))}
       </div>
-      
-        <button className={styles.next} onClick={scrollRight}>
-          
-        <Image src={myImage} alt="Arrow Right" layout="contain"   objectFit="contain"/>
-        </button>
-      
+
+      <button className={styles.next} onClick={scrollRight}>
+        <Image
+          src={"/images/icons/arrow-right.svg"}
+          alt="Arrow Right"
+          width={25}
+          height={25}
+          // layout="contain"
+          // objectFit="contain"
+        />
+      </button>
     </div>
   );
 };
@@ -94,7 +109,11 @@ const Tab: React.FC<ITabProps> = ({ id, title, isSelected, onClick }) => {
       className={`${styles.tabItem} ${isSelected ? styles.selectedItem : ""}`}
       onClick={onClick}
     >
-      <div className={`${styles.label} ${isSelected ? styles.selectedLabel : ""}`}>{title}</div>
+      <div
+        className={`${styles.label} ${isSelected ? styles.selectedLabel : ""}`}
+      >
+        {title}
+      </div>
     </div>
   );
 };

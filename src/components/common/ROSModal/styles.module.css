@@ -41,3 +41,21 @@
     align-items: center;
     /* padding: 20px; */
 }
+
+@media screen and (max-width: 1200px) { 
+    .contentContainer {
+        width: 50%;
+    }
+ }
+
+@media screen and (max-width: 1000px) { 
+    .contentContainer {
+        width: 70%;
+    }
+ }
+
+@media screen and (max-width: 650px) { 
+    .contentContainer {
+        width: 90%;
+    }
+ }

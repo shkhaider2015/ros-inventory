@@ -129,6 +129,95 @@ const EventSupplyItem = (props: IInventoryItem) => {
           </div>
         </div>
       </div>
+
+      <div className={styles.mob_top_section}>
+        <div
+          className={styles.mob_top_left_col}
+          onClick={() => setShowCarousel(true)}
+        >
+          {props.additional_images &&
+            props.additional_images.images &&
+            props.additional_images.images.length > 1 && (
+              <div className={styles.mob_multiImageIconCon}>
+                <Image
+                  src={"/images/icons/Copy_light.svg"}
+                  width={20}
+                  height={20}
+                  alt="copy icon"
+                />
+              </div>
+            )}
+          <div className={styles.mob_animatedDev} />
+          <Image
+            src={icon_url || ""}
+            alt=""
+            width={150}
+            height={150}
+            style={{ borderRadius: 10 }}
+          />
+        </div>
+        <div className={styles.mob_top_right_col}>
+          <div className={styles.topSec}>
+            {/* Top */}
+            <div className={styles.leftSec}>
+              <div className={styles.title}>{_toTitleCase(name)}</div>
+              <div className={styles.unit}>
+                Unit price:{" "}
+                <span className={styles.price}>${rental_price}</span>
+              </div>
+            </div>
+
+            <div className={styles.rightSec}>
+              $<span>{selectedQuantity * rental_price}</span>
+            </div>
+          </div>
+          <div className={styles.middleSec}>
+            {/* Middle */}
+            {description}
+          </div>
+        </div>
+      </div>
+      <div className={styles.mob_bottom_section}>
+        <div className={styles.mob_bottom_first}>
+          <div className={styles.bottomLeftSec}>
+            <div className={styles.bottomLeftUnit}>
+              Units Available: <span>{quantity - selectedQuantity}</span>{" "}
+            </div>
+            <div className={styles.bottomLeftUpdate}>{updated_at}</div>
+          </div>
+
+          {/* Counter Button */}
+          <div className={styles.bottomRightSec}>
+            <CounterButton
+              width={150}
+              onChange={(val) => {
+                setSelectedQuantity(val);
+                if (!formFields.isFormFieldsChanged) {
+                  dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                }
+              }}
+              maxValue={quantity}
+              minValue={0}
+              disable={isAdded}
+              value={selectedQuantity}
+            />
+          </div>
+        </div>
+        <div className={styles.mob_bottom_second}>
+        <div>
+              <Button
+                label={isAdded ? "Edit in cart" : "Add to cart"}
+                disable={isAdded}
+                onClick={() => {
+                  dispatch(addToCart({ ...props, selectedQuantity }));
+                  if (!formFields.isFormFieldsChanged) {
+                    dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                  }
+                }}
+              />
+            </div>
+        </div>
+      </div>
       <ROSCarousel
         open={showCarousel}
         onClose={() => setShowCarousel(false)}
