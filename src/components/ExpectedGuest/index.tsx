@@ -111,7 +111,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
           let val = Number(e.target.value);
           if (val < 0) val = 0;
           let newVal = parseInt(val.toString())
-          // dispatch(updateGuest({ expected_guest_count: newVal }));
+          dispatch(updateGuest({ expected_guest_count: newVal }));
           setGuestCount(newVal)
           if (!formFields.isFormFieldsChanged) {
             dispatch(updateFormFields({ isFormFieldsChanged: true }));
@@ -130,7 +130,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
             // value={guestInfo.checkin_at_door === 1}
             value={isConfirm === "1"}
             onChange={(val) => {
-              // dispatch(updateGuest({ checkin_at_door: 1 }));
+              dispatch(updateGuest({ checkin_at_door: 1 }));
               setIsConfirm(val ?"1" : "0")
               if (!formFields.isFormFieldsChanged) {
                 dispatch(updateFormFields({ isFormFieldsChanged: true }));
@@ -152,7 +152,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
             value={isConfirm === "0"}
 
             onChange={(val) => {
-              // dispatch(updateGuest({ checkin_at_door: 0 }));
+              dispatch(updateGuest({ checkin_at_door: 0 }));
               setIsConfirm(val ? "0" : "1")
               if (!formFields.isFormFieldsChanged) {
                 dispatch(updateFormFields({ isFormFieldsChanged: true }));
