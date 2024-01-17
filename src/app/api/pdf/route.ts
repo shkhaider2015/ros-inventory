@@ -14,14 +14,13 @@ const eventId = "94585fb4-7993-43e1-8334-7af65bfdf370";
 export async function GET(req: Request, res: Response) {
   try {
     let data = await getData(eventId);
-    const item = data?.items.find(
-      (item: any) => item.id == "68e203dd-0568-fee6-383d-a301aa74ca76"
-    )?.description;
-    let fileName = await createPDF(item);
+    
+    // let fileName = await createPDF({});
 
     return NextResponse.json(
       {
-        message: `/pdf/${fileName}`,
+        message: `/pdf/${'fileName'}`,
+        data: data
       },
       { status: 200 }
     );
@@ -307,4 +306,23 @@ function _getExtension(uri: string): string {
   let extension = splitData[splitData.length - 1];
 
   return extension;
+}
+
+interface IData {
+  workspaceInfo: {
+    description: string
+  },
+  eventInfo: {
+    name: string;
+    end: string;
+  },
+  contacts: [],
+  about_venue: {
+    description: string
+  },
+  venue_specification: [],
+  event_items: [],
+  kitchen_items: [],
+  checked_out_items: []
+
 }
