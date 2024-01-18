@@ -1,6 +1,6 @@
 .container {
-    min-width: 40%;
-    min-height: 42px;
+    min-width: 40px;
+    min-height: 4px;
     /* border: 1px solid red; */
     position: fixed;
     bottom: 0;
@@ -15,25 +15,36 @@
 
 
 .chatContainer {
-    background-color: #fff;
+    /* background-color: #fff; */
     height: 0px;
-    width: 100%;
+    width: 0px;
     visibility: hidden;
     opacity: 0;
+    margin-right: 30px;
     /* border: 1px solid green; */
-    transition: height .5s, visibility .1s;
+    -webkit-box-shadow: -5px 5px 29px -7px rgba(196, 196, 196, 1);
+    -moz-box-shadow: -5px 5px 29px -7px rgba(196, 196, 196, 1);
+    box-shadow: -5px 5px 29px -7px rgba(196, 196, 196, 1);
+
+    transition: height .5s, width .5s, visibility .2s;
 }
 
 .chatVisible {
+    width: 400px;
     height: 500px;
     visibility: visible;
     opacity: 1;
 }
 
 .chatHidden {
+    width: 0px;
     height: 0px;
     visibility: hidden;
     opacity: 1;
+}
+
+.cc-messages-wrapper {
+    border : 1px solid white !important;
 }
 
 .cc-messages__list {
@@ -59,7 +70,75 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid green;
-    background-color: rgb(187, 255, 187);
+    border: 2px solid #6200EE;
+    background-color: #ffffff;
     color: #000;
+}
+
+.chatBtn:hover {
+    cursor: pointer;
+}
+
+
+@media screen and (min-width: 1200px) {
+  .container {
+    margin: 0% 40px 40px 0%;
+  }
+  .chatBtn {
+    width: 60px;
+    height: 60px; 
+  }
+  .chatBtn img {
+    width: 35px;
+    height: 35px;
+  }
+
+}
+
+@media screen and (max-width: 1200px) {
+    .container {
+      margin: 0% 40px 40px 0%;
+    }
+    .chatBtn {
+      width: 60px;
+      height: 60px; 
+    }
+    .chatBtn img {
+      width: 35px;
+      height: 35px;
+    }
+  
+  }
+
+
+@media screen and (max-width: 1000px) {
+    .container {
+        margin: 0% 40px 30px 0%;
+      }
+      .chatBtn {
+        width: 50px;
+        height: 50px; 
+      }
+      .chatBtn img {
+        width: 30px;
+        height: 30px;
+      }
+
+}
+
+@media screen and (max-width: 650px) {
+
+    .container {
+        margin: 0% 40px 30px 0%;
+      }
+
+      .chatContainer {
+        margin-right: -15px;
+    }
+
+    .chatVisible {
+        width: 340px;
+        height: 500px;
+    }
+
 }
