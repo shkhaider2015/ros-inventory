@@ -9,5 +9,10 @@ export const routes = {
   INSURANCE_REQUIREMENTS: "insurance-requirements",
 };
 
+export const CC_Contstants = {
+  MESSAGES_LISTENER: 'message-listener',
+  LOCAL_STORAGE_ADDRESS: 'CLIENT-LOCAL-COUNT'
+}
+
 export const Image_URL_Base =
   "https://ros-rosbucket221548-newdev.s3.amazonaws.com/public/";
