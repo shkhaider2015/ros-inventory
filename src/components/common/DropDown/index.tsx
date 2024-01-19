@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./styles.module.css";
 import Image from "next/image";
-import { useOutsideClick } from "@/hooks/useOutsideClick";
+import useOutsideClick from "@/hooks/useOutsideClick";
 
 const Dropdown: React.FC<IDropdown> = (props) => {
   const { values, defaultValue, placeholder, onChange = () => {} } = props;
@@ -10,7 +10,9 @@ const Dropdown: React.FC<IDropdown> = (props) => {
   const [selected, setIsSelected] = useState(
     defaultValue || placeholder || "Choose One"
   );
-  const ref = useOutsideClick(() => {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useOutsideClick(ref,() => {
     setIsActive(false);
   });
 
