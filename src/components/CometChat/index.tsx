@@ -156,7 +156,7 @@ const CometChatPopup = (props: { event_id: string }) => {
     []
   );
 
-  console.log("Message Count : ", messageCount, group);
+  // console.log("Message Count : ", messageCount, group);
 
   return (
     <div className={styles.container} ref={ref}>
