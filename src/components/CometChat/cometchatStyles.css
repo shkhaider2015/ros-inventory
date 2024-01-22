@@ -1,0 +1,19 @@
+.cc-messages-wrapper {
+    border-radius: 20px !important;
+  }
+  
+  .cc-message-header__menu {
+    display: none !important;
+  }
+  
+  .cc-list__content::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  .cc-list__content::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  .cc-list__content::-webkit-scrollbar-thumb {
+    background-color: #6200EE;
+  }

@@ -1,6 +1,7 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.css";
+import "./cometchatStyles.css";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import useOutsideClick from "@/hooks/useOutsideClick";
@@ -22,11 +23,19 @@ const CometChatPopup = (props: { event_id: string }) => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   if (!isVisible) {
+  //     _messagesListener();
+  //   }
+  // }, [isVisible, messageCount]);
+
   useEffect(() => {
-    if (!isVisible) {
-      _messagesListener();
+    _messagesListener()
+
+   return () => {
+    _removeMessageListener()
     }
-  }, [isVisible, messageCount]);
+  }, [isVisible])
 
   useEffect(() => {
     if (group && !isUnreadMessagesLoaded) {
@@ -66,23 +75,32 @@ const CometChatPopup = (props: { event_id: string }) => {
       CC_Contstants.MESSAGES_LISTENER,
       new CometChat.MessageListener({
         onTextMessageReceived: (mediaMessage: CometChat.TextMessage) => {
-          console.log("Media message received successfully", mediaMessage);
+          // console.log("Media message received successfully", mediaMessage, isVisible);
+          if(isVisible) return
           localStorage.setItem(CC_Contstants.LOCAL_STORAGE_ADDRESS, JSON.stringify(messageCount+1))
           setMessageCount((pS) => pS + 1);
         },
         onMediaMessageReceived: (mediaMessage: CometChat.MediaMessage) => {
-          console.log("Media message received successfully", mediaMessage);
+          // console.log("Media message received successfully", mediaMessage, isVisible);
+          if(isVisible) return
           localStorage.setItem(CC_Contstants.LOCAL_STORAGE_ADDRESS, JSON.stringify(messageCount+1))
           setMessageCount((pS) => pS + 1);
         },
         onCustomMessageReceived: (customMessage: CometChat.CustomMessage) => {
-          console.log("Custom message received successfully", customMessage);
+          // console.log("Custom message received successfully", customMessage, isVisible);
+          if(isVisible) return
           localStorage.setItem(CC_Contstants.LOCAL_STORAGE_ADDRESS, JSON.stringify(messageCount+1))
           setMessageCount((pS) => pS + 1);
         },
       })
     );
   };
+
+  const _removeMessageListener = async () => {
+    const CometChat = (await import("@cometchat/chat-sdk-javascript"))
+      .CometChat;
+      CometChat.removeMessageListener(CC_Contstants.MESSAGES_LISTENER)
+  }
 
   const _loginUser = async (call = 0) => {
     if (call > 2) return;
