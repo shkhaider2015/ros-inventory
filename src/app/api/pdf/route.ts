@@ -8,19 +8,107 @@ import { fileExtensionImages } from "@/lib/func";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 
+const eventId = "a9ab1c7d-a1f9-494b-9750-2d106e4cca77";
 
-const eventId = "94585fb4-7993-43e1-8334-7af65bfdf370";
+const convertToHTML = (description: string) => {
+  try {
+    if (description.length <= 0) return "";
+    let contentState = EditorState.createWithContent(
+      convertFromRaw(JSON.parse(description))
+    );
+
+    let content = draftToHtml(convertToRaw(contentState.getCurrentContent()));
+
+    return content;
+  } catch (e) {
+    return description;
+  }
+};
+
+const convertAllToHtml = (data: any) => {
+  const fields = [
+    "workspaceInfo",
+    "about_venue",
+    "insurance_requirement",
+    "food_and_beverage",
+    "misc",
+  ];
+
+  const arrays = ["kitchen_items", "venue_specification"];
+
+  fields.forEach((field) => {
+    if (data[field] && data[field].description) {
+      data[field].description = convertToHTML(data[field].description);
+    }
+  });
+
+  arrays.forEach((array) => {
+    if (data[array] && Array.isArray(data[array])) {
+      data[array].forEach((item: any) => {
+        if (item.description) {
+          item.description = convertToHTML(item.description);
+        }
+      });
+    }
+  });
+};
 
 export async function GET(req: Request, res: Response) {
   try {
     let data = await getData(eventId);
-    
-    // let fileName = await createPDF({});
+
+    const aboutVenue = data?.items.filter(
+      (item: any) => item.type === "ABOUT_THE_VENUE"
+    );
+    const insuranceRequirements = data?.items.filter(
+      (item: any) => item.type === "INSURANCE_REQUIREMENTS"
+    );
+    const foodAndBeverage = data?.items.filter(
+      (item: any) => item.type === "FOOD_AND_BEVERAGE"
+    );
+    const misc = data?.items.filter((item: any) => item.type === "MISC");
+
+    const returnString = (stringToReturn: string | undefined | null) =>
+      stringToReturn ? stringToReturn : "";
+
+    const pdfData: IData = {
+      workspaceInfo: {
+        description: returnString(data?.workspaceInfo.description),
+      },
+      eventInfo: { name: data?.eventInfo.name, end: data?.eventInfo.end },
+      contacts: data?.contacts,
+      about_venue: {
+        description: returnString(aboutVenue[0].description),
+      },
+      insurance_requirement: {
+        description: returnString(insuranceRequirements[0].description),
+      },
+      food_and_beverage: {
+        description: returnString(foodAndBeverage[0].description),
+      },
+      misc: {
+        description: returnString(misc[0].description),
+      },
+      venue_specification: data?.items?.filter(
+        (item: any) => item.type === "VENUE_SPEC"
+      ),
+      event_items: data?.items,
+      kitchen_items: data?.items?.filter(
+        (item: any) => item.type === "KITCHEN_SUPPLY"
+      ),
+      checked_out_items: data?.cart_items,
+    };
+
+    convertAllToHtml(pdfData);
+    console.log(pdfData, "pdfData");
+
+    let fileName = await createPDF(pdfData);
+    console.log("fileName", fileName);
 
     return NextResponse.json(
       {
-        message: `/pdf/${'fileName'}`,
-        data: data
+        message: `/pdf/${"fileName"}`,
+        data: data,
       },
       { status: 200 }
     );
@@ -34,60 +122,63 @@ export async function GET(req: Request, res: Response) {
 }
 
 async function createPDF(data: any) {
-  const templateHtml = fs.readFileSync(
-    path.join(process.cwd() + "/public/template", "index.html"),
-    "utf8"
-  );
-  // let to_html = null
+  try {
+    const templateHtml = fs.readFileSync(
+      path.join(process.cwd() + "/public/template", "index.html"),
+      "utf8"
+    );
+    // let to_html = null
 
-  let contentState = EditorState.createWithContent(convertFromRaw(JSON.parse(data)));
+    // let contentState = EditorState.createWithContent(
+    //   convertFromRaw(JSON.parse(data))
+    // );
 
-  let content = draftToHtml(convertToRaw(contentState.getCurrentContent()))
-    
+    // let content = draftToHtml(convertToRaw(contentState.getCurrentContent()));
 
+    const template = handlebars.compile(templateHtml);
+    const html = template({ data: data });
 
-  const template = handlebars.compile(templateHtml);
-  const html = template({ data: content});
+    console.log("HTML ", html);
+    // console.log("Data : ", data);
 
-  console.log("HTML ", html);
-  // console.log("Data : ", data);
+    let milis: any = new Date();
+    milis = milis.getTime();
 
-  let milis: any = new Date();
-  milis = milis.getTime();
+    const fileName = `file-${milis}.pdf`.replace(/\s/g, "-");
+    const pdfPath = path.join(process.cwd(), "public", "pdf", fileName);
 
-  const fileName = `file-${milis}.pdf`.replace(/\s/g, "-");
-  const pdfPath = path.join(process.cwd(), "public", "pdf", fileName);
+    const options = {
+      width: "800px",
+      headerTemplate: "<p>some head</p>",
+      footerTemplate: "<p>some foot</p>",
+      displayHeaderFooter: true,
+      margin: {
+        top: "10px",
+        bottom: "30px",
+      },
+      printBackground: true,
+      path: pdfPath,
+    };
 
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox"],
+      headless: "new",
+    });
 
-  const options = {
-    width: "800px",
-    headerTemplate: "<p>some head</p>",
-    footerTemplate: "<p>some foot</p>",
-    displayHeaderFooter: true,
-    margin: {
-      top: "10px",
-      bottom: "30px",
-    },
-    printBackground: true,
-    path: pdfPath,
-  };
+    const page = await browser.newPage();
 
-  const browser = await puppeteer.launch({
-    args: ["--no-sandbox"],
-    headless: "new",
-  });
+    await page.goto(`data:text/html;charset=UTF-8,${html}`, {
+      waitUntil: ["domcontentloaded", "networkidle0"],
+    });
 
-  const page = await browser.newPage();
+    await page.pdf(options);
 
-  await page.goto(`data:text/html;charset=UTF-8,${html}`, {
-    waitUntil: ["domcontentloaded", "networkidle0"],
-  });
+    await browser.close();
 
-  await page.pdf(options);
-
-  await browser.close();
-
-  return fileName;
+    return fileName;
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function getData(eventId: string) {
@@ -310,19 +401,27 @@ function _getExtension(uri: string): string {
 
 interface IData {
   workspaceInfo: {
-    description: string
-  },
+    description: string;
+  };
   eventInfo: {
     name: string;
     end: string;
-  },
-  contacts: [],
+  };
+  contacts: [];
   about_venue: {
-    description: string
-  },
-  venue_specification: [],
-  event_items: [],
-  kitchen_items: [],
-  checked_out_items: []
-
+    description: string;
+  };
+  insurance_requirement: {
+    description: string;
+  };
+  food_and_beverage: {
+    description: string;
+  };
+  misc: {
+    description: string;
+  };
+  venue_specification: [];
+  event_items: [];
+  kitchen_items: [];
+  checked_out_items: [];
 }
