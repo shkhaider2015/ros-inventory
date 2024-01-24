@@ -92,7 +92,9 @@ export async function GET(req: Request, res: Response) {
       venue_specification: data?.items?.filter(
         (item: any) => item.type === "VENUE_SPEC"
       ),
-      event_items: data?.items,
+      event_items: data?.items.filter(
+        (item: any) => item.type === "EVENT_SUPPLY"
+      ),
       kitchen_items: data?.items?.filter(
         (item: any) => item.type === "KITCHEN_SUPPLY"
       ),
@@ -100,10 +102,9 @@ export async function GET(req: Request, res: Response) {
     };
 
     convertAllToHtml(pdfData);
-    console.log(pdfData, "pdfData");
 
     let fileName = await createPDF(pdfData);
-    console.log("fileName", fileName);
+    // console.log("fileName", fileName);
 
     return NextResponse.json(
       {
@@ -136,7 +137,7 @@ async function createPDF(data: any) {
     // let content = draftToHtml(convertToRaw(contentState.getCurrentContent()));
 
     const template = handlebars.compile(templateHtml);
-    const html = template({ data: data });
+    const html = template({ data });
 
     console.log("HTML ", html);
     // console.log("Data : ", data);
