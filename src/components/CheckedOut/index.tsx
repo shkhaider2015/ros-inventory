@@ -50,6 +50,7 @@ const CheckedOut: React.FC<{
     // console.log("_onSave() : ", cartItems);
 
     let data:any = {
+      ...guestInfo,
       event_id: props.event_id,
     };
     data.items = cartItems.map((item) => ({
