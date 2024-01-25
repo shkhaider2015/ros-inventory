@@ -13,14 +13,16 @@ import Button from "../common/Button";
 import axios from "axios";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
+import { useRouter } from "next/navigation";
 
-const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
+const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (props) => {
   const [guestCount, setGuestCount] = useState<number>(0);
   const [isConfirm, setIsConfirm] = useState<"1" | "0" | "2">("2");
   const [loading, setLoading] = useState<boolean>(false);
   const guestInfo = useSelector((state: any) => state.guestInfo);
   const formFields = useSelector((state: any) => state.formFields);
   const { isActive, type, message, openSnackBar } = useSnackbar();
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -58,14 +60,16 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
       await axios.post(URL, {
         expected_guest_count: guestCount,
         checkin_at_door: Number(isConfirm),
-        event_id: '94585fb4-7993-43e1-8334-7af65bfdf370'
+        event_id: props.event_id
       }, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      
-      // router.refresh();
+      if (formFields.isFormFieldsChanged) {
+        dispatch(updateFormFields({ isFormFieldsChanged: false }));
+      }
+      router.refresh();
       openSnackBar("Data saved successfully", "success");
     } catch (error) {
       console.log("Save api error : ", error);
@@ -75,7 +79,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
     }
   }
 
-  // console.log("Props init: ", guestInfo.expected_guest_count);
+  // console.log("Props init: ", props.initialData);
 
   return (
     <div className={styles.container}>
@@ -107,7 +111,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
           let val = Number(e.target.value);
           if (val < 0) val = 0;
           let newVal = parseInt(val.toString())
-          // dispatch(updateGuest({ expected_guest_count: newVal }));
+          dispatch(updateGuest({ expected_guest_count: newVal }));
           setGuestCount(newVal)
           if (!formFields.isFormFieldsChanged) {
             dispatch(updateFormFields({ isFormFieldsChanged: true }));
@@ -126,7 +130,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
             // value={guestInfo.checkin_at_door === 1}
             value={isConfirm === "1"}
             onChange={(val) => {
-              // dispatch(updateGuest({ checkin_at_door: 1 }));
+              dispatch(updateGuest({ checkin_at_door: 1 }));
               setIsConfirm(val ?"1" : "0")
               if (!formFields.isFormFieldsChanged) {
                 dispatch(updateFormFields({ isFormFieldsChanged: true }));
@@ -148,7 +152,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo }> = (props) => {
             value={isConfirm === "0"}
 
             onChange={(val) => {
-              // dispatch(updateGuest({ checkin_at_door: 0 }));
+              dispatch(updateGuest({ checkin_at_door: 0 }));
               setIsConfirm(val ? "0" : "1")
               if (!formFields.isFormFieldsChanged) {
                 dispatch(updateFormFields({ isFormFieldsChanged: true }));

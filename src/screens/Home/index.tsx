@@ -10,6 +10,7 @@ import SocialMediaIcon from "@/components/SocialMediaIcons";
 import DocumentSection from "@/components/DocumentSection";
 import ExpectedGuest from "@/components/ExpectedGuest";
 import NewTabs from "@/components/NewTabs";
+import CometChatPopup from "@/components/CometChat";
 
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
@@ -35,7 +36,7 @@ const HomeScreen = (props: {
             info={props.workspaceInfo}
             contacts={props.contacts}
           />
-          <ExpectedGuest initialData={props.guest_info} />
+          <ExpectedGuest initialData={props.guest_info} event_id={props.event_id} />
           <ElementHead name="scrollto_2" text="About The Venue" />
           <DocumentSection
             item={props.items.find((item) => item.type === "ABOUT_THE_VENUE")}
@@ -115,6 +116,7 @@ const HomeScreen = (props: {
               <path d="M18 12L12 6L6 12" stroke="#ffffff" stroke-width="2" />
             </svg>
           </div> */}
+          <CometChatPopup event_id={props.event_id} />
         </section>
 
         {/* Right Side Column */}

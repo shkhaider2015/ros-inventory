@@ -50,6 +50,7 @@ const CheckedOut: React.FC<{
     // console.log("_onSave() : ", cartItems);
 
     let data:any = {
+      ...guestInfo,
       event_id: props.event_id,
     };
     data.items = cartItems.map((item) => ({
@@ -147,9 +148,9 @@ const CheckedOut: React.FC<{
                   message: "Are you sure you want to delete this item?",
                   onOk: async () => {
                     _onDelete(item.id, item.cart_id);
-                    if (!formFields.isFormFieldsChanged) {
-                      dispatch(updateFormFields({ isFormFieldsChanged: true }));
-                    }
+                    // if (!formFields.isFormFieldsChanged) {
+                    //   dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                    // }
                   },
                 });
               }}

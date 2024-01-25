@@ -34,8 +34,8 @@ const Header = () => {
           <Image
             src={"/images/new_logo.svg"}
             alt="logo"
-            width={40}
-            height={40}
+            width={50}
+            height={50}
           />
           <span>Run Of Show</span>
         </div>

@@ -25,9 +25,7 @@
 
   /* Standard syntax */
   user-select: none;
-  position: sticky;
-  top: 80px;
-  z-index: 100;
+
 }
 
 /* Adjustments for mobile view */
@@ -37,6 +35,9 @@
     /* Adjust height as necessary */
     padding-right: 50px;
     /* Make sure there's enough space for the button */
+    position: sticky;
+    top: 80px;
+    z-index: 100;
   }
 }
 
@@ -87,7 +88,7 @@
   transform: translateY(-50%);
   z-index: 2;
   /* Should be above the tabs */
-  
+
 }
 
 @media (min-width: 601px) {
