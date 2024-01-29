@@ -13,8 +13,41 @@ const images: string[] = [
   "https://dummyimage.com/1200x800/00d9ce/fff&text=Carousel",
 ];
 
+const sectionIds = {
+  FIRST: "05f6e36e-77e2-4c8e-91ed-f3f6152b4e0f",
+  SECOND: "5b4c3e52-b4c4-41bb-8377-372033521725",
+  THIRED: "ae6e366a-37c8-4be2-b4a9-ef67e6883a34",
+  FOURTH: "3e0b14da-baea-4880-bcb6-b1506a350b46",
+  FIFTH: "c6e290cc-215d-4459-b8ce-287b2e6de350",
+  SIXTH: "532140d7-7bc3-4669-ad79-088395ce3f27",
+};
 
-
+const sectionTitleData: ISectionTitle[] = [
+  {
+    section_uuid: sectionIds.FIRST,
+    section_title: "About The Venue",
+  },
+  {
+    section_uuid: sectionIds.SECOND,
+    section_title: "Inventory Menu",
+  },
+  {
+    section_uuid: sectionIds.THIRED,
+    section_title: "Kitchen (if applicable)",
+  },
+  {
+    section_uuid: sectionIds.FOURTH,
+    section_title: "Insurance Requirements",
+  },
+  {
+    section_uuid: sectionIds.FIFTH,
+    section_title: "Food & Beverage",
+  },
+  {
+    section_uuid: sectionIds.SIXTH,
+    section_title: "Misc",
+  },
+];
 
 async function getData(eventId: string) {
   const URL = "https://myapi.runofshowapp.com/api/inventory/detailsByEventId";
@@ -48,7 +81,6 @@ async function getData(eventId: string) {
     // console.log("Data at server : ", data);
     // console.log("Error : ");
 
-
     let {
       workspaceInfo,
       items,
@@ -57,7 +89,8 @@ async function getData(eventId: string) {
       eventInfo,
       attachments,
       checkout_client_info,
-      cart_items
+      cart_items,
+      section_titles,
     } = data;
     workspaceInfo = workspaceInfo[0];
 
@@ -69,7 +102,7 @@ async function getData(eventId: string) {
     items = items?.map((item: any) => ({
       ...item,
       icon_url: image_url + item?.icon_url,
-      event_id: eventId
+      event_id: eventId,
     }));
 
     // set spec icons
@@ -103,24 +136,25 @@ async function getData(eventId: string) {
       } else return item;
     });
 
-    items = items?.map((item:any) => {
+    items = items?.map((item: any) => {
       let additional_images = item.additional_images;
 
       try {
         additional_images = JSON.parse(additional_images);
-        if(additional_images.images && additional_images.images.length) {
-          additional_images.images = additional_images.images.map((item:string) => image_url + item)
+        if (additional_images.images && additional_images.images.length) {
+          additional_images.images = additional_images.images.map(
+            (item: string) => image_url + item
+          );
         }
         // return {...item, additional_images}
       } catch (error) {
         additional_images = {
-          images: []
-        }
-       
+          images: [],
+        };
       } finally {
-        return {...item, additional_images}
+        return { ...item, additional_images };
       }
-    })
+    });
 
     // filter social media
     social_media = social_media?.map(({ __typename, ...item }: any) => {
@@ -144,25 +178,26 @@ async function getData(eventId: string) {
       link: `${"https://my.runofshowapp.com/"}/events/${
         eventInfo?.id
       }/events-details`,
-      ...eventInfo
+      ...eventInfo,
     };
 
     // filter checkout info
-    if(checkout_client_info?.length > 0) checkout_client_info = checkout_client_info[0]
+    if (checkout_client_info?.length > 0)
+      checkout_client_info = checkout_client_info[0];
 
-    // filter cartItems 
-    cart_items = cart_items.map((item:any) =>  {
+    // filter cartItems
+    cart_items = cart_items.map((item: any) => {
       let itemX = item;
-      let itemFromList = items?.find((itemY:any) => itemY?.id === itemX?.item );
+      let itemFromList = items?.find((itemY: any) => itemY?.id === itemX?.item);
       itemFromList = {
         ...itemFromList,
         rental_price: itemX?.unit_price_when_purchased,
         selectedQuantity: itemX?.quantity,
-        cart_id: itemX.id
-      }
+        cart_id: itemX.id,
+      };
 
       return itemFromList;
-    })
+    });
 
     // filter attachements
     attachments = attachments?.map((item: any) => {
@@ -179,6 +214,45 @@ async function getData(eventId: string) {
       return itemX;
     });
 
+    let newTitles = {
+      FIRST: "About The Venue",
+      SECOND: "Inventory Menu",
+      THIRED: "Kitchen (if applicable)",
+      FOURTH: "Insurance Requirements",
+      FIFTH: "Food & Beverage",
+      SIXTH: "Misc",
+    };
+    // filter section titles
+    if (section_titles && section_titles?.length <= 0)
+      section_titles = sectionTitleData;
+
+    if (section_titles && section_titles?.length > 0) {
+      section_titles?.forEach((item: ISectionTitle) => {
+        switch (item?.section_uuid) {
+          case sectionIds.FIRST:
+            newTitles.FIRST = item.section_title
+            break;
+          case sectionIds.SECOND:
+            newTitles.SECOND = item.section_title
+            break;
+          case sectionIds.THIRED:
+            newTitles.THIRED = item.section_title
+            break;
+          case sectionIds.FOURTH:
+            newTitles.FOURTH = item.section_title
+            break;
+          case sectionIds.FIFTH:
+            newTitles.FIFTH = item.section_title
+            break;
+          case sectionIds.SIXTH:
+            newTitles.SIXTH = item.section_title
+            break;
+          default:
+            break;
+        }
+      });
+    }
+
     return {
       workspaceInfo,
       items,
@@ -188,7 +262,8 @@ async function getData(eventId: string) {
       attachments,
       checkout_client_info,
       cart_items,
-      event_id: eventId
+      event_id: eventId,
+      newTitles,
     };
   } catch (error) {
     // console.log("Error at server : ", error);
@@ -257,6 +332,7 @@ export default async function Inventory(params: IInventory) {
         guest_info={data.checkout_client_info}
         cart_items={data.cart_items}
         event_id={data?.event_id}
+        section_titles={data.newTitles}
       />
     </Suspense>
   );
@@ -268,4 +344,11 @@ interface IInventory {
     eventId: string;
   };
   searchParams: any;
+}
+
+export interface ISectionTitle {
+  section_uuid: string;
+  section_title: string;
+  id?: string;
+  workpsace_id?: string;
 }
