@@ -9,9 +9,9 @@
     text-align: center;
     padding: 8px 16px;
     position: fixed;
-    z-index: 2000;
+    z-index: 1001;
     left: 50%;
-    top: 80px;
+    top: 50px;
     font-size: 12px;
 }
 
