@@ -22,6 +22,7 @@ const HomeScreen = (props: {
   guest_info: IGuestInfo;
   cart_items: any[];
   event_id: string;
+  section_titles: ISectionTitle;
 }) => {
   return (
     <main className={styles.container}>
@@ -31,13 +32,16 @@ const HomeScreen = (props: {
       <div className={styles.sectionContainer}>
         {/* Left Side Column */}
         <section className={styles.section}>
-        <ElementHead name="scrollto_1" text="" />
+          <ElementHead name="scrollto_1" text="" />
           <InventoryDetails
             info={props.workspaceInfo}
             contacts={props.contacts}
           />
-          <ExpectedGuest initialData={props.guest_info} event_id={props.event_id} />
-          <ElementHead name="scrollto_2" text="About The Venue" />
+          <ExpectedGuest
+            initialData={props.guest_info}
+            event_id={props.event_id}
+          />
+          <ElementHead name="scrollto_2" text={props.section_titles.FIRST} />
           <DocumentSection
             item={props.items.find((item) => item.type === "ABOUT_THE_VENUE")}
             section_type={"ABOUT_THE_VENUE"}
@@ -46,7 +50,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-          <ElementHead name="scrollto_3" text="Event Supply" />
+          <ElementHead name="scrollto_3" text={props.section_titles.SECOND} />
           {/* <div className={styles.header}></div> */}
           {props.items
             .filter((item) => item.type === "INVENTORY_MENU")
@@ -64,14 +68,14 @@ const HomeScreen = (props: {
               ))}
           </div>
 
-          <ElementHead name="scrollto_5" text="Kitchen Supply" />
+          <ElementHead name="scrollto_5" text={props.section_titles.THIRED} />
 
           {props.items
             .filter((item) => item.type === "KITCHEN_SUPPLY")
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
-          <ElementHead name="scrollto_6" text="Insurance Requirements" />
+          <ElementHead name="scrollto_6" text={props.section_titles.FOURTH} />
 
           <DocumentSection
             item={props.items.find(
@@ -83,7 +87,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-          <ElementHead name="scrollto_7" text="Food and Beverage" />
+          <ElementHead name="scrollto_7" text={props.section_titles.FIFTH} />
           <DocumentSection
             item={props.items.find((item) => item.type === "FOOD_AND_BEVERAGE")}
             section_type={"FOOD_AND_BEVERAGE"}
@@ -92,7 +96,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-          <ElementHead name="scrollto_8" text="Misc" />
+          <ElementHead name="scrollto_8" text={props.section_titles.SIXTH} />
           <DocumentSection
             item={props.items.find((item) => item.type === "MISC")}
             section_type={"MISC"}
@@ -127,7 +131,6 @@ const HomeScreen = (props: {
             updated_at={props.guest_info.updated_at}
           />
         </aside>
-        
       </div>
     </main>
   );
@@ -204,6 +207,15 @@ export interface IGuestInfo {
   expected_guest_count: number;
   created_at: string;
   updated_at: string;
+}
+
+export interface ISectionTitle {
+  FIRST: string;
+  SECOND: string;
+  THIRED: string;
+  FOURTH: string;
+  FIFTH: string;
+  SIXTH: string;
 }
 
 export default HomeScreen;

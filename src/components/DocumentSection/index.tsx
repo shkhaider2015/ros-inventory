@@ -88,7 +88,7 @@ const DocumentSection = (props: {
       setLoading(true);
       let data: IUploadData = {
         name: file.name,
-        description: file.name,
+        description: "",
         workspace_id: workspaceId,
         file_name: `inventory-${workspaceId}-${Date.now()}-file`,
         file_type: _getExtension(file.name),
