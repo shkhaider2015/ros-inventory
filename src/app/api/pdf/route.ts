@@ -7,8 +7,9 @@ import axios from "axios";
 import { fileExtensionImages } from "@/lib/func";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import moment from "moment";
 
-const eventId = "a9ab1c7d-a1f9-494b-9750-2d106e4cca77";
+const eventId = "a7219297-bee3-4099-98d3-935689927d7f";
 
 const convertToHTML = (description: string) => {
   try {
@@ -74,8 +75,9 @@ export async function GET(req: Request, res: Response) {
     const pdfData: IData = {
       workspaceInfo: {
         description: returnString(data?.workspaceInfo.description),
+        image: returnString(data?.workspaceInfo?.logo_url)
       },
-      eventInfo: { name: data?.eventInfo.name, end: data?.eventInfo.end },
+      eventInfo: { name: data?.eventInfo.name, end: moment(data?.eventInfo.end).format("MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A") },
       contacts: data?.contacts,
       about_venue: {
         description: returnString(aboutVenue[0].description),
@@ -93,12 +95,12 @@ export async function GET(req: Request, res: Response) {
         (item: any) => item.type === "VENUE_SPEC"
       ),
       event_items: data?.items.filter(
-        (item: any) => item.type === "EVENT_SUPPLY"
+        (item: any) => item.type === "INVENTORY_MENU"
       ),
       kitchen_items: data?.items?.filter(
         (item: any) => item.type === "KITCHEN_SUPPLY"
       ),
-      checked_out_items: data?.cart_items,
+      checked_out_items: data?.cart_items?.map((item:any) => ({...item, total_price: item?.selectedQuantity * item?.rental_price})),
     };
 
     convertAllToHtml(pdfData);
@@ -109,7 +111,7 @@ export async function GET(req: Request, res: Response) {
     return NextResponse.json(
       {
         message: `/pdf/${"fileName"}`,
-        data: data,
+        data: pdfData,
       },
       { status: 200 }
     );
@@ -403,6 +405,7 @@ function _getExtension(uri: string): string {
 interface IData {
   workspaceInfo: {
     description: string;
+    image: string;
   };
   eventInfo: {
     name: string;
