@@ -11,7 +11,7 @@ import ROSSnackbar from "../common/ROSSnackbar";
 
 // const eventId = "a7219297-bee3-4099-98d3-935689927d7f";
 
-const Header:React.FC<{event_id:string}> = (props) => {
+const Header= () => {
   // const cartItems = useSelector((state: any) => state.cart);
   const router = useRouter();
   const pathName = usePathname();
