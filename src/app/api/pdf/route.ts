@@ -164,7 +164,7 @@ async function createPDF(data: any) {
     const template = handlebars.compile(templateHtml);
     const html = template({ data });
 
-    console.log("HTML ", html);
+    // console.log("HTML ", html);
 
     let milis: any = new Date();
     milis = milis.getTime();

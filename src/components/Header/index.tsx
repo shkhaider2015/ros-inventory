@@ -43,7 +43,7 @@ const Header= () => {
       let event_id = pathName.split('/')?.[2];
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3005/api/pdf",
+        "https://ros-inventory.vercel.app/",
         { event_id: event_id},
         { responseType: "blob" }
       );
