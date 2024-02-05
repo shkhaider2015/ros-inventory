@@ -1,13 +1,17 @@
 "use client";
 import Image from "next/image";
 import styles from "./styles.module.css";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useRouter, usePathname } from "next/navigation";
+import Button from "../common/Button";
+import { useState } from "react";
+import axios from "axios";
 
 const Header = () => {
-  const cartItems = useSelector((state: any) => state.cart);
+  // const cartItems = useSelector((state: any) => state.cart);
   const router = useRouter();
   const pathName = usePathname();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const _gotoCheckout = () => {
     let splitData = pathName.split("/");
@@ -24,6 +28,28 @@ const Header = () => {
       let splitData = pathName.split("/");
       splitData.pop();
       router.push(splitData.join("/"));
+    }
+  };
+
+  const _dlownloadPdf = async () => {
+    try {
+      setLoading(true)
+      const response = await axios.get("http://localhost:3005/api/pdf", { responseType: "blob" });
+      
+      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement("a");
+      a.href = fileURL;
+      a.download = "inventory-file.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(fileURL);
+    } catch (error) {
+      console.log("Error : ", error);
+    } finally {
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
     }
   };
 
@@ -63,7 +89,18 @@ const Header = () => {
             height={25}
           />
         </div> */}
-        <div className={`${styles.cartTextBtn}`} onClick={_gotoCheckout}>View & Save Cart</div>
+        <div className={styles.pdfBtnContainer}>
+          <Button
+            className={styles.pdfBtn}
+            type="Primary"
+            label="Download PDF"
+            onClick={_dlownloadPdf}
+            loading={loading}
+          />
+        </div>
+        <div className={`${styles.cartTextBtn}`} onClick={_gotoCheckout}>
+          View & Save Cart
+        </div>
         {/* <div className={styles.iconCon}>
           <Image
             src={"/images/icons/questionMark.svg"}

@@ -100,6 +100,9 @@
 }
 
 @media screen and (max-width: 650px) {
+    .rightContainer {
+        flex-direction: column;
+    }
     .cartContainer {
         display: flex;
     }
@@ -111,5 +114,9 @@
         text-decoration: underline;
         color: #6200EE;
 
+    }
+
+    .pdfBtnContainer {
+        display: none;
     }
 }

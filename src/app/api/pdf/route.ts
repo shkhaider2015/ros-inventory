@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
-import path from "path";
+import * as path from "path";
 import puppeteer from "puppeteer";
 import handlebars from "handlebars";
 import axios from "axios";
@@ -54,7 +54,7 @@ const convertAllToHtml = (data: any) => {
   });
 };
 
-export async function GET(req: Request, res: Response) {
+export async function GET(request: NextRequest, response: NextResponse) {
   try {
     let data = await getData(eventId);
 
@@ -75,9 +75,14 @@ export async function GET(req: Request, res: Response) {
     const pdfData: IData = {
       workspaceInfo: {
         description: returnString(data?.workspaceInfo.description),
-        image: returnString(data?.workspaceInfo?.logo_url)
+        image: returnString(data?.workspaceInfo?.logo_url),
       },
-      eventInfo: { name: data?.eventInfo.name, end: moment(data?.eventInfo.end).format("MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A") },
+      eventInfo: {
+        name: data?.eventInfo.name,
+        end: moment(data?.eventInfo.end).format(
+          "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
+        ),
+      },
       contacts: data?.contacts,
       about_venue: {
         description: returnString(aboutVenue[0].description),
@@ -100,21 +105,23 @@ export async function GET(req: Request, res: Response) {
       kitchen_items: data?.items?.filter(
         (item: any) => item.type === "KITCHEN_SUPPLY"
       ),
-      checked_out_items: data?.cart_items?.map((item:any) => ({...item, total_price: item?.selectedQuantity * item?.rental_price})),
+      checked_out_items: data?.cart_items?.map((item: any) => ({
+        ...item,
+        total_price: item?.selectedQuantity * item?.rental_price,
+      })),
     };
 
     convertAllToHtml(pdfData);
 
-    let fileName = await createPDF(pdfData);
-    // console.log("fileName", fileName);
+    let pdfBuffer = await createPDF(pdfData);
+    const header = new Headers();
+    header.append("Content-Disposition", "attachment; filename=inventory-data.pdf")
+    header.append("Content-Type", "application/pdf")
 
-    return NextResponse.json(
-      {
-        message: `/pdf/${"fileName"}`,
-        data: pdfData,
-      },
-      { status: 200 }
-    );
+    return new Response(pdfBuffer, {
+      headers: header
+    })
+
   } catch (error) {
     console.log("Error :: ", error);
     return NextResponse.json(
@@ -130,25 +137,14 @@ async function createPDF(data: any) {
       path.join(process.cwd() + "/public/template", "index.html"),
       "utf8"
     );
-    // let to_html = null
-
-    // let contentState = EditorState.createWithContent(
-    //   convertFromRaw(JSON.parse(data))
-    // );
-
-    // let content = draftToHtml(convertToRaw(contentState.getCurrentContent()));
 
     const template = handlebars.compile(templateHtml);
     const html = template({ data });
 
     console.log("HTML ", html);
-    // console.log("Data : ", data);
 
     let milis: any = new Date();
     milis = milis.getTime();
-
-    const fileName = `file-${milis}.pdf`.replace(/\s/g, "-");
-    const pdfPath = path.join(process.cwd(), "public", "pdf", fileName);
 
     const options = {
       width: "800px",
@@ -160,7 +156,6 @@ async function createPDF(data: any) {
         bottom: "30px",
       },
       printBackground: true,
-      path: pdfPath,
     };
 
     const browser = await puppeteer.launch({
@@ -174,11 +169,11 @@ async function createPDF(data: any) {
       waitUntil: ["domcontentloaded", "networkidle0"],
     });
 
-    await page.pdf(options);
+    let pdfBuffer = await page.pdf(options);
 
     await browser.close();
 
-    return fileName;
+    return pdfBuffer;
   } catch (err) {
     console.error(err);
   }
