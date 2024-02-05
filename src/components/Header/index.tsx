@@ -6,12 +6,19 @@ import { useRouter, usePathname } from "next/navigation";
 import Button from "../common/Button";
 import { useState } from "react";
 import axios from "axios";
+import { useSnackbar } from "@/hooks/useSnackbar";
+import ROSSnackbar from "../common/ROSSnackbar";
 
-const Header = () => {
+// const eventId = "a7219297-bee3-4099-98d3-935689927d7f";
+
+const Header:React.FC<{event_id:string}> = (props) => {
   // const cartItems = useSelector((state: any) => state.cart);
   const router = useRouter();
   const pathName = usePathname();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const { isActive, type, message, openSnackBar } = useSnackbar();
+
 
   const _gotoCheckout = () => {
     let splitData = pathName.split("/");
@@ -33,23 +40,41 @@ const Header = () => {
 
   const _dlownloadPdf = async () => {
     try {
-      setLoading(true)
-      const response = await axios.get("http://localhost:3005/api/pdf", { responseType: "blob" });
-      
-      const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-      const a = document.createElement("a");
-      a.href = fileURL;
-      a.download = "inventory-file.pdf";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(fileURL);
+      let event_id = pathName.split('/')?.[2];
+      setLoading(true);
+      const response = await axios.post(
+        "http://localhost:3005/api/pdf",
+        { event_id: event_id},
+        { responseType: "blob" }
+      );
+
+      const contentType = response.headers["content-type"];
+      if (
+        contentType &&
+        contentType.toLowerCase().includes("application/pdf")
+      ) {
+        const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+        const a = document.createElement("a");
+        a.href = fileURL;
+        a.download = "inventory-file.pdf";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(fileURL);
+        // openSnackBar("File downloaded successfully", "success");
+      } else {
+        console.log("Messagfe : ", response.data)
+
+      // openSnackBar("Download file error", "danger");
+      }
     } catch (error) {
       console.log("Error : ", error);
+
+      // openSnackBar("Download file error", "danger" );
     } finally {
       setTimeout(() => {
-        setLoading(false)
-      }, 500)
+        setLoading(false);
+      }, 500);
     }
   };
 

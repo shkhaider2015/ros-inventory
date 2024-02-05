@@ -8,8 +8,7 @@ import { fileExtensionImages } from "@/lib/func";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import moment from "moment";
-
-const eventId = "a7219297-bee3-4099-98d3-935689927d7f";
+import { NextApiRequest } from "next";
 
 const convertToHTML = (description: string) => {
   try {
@@ -54,9 +53,31 @@ const convertAllToHtml = (data: any) => {
   });
 };
 
-export async function GET(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest, response: NextResponse) {
   try {
+    const reqData = await request.json();
+
+    const eventId = reqData.event_id;
+
+    if (!eventId || eventId === "") {
+      return NextResponse.json(
+        {
+          message: "Event id is required here",
+        },
+        { status: 400 }
+      );
+    }
+
     let data = await getData(eventId);
+
+    if(!data) {
+      return NextResponse.json(
+        {
+          message: "Event id is not valid",
+        },
+        { status: 400 }
+      );
+    }
 
     const aboutVenue = data?.items.filter(
       (item: any) => item.type === "ABOUT_THE_VENUE"
@@ -115,13 +136,15 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
     let pdfBuffer = await createPDF(pdfData);
     const header = new Headers();
-    header.append("Content-Disposition", "attachment; filename=inventory-data.pdf")
-    header.append("Content-Type", "application/pdf")
+    header.append(
+      "Content-Disposition",
+      "attachment; filename=inventory-data.pdf"
+    );
+    header.append("Content-Type", "application/pdf");
 
     return new Response(pdfBuffer, {
-      headers: header
-    })
-
+      headers: header,
+    });
   } catch (error) {
     console.log("Error :: ", error);
     return NextResponse.json(
