@@ -40,10 +40,12 @@ const Header= () => {
 
   const _dlownloadPdf = async () => {
     try {
+      let URL = 'http://localhost:3005/api/pdf';
+      let Prod = "https://ros-inventory.vercel.app/api/pdf";
       let event_id = pathName.split('/')?.[2];
       setLoading(true);
       const response = await axios.post(
-        "https://ros-inventory.vercel.app/api/pdf",
+        Prod,
         { event_id: event_id},
         { responseType: "blob" }
       );
