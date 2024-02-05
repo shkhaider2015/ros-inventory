@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Student's profile</title>
+
+    <meta charset="utf-8" />
+
+    <style>
+      @font-face {
+        font-family: 'inter';
+        src: url("./Inter/static/Inter-Regular.ttf");
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: 'inter';
+        src: url("./Inter/static/Inter-Medium.ttf");
+        font-style: medium;
+      }
+  
+      @font-face {
+        font-family: 'inter';
+        src: url("./Inter/static/Inter-Bold.ttf");
+        font-style: bold;
+      }
+
+      @font-face {
+        font-family: 'inter';
+        src: url("./Inter/static/Inter-ExtraBold.ttf");
+        font-style: bolder;
+      }
+    </style>
+  </head>
+  <body
+    style="
+      min-width: 95vw;
+      min-height: 100vh;
+      padding: 40px;
+      overflow-x: hidden;
+      font-family: 'inter';
+    "
+  >
+    <!-- Events Info and Contacts -->
+    <div>
+      <span
+        >Event Name:
+        <span style="font-weight: 600">{{data.eventInfo.name}}</span></span
+      ><br />
+      <span
+        >Due Date:
+        <span style="font-weight: 600">{{data.eventInfo.end}}</span></span
+      >
+    </div>
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 20px 0px;
+      "
+    >
+      <img
+        src="{{data.workspaceInfo.image}}"
+        style="max-width: 700px; max-height: 350px; border-radius: 10px;"
+        alt=""
+      />
+    </div>
+    <!-- Informations -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 0px;
+        width: 100%
+      "
+    >
+      <h1 style="margin: 0px">Event Operation & Logistics</h1>
+      <hr style="height: 3px; background-color: rgb(76, 76, 76); margin-top: 20px; width: 80%;" />
+    </div>
+
+
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h3 style="text-align: left; width: 80%">Details</h3>
+      <div style="width: 80%;">
+        {{{data.workspaceInfo.description}}}
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: center">
+      <hr style="width: 80%" />
+    </div>
+    <!-- Contacts -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h3 style="text-align: left; width: 80%">Contacts</h3>
+      <table style="width: 80%">
+        <thead style="background-color: aqua">
+          <tr>
+            <td>Name</td>
+            <td>Title</td>
+            <td>Phone Number</td>
+            <td>Email</td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each data.contacts}}
+          <tr>
+            <td
+              style="
+                width: 25%;
+                padding: 8px 2px 8px 0px;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.name}}
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding: 8px 2px 8px 0px;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.title}}
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding: 8px 2px 8px 0px;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.phone_number}}
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding: 8px 2px 8px 0px;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.email}}
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 10px;">
+      <hr style="width: 80%" />
+    </div>
+    <!-- About The Venue -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h3 style="text-align: left; width: 80%">About The Venue</h3>
+      <div style="width: 80%; text-align: left">
+        {{{data.about_venue.description}}}
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center">
+      <hr style="width: 80%" />
+    </div>
+    <!-- Event Supply Items-->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h3 style="text-align: left; width: 80%">Event Supply Items</h3>
+      <table style="width: 80%; border-spacing: 0px 7px">
+        <thead style="background-color: aqua">
+          <tr>
+            <td>Name</td>
+            <td style="width: 60%">Description</td>
+            <td>$ Price</td>
+            <td>Quantity</td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each data.event_items}}
+          <tr style="vertical-align: top">
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 20%;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.name}}
+            </td>
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 60%;
+                padding-right: 20px;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.description}}
+            </td>
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 10%;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              ${{this.rental_price}}
+            </td>
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 10%;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.quantity}}
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 10px;">
+      <hr style="width: 80%" />
+    </div>
+    <!-- Kitchen Supply Items-->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h3 style="text-align: left; width: 80%">Kitchen Supply Items</h3>
+      <table style="width: 80%; border-spacing: 0px 7px">
+        <thead style="background-color: aqua">
+          <tr>
+            <td>Name</td>
+            <td style="width: 60%">Description</td>
+            <td>$ Price</td>
+            <td>Quantity</td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each data.kitchen_items}}
+          <tr style="vertical-align: top">
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 20%;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.name}}
+            </td>
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 60%;
+                padding-right: 20px;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.description}}
+            </td>
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 10%;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              ${{this.rental_price}}
+            </td>
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 10%;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.quantity}}
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div style="display: flex; justify-content: center">
+      <hr style="width: 80%" />
+    </div>
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+      "
+    >
+      <h3 style="text-align: left; width: 80%">Venue Specifications</h3>
+    </div>
+    {{#each data.venue_specification}}
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h5 style="text-align: left; width: 80%">{{this.name}}</h5>
+      <div style="width: 80%; text-align: left">{{{this.description}}}</div>
+    </div>
+    {{/each}}
+    <!-- Checked Out Items-->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h3 style="text-align: left; width: 80%">Checked Out Items</h3>
+      <table style="width: 80%; border-spacing: 0px 7px">
+        <thead style="background-color: aqua">
+          <tr>
+            <td>Name</td>
+            <td style="width: 60%">Description</td>
+            <td>$Unit Price</td>
+            <td>Quantity</td>
+            <td>$Total Price</td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each data.checked_out_items}}
+          <tr style="vertical-align: top">
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 20%;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.name}}
+            </td>
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 37%;
+                padding-right: 20px;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.description}}
+            </td>
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 15%;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              ${{this.rental_price}}
+            </td>
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 10%;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              {{this.selectedQuantity}}
+            </td>
+            <td
+              style="
+                padding: 8px 2px 8px 0px;
+                vertical-align: top;
+                width: 18%;
+                border-bottom: 1px solid rgb(237, 237, 237);
+              "
+            >
+              ${{this.total_price}}
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display: flex; justify-content: center; margin-top: 10px;">
+      <hr style="width: 80%" />
+    </div>
+
+    <!-- Insurance Requirements -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h3 style="text-align: left; width: 80%">Insurance Requirements</h3>
+      <div style="width: 80%; text-align: left">
+        {{{data.insurance_requirement.description}}}
+      </div>
+    </div>
+    <!-- Food & Beverages -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h3 style="text-align: left; width: 80%">Food & Beverages</h3>
+      <div style="width: 80%; text-align: left">
+        {{{data.food_and_beverage.description}}}
+      </div>
+    </div>
+    <!-- Misc -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h3 style="text-align: left; width: 80%">Misc</h3>
+      <div style="width: 80%; text-align: left">
+        {{{data.misc.description}}}
+      </div>
+    </div>
+  </body>
+</html>

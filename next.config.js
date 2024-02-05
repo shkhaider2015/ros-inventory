@@ -14,6 +14,15 @@ const nextConfig = {
       },
     ],
   },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // Exclude handlebars from webpack
+      config.externals.push('handlebars');
+      config.externals.push('draft-js')
+    }
+
+    return config;
+  },
 };
 
 module.exports = nextConfig;
