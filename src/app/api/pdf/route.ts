@@ -138,9 +138,10 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const header = new Headers();
     header.append(
       "Content-Disposition",
-      "attachment; filename=inventory-data.pdf"
+      "attachment; filename=inventory-data.pdf",
     );
     header.append("Content-Type", "application/pdf");
+    header.append('Access-Control-Allow-Origin', '*')
 
     return new Response(pdfBuffer, {
       headers: header,
