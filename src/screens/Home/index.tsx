@@ -11,6 +11,7 @@ import DocumentSection from "@/components/DocumentSection";
 import ExpectedGuest from "@/components/ExpectedGuest";
 import NewTabs from "@/components/NewTabs";
 import CometChatPopup from "@/components/CometChat";
+import SignedDocuments from "@/components/SignedDocuments";
 
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
@@ -75,6 +76,8 @@ const HomeScreen = (props: {
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
+          <ElementHead name="scrollto_5.1" text={"Signed Documents"} />
+          <SignedDocuments data={props.attachements} />
           <ElementHead name="scrollto_6" text={props.section_titles.FOURTH} />
 
           <DocumentSection
