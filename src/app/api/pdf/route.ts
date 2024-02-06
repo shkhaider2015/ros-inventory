@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import * as path from "path";
-import puppeteer from "puppeteer";
+// import puppeteer from "puppeteer";
 import handlebars from "handlebars";
 import axios from "axios";
 import { fileExtensionImages } from "@/lib/func";
@@ -9,6 +9,18 @@ import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import moment from "moment";
 import { NextApiRequest } from "next";
+import Chromium from "chrome-aws-lambda";
+// import {Puppeteer as pptr} from 'puppeteer-core'
+
+// let chrome:any = {};
+// let puppeteer:any;
+
+// if(process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+//   chrome = require('chrome-aws-lambda');
+//   puppeteer = require('puppeteer-core');
+// } else {
+//   puppeteer = require('puppeteer');
+// }
 
 const convertToHTML = (description: string) => {
   try {
@@ -70,7 +82,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
     let data = await getData(eventId);
 
-    if(!data) {
+    if (!data) {
       return NextResponse.json(
         {
           message: "Event id is not valid",
@@ -138,10 +150,10 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const header = new Headers();
     header.append(
       "Content-Disposition",
-      "attachment; filename=inventory-data.pdf",
+      "attachment; filename=inventory-data.pdf"
     );
     header.append("Content-Type", "application/pdf");
-    header.append('Access-Control-Allow-Origin', '*')
+    header.append("Access-Control-Allow-Origin", "*");
 
     return new Response(pdfBuffer, {
       headers: header,
@@ -182,9 +194,12 @@ async function createPDF(data: any) {
       printBackground: true,
     };
 
-    const browser = await puppeteer.launch({
-      args: ["--no-sandbox"],
-      headless: "new",
+    const browser = await Chromium.puppeteer.launch({
+      args: [...Chromium.args, "--hide-scrollbars", "--disable-web-security"],
+      defaultViewport: Chromium.defaultViewport,
+      executablePath: await Chromium.executablePath,
+      headless: true,
+      ignoreHTTPSErrors: true,
     });
 
     const page = await browser.newPage();

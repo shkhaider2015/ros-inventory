@@ -18,7 +18,8 @@ const nextConfig = {
     if (isServer) {
       // Exclude handlebars from webpack
       config.externals.push('handlebars');
-      config.externals.push('draft-js')
+      config.externals.push('draft-js');
+      config.externals.push('chrome-aws-lambda')
     }
 
     return config;
