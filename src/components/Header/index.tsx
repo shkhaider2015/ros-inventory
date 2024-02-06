@@ -45,7 +45,7 @@ const Header= () => {
       let event_id = pathName.split('/')?.[2];
       setLoading(true);
       const response = await axios.post(
-        URL,
+        Prod,
         { event_id: event_id},
         { responseType: "blob" }
       );
