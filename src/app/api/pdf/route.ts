@@ -195,7 +195,7 @@ async function createPDF(data: any) {
     };
 
     const browser = await Chromium.puppeteer.launch({
-      args: [...Chromium.args, "--hide-scrollbars", "--disable-web-security"],
+      args: [...Chromium.args, "--hide-scrollbars", "--disable-web-security", '--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
       defaultViewport: Chromium.defaultViewport,
       // executablePath: await Chromium.executablePath,
       executablePath: '/usr/bin/chromium-browser',
