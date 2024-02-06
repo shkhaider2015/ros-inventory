@@ -15,25 +15,35 @@ const SignedDocuments: React.FC<{ data: IAttachements[] }> = (props) => {
 
   useEffect(() => {
     console.log("Data : ", data);
-    setModifiedData(data.filter(item => item.section_type === "SIGNED_DOCUMENTS_SECTION").map((item) => ({ id: item.id, checked: false })));
+    setModifiedData(
+      data
+        .filter((item) => item.section_type === "SIGNED_DOCUMENTS_SECTION")
+        .map((item) => ({ id: item.id, checked: false }))
+    );
   }, [data]);
 
   const _saveInfo = () => {};
 
-  console.log("Item : ", modifiedData);
-  
+  // console.log("Item : ", modifiedData);
+
   return (
     <div className={styles.container}>
       <div className={styles.mainSec}>
         {data
           .filter((item) => item.section_type === "SIGNED_DOCUMENTS_SECTION")
           .map((item) => (
-            <SignDocItem key={item.id} item={item} onChange={(val, id) => {
-                setModifiedData(pS => pS.map(item => {
-                    if(item.id == id) return {...item, checked: val}
-                    else return item
-                }))
-            }} />
+            <SignDocItem
+              key={item.id}
+              item={item}
+              onChange={(val, id) => {
+                setModifiedData((pS) =>
+                  pS.map((item) => {
+                    if (item.id == id) return { ...item, checked: val };
+                    else return item;
+                  })
+                );
+              }}
+            />
           ))}
       </div>
       <div className={styles.footer}>
@@ -94,8 +104,9 @@ const SignDocItem: React.FC<{
               showMenu ? styles.visibleMenu : ""
             }`}
           >
-            {Array.from(["Share via Email"]).map((item) => (
+            {Array.from(["Share via Email"]).map((item, index) => (
               <div
+                key={index}
                 className={styles.menuItem}
                 onClick={() => setShowMenu(false)}
               >
