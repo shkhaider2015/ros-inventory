@@ -77,9 +77,9 @@ const HomeScreen = (props: {
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
-          <ElementHead name="scrollto_5.1" text={"Signed Documents"} />
+          <ElementHead name="scrollto_6" text={"Signed Documents"} />
           <SignedDocuments data={props.attachements} documentStatus={props.documentStatus} event_id={props.event_id} />
-          <ElementHead name="scrollto_6" text={props.section_titles.FOURTH} />
+          <ElementHead name="scrollto_7" text={props.section_titles.FOURTH} />
 
           <DocumentSection
             item={props.items.find(
@@ -91,7 +91,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-          <ElementHead name="scrollto_7" text={props.section_titles.FIFTH} />
+          <ElementHead name="scrollto_8" text={props.section_titles.FIFTH} />
           <DocumentSection
             item={props.items.find((item) => item.type === "FOOD_AND_BEVERAGE")}
             section_type={"FOOD_AND_BEVERAGE"}
@@ -100,7 +100,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-          <ElementHead name="scrollto_8" text={props.section_titles.SIXTH} />
+          <ElementHead name="scrollto_9" text={props.section_titles.SIXTH} />
           <DocumentSection
             item={props.items.find((item) => item.type === "MISC")}
             section_type={"MISC"}

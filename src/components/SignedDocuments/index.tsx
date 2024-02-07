@@ -92,6 +92,13 @@ const SignedDocuments: React.FC<{
   return (
     <div className={styles.container}>
       <div className={styles.mainSec}>
+        {
+          (!data
+          .filter((item) => item.section_type === "SIGNED_DOCUMENTS_SECTION")
+          .length || data
+          .filter((item) => item.section_type === "SIGNED_DOCUMENTS_SECTION")
+          .length == 0) && <div style={{height: 200, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#8B8B8B' }} >No Data Found</div>
+        }
         {data
           .filter((item) => item.section_type === "SIGNED_DOCUMENTS_SECTION")
           .map((item) => (

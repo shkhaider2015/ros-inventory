@@ -30,7 +30,7 @@
     top: 0;
     right: 0;
     margin-right: -10px;
-    display: none; /*To be shown*/
+    /* display: none; */
 }
 .footer {
     display: flex;
