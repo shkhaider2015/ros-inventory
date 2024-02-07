@@ -130,7 +130,7 @@ const SignedDocuments: React.FC<{
               }
               workspace_name={props.workspaceName}
               onSuccessAPI={() =>
-                openSnackBar("File Share successfully", "success")
+                openSnackBar("File Shared successfully", "success")
               }
             />
           ))}
