@@ -11,6 +11,7 @@ import DocumentSection from "@/components/DocumentSection";
 import ExpectedGuest from "@/components/ExpectedGuest";
 import NewTabs from "@/components/NewTabs";
 import CometChatPopup from "@/components/CometChat";
+import SignedDocuments from "@/components/SignedDocuments";
 
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
@@ -23,6 +24,7 @@ const HomeScreen = (props: {
   cart_items: any[];
   event_id: string;
   section_titles: ISectionTitle;
+  documentStatus: any[];
 }) => {
   return (
     <main className={styles.container}>
@@ -75,7 +77,14 @@ const HomeScreen = (props: {
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
-          <ElementHead name="scrollto_6" text={props.section_titles.FOURTH} />
+          <ElementHead name="scrollto_6" text={"Signed Documents"} />
+          <SignedDocuments
+            data={props.attachements}
+            documentStatus={props.documentStatus}
+            event_id={props.event_id}
+            workspaceName={props.workspaceInfo.workspace_info?.name || ""}
+          />
+          <ElementHead name="scrollto_7" text={props.section_titles.FOURTH} />
 
           <DocumentSection
             item={props.items.find(
@@ -87,7 +96,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-          <ElementHead name="scrollto_7" text={props.section_titles.FIFTH} />
+          <ElementHead name="scrollto_8" text={props.section_titles.FIFTH} />
           <DocumentSection
             item={props.items.find((item) => item.type === "FOOD_AND_BEVERAGE")}
             section_type={"FOOD_AND_BEVERAGE"}
@@ -96,7 +105,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-          <ElementHead name="scrollto_8" text={props.section_titles.SIXTH} />
+          <ElementHead name="scrollto_9" text={props.section_titles.SIXTH} />
           <DocumentSection
             item={props.items.find((item) => item.type === "MISC")}
             section_type={"MISC"}
@@ -145,6 +154,9 @@ interface IInventoryInfo {
   secondary_phone_number: string;
   workspace_id: string;
   id?: string;
+  workspace_info?: {
+    name: string;
+  };
 }
 
 export interface IInventoryItem {

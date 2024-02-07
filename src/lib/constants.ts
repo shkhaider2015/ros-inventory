@@ -14,5 +14,10 @@ export const CC_Contstants = {
   LOCAL_STORAGE_ADDRESS: 'CLIENT-LOCAL-COUNT'
 }
 
+export const END_POINTS = {
+  UPDATE_SIGNED_DOCUMENTS_STATUS: 'https://myapi.runofshowapp.com/api/inventory/saveDocumentStatus',
+  SHARE_FILE_VIA_EMAIL: 'https://myapi.runofshowapp.com/api/email-attachment/inventory'
+}
+
 export const Image_URL_Base =
   "https://ros-rosbucket221548-newdev.s3.amazonaws.com/public/";

@@ -31,14 +31,18 @@ const tabsData: {
   },
   {
     id: "6",
-    title: "Insurance Requirements",
+    title: "Signed Docs",
   },
   {
     id: "7",
-    title: "Food & Beverage",
+    title: "Insurance Requirements",
   },
   {
     id: "8",
+    title: "Food & Beverage",
+  },
+  {
+    id: "9",
     title: "Misc",
   },
 ];

@@ -1,0 +1,142 @@
+.container {
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 15px 15px;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+
+.mainSec {
+    width: 100%;
+    min-height: 250px;
+    max-height: 340px;
+    overflow-y: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px 20px;
+}
+.docTopRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+.menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: -10px;
+    /* display: none; */
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.iconTextCon {
+    font-size: 12px;
+    font-weight: 400;
+    font-style: italic;
+    color: #8B8B8B;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.docItemContainer {
+    width: 120px;
+    height: 150px;
+    background-color: rgb(243, 243, 243);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.docItem {
+    padding: 10px 0px;
+    cursor: pointer;
+}
+
+.fileName {
+    font-size: 12px;
+    max-width: 80px;
+    text-wrap: wrap;
+    overflow-wrap: break-word;
+    text-align: center;
+    cursor: pointer;
+}
+.menuLogo {
+ cursor: pointer;
+}
+.menuItemCon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 10px;
+    background-color: white;
+    padding: 10px 3px;
+    border-radius: 5px;
+    visibility: hidden;
+    opacity: 0;
+    width: 100px;
+    margin-right: -50px;
+    -webkit-box-shadow: -5px 5px 29px -7px rgba(196, 196, 196, 1);
+    -moz-box-shadow: -5px 5px 29px -7px rgba(196, 196, 196, 1);
+    box-shadow: -5px 5px 29px -7px rgba(196, 196, 196, 1);
+    transition: opacity .3s;
+}
+
+.menuItemCon.visibleMenu {
+    visibility: visible;
+    opacity: 1;
+}
+
+.menuItem {
+    padding: 3px 7px;
+    cursor: pointer;
+    font-size: 12px;
+}
+.menuItem:hover {
+    background-color: #f0f0f0;
+}
+
+.emptybox {
+    height: 200px;
+    width: 100%;
+    color: #8B8B8B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shareModalRoot {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+};
+
+.shareInput .inputElement {
+    width: 100%;
+    color: rgb(155, 155, 155) !important;
+}
+.errorMessage {
+    width: 100%;
+    height: 30px;
+    color: red;
+    font-size: 12px;
+}
+.shareBtn {
+    width: 30%;
+    margin-top: 10px;
+}
