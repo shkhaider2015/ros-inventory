@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import styles from "./styles.module.css";
+import styles from "./signedDocument.module.css";
 import Image from "next/image";
 import moment from "moment";
 import Button from "../common/Button";
@@ -11,18 +11,20 @@ import axios from "axios";
 import ROSModal from "../common/ROSModal";
 import ROSInput from "../common/ROSInput";
 import { END_POINTS } from "@/lib/constants";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { validateEmail } from "@/lib/func";
 
 const SignedDocuments: React.FC<{
   data: IAttachements[];
   documentStatus: any[];
+  workspaceName: string;
   event_id: string;
 }> = (props) => {
   const { data, documentStatus, event_id } = props;
   const [loading, setLoading] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<string>("");
   const [modifiedData, setModifiedData] = useState<IDocumentStatus[]>([]);
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     // console.log("Data : ", data);
@@ -43,43 +45,49 @@ const SignedDocuments: React.FC<{
       // let temp:IDocumentStatus[] = signedData.map(item => ({ document_id: item?.id, completed: false }))
       // setModifiedData(temp)
     } else {
-      let updatedAt:string = moment(documentStatus?.[0]?.updated_at).format("MMM DD, YYYY - hh:mmA")
-      setUpdatedAt(updatedAt)
+      let updatedAt: string = moment(documentStatus?.[0]?.updated_at).format(
+        "MMM DD, YYYY - hh:mmA"
+      );
+      setUpdatedAt(updatedAt);
       // setModifiedData(documentStatus);
     }
-    let temp:any[] = signedData;
-    temp = temp.map(item =>  {
-      let doc = documentStatus.find(itemX => itemX.document_id === item.id)
-      if(doc) {
+    let temp: any[] = signedData;
+    temp = temp.map((item) => {
+      let doc = documentStatus.find((itemX) => itemX.document_id === item.id);
+      if (doc) {
         // exist
         return {
           document_id: item.id,
-          completed: doc.completed
-        }
+          completed: doc.completed,
+        };
       } else {
         return {
           document_id: item.id,
-          completed: false
-        }
+          completed: false,
+        };
       }
-    })
+    });
     setModifiedData(temp);
   };
 
   const _saveInfo = async () => {
     // console.log("Item : ", modifiedData, event_id);
-    let documents = modifiedData.map((item) => ({ document_id: item.document_id, event_id, completed: item.completed }));
+    let documents = modifiedData.map((item) => ({
+      document_id: item.document_id,
+      event_id,
+      completed: item.completed,
+    }));
     // console.log("Modified Data : ", modifiedData, data.filter(item => item.section_type == "SIGNED_DOCUMENTS_SECTION"));
     // return
     try {
       setLoading(true);
 
-      const response = await axios.post(
+       await axios.post(
         END_POINTS.UPDATE_SIGNED_DOCUMENTS_STATUS,
         { documents }
       );
       // console.log("ResPonse : ", response);
-      router.refresh()
+      router.refresh();
     } catch (error) {
       console.error("Document Status : ", error);
     } finally {
@@ -92,13 +100,14 @@ const SignedDocuments: React.FC<{
   return (
     <div className={styles.container}>
       <div className={styles.mainSec}>
-        {
-          (!data
-          .filter((item) => item.section_type === "SIGNED_DOCUMENTS_SECTION")
-          .length || data
-          .filter((item) => item.section_type === "SIGNED_DOCUMENTS_SECTION")
-          .length == 0) && <div style={{height: 200, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#8B8B8B' }} >No Data Found</div>
-        }
+        {(!data.filter(
+          (item) => item.section_type === "SIGNED_DOCUMENTS_SECTION"
+        ).length ||
+          data.filter(
+            (item) => item.section_type === "SIGNED_DOCUMENTS_SECTION"
+          ).length == 0) && (
+          <div className={styles.emptybox}>No Data Found</div>
+        )}
         {data
           .filter((item) => item.section_type === "SIGNED_DOCUMENTS_SECTION")
           .map((item) => (
@@ -114,7 +123,11 @@ const SignedDocuments: React.FC<{
                   })
                 );
               }}
-              isChecked={modifiedData.find(itemX => itemX.document_id === item.id  )?.completed}
+              isChecked={
+                modifiedData.find((itemX) => itemX.document_id === item.id)
+                  ?.completed
+              }
+              workspace_name={props.workspaceName}
             />
           ))}
       </div>
@@ -130,7 +143,9 @@ const SignedDocuments: React.FC<{
             />
           </div>
           {/* Last Saved: Nov 15, 2023 - 11:00PM GST */}
-          Last Saved: {updatedAt}
+          {
+            updatedAt !== '' && "Last Saved: " + updatedAt
+          }
         </div>
         <div className={styles.saveBtn}>
           <Button
@@ -148,11 +163,15 @@ const SignedDocuments: React.FC<{
 const SignDocItem: React.FC<{
   item: IAttachements;
   onChange: (val: boolean, id: string) => void;
-  isChecked: boolean | undefined
+  isChecked: boolean | undefined;
+  workspace_name: string;
 }> = (props) => {
   const [isChrome, setIsChrome] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
+  const [value, setValue] = useState<string>();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const ref = useRef<HTMLDivElement>(null);
 
   useOutsideClick(ref, () => setShowMenu(false));
@@ -164,7 +183,11 @@ const SignDocItem: React.FC<{
   }, []);
 
   const _downloadFile = async () => {
-    if (isChrome && props.item.url?.includes('inventory') && props.item.file_type === "pdf") {
+    if (
+      isChrome &&
+      props.item.url?.includes("inventory") &&
+      props.item.file_type === "pdf"
+    ) {
       try {
         const response = await axios.get(props.item.url, {
           responseType: "blob",
@@ -184,6 +207,31 @@ const SignDocItem: React.FC<{
     }
 
     window.open(props.item.url, "_blank");
+  };
+
+  const _shareViaEmail = async () => {
+    if(!validateEmail(value || '')) {
+      setError("Please enter valid email address");
+      return
+    } else {
+      setError('')
+    }
+    // console.log("Share data : ", props.workspace_name, props.item.url, value);
+
+    let data = {
+      workspace_name: props.workspace_name,
+      attachment_url: props.item.url,
+      email: value,
+    };
+    try {
+      setLoading(true);
+      await axios.post(END_POINTS.SHARE_FILE_VIA_EMAIL, data);
+      setOpenShareModal(false)
+    } catch (error) {
+      console.error("Share File : ", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -213,7 +261,10 @@ const SignDocItem: React.FC<{
               <div
                 key={index}
                 className={styles.menuItem}
-                onClick={() => setShowMenu(false)}
+                onClick={() => {
+                  setShowMenu(false);
+                  setOpenShareModal(true);
+                }}
               >
                 {item}
               </div>
@@ -240,9 +291,19 @@ const SignDocItem: React.FC<{
           : props.item.name}
       </div>
       <ROSModal open={openShareModal} onClose={() => setOpenShareModal(false)}>
-        <div>
-          <ROSInput />
-          <Button label="Share" />
+        <div className={styles.shareModalRoot}>
+          <ROSInput
+            className={styles.shareInput}
+            onChange={(e) => setValue(e.target.value)}
+            type="email"
+          />
+          <div className={styles.errorMessage} >{error}</div>
+          <Button
+            label="Share"
+            className={styles.shareBtn}
+            onClick={_shareViaEmail}
+            loading={loading}
+          />
         </div>
       </ROSModal>
     </div>

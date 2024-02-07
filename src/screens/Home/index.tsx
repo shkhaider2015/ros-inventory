@@ -24,7 +24,7 @@ const HomeScreen = (props: {
   cart_items: any[];
   event_id: string;
   section_titles: ISectionTitle;
-  documentStatus: any[]
+  documentStatus: any[];
 }) => {
   return (
     <main className={styles.container}>
@@ -78,7 +78,12 @@ const HomeScreen = (props: {
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
           <ElementHead name="scrollto_6" text={"Signed Documents"} />
-          <SignedDocuments data={props.attachements} documentStatus={props.documentStatus} event_id={props.event_id} />
+          <SignedDocuments
+            data={props.attachements}
+            documentStatus={props.documentStatus}
+            event_id={props.event_id}
+            workspaceName={props.workspaceInfo.workspace_info?.name || ""}
+          />
           <ElementHead name="scrollto_7" text={props.section_titles.FOURTH} />
 
           <DocumentSection
@@ -149,6 +154,9 @@ interface IInventoryInfo {
   secondary_phone_number: string;
   workspace_id: string;
   id?: string;
+  workspace_info?: {
+    name: string;
+  };
 }
 
 export interface IInventoryItem {
