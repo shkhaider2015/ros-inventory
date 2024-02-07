@@ -24,6 +24,7 @@ const HomeScreen = (props: {
   cart_items: any[];
   event_id: string;
   section_titles: ISectionTitle;
+  documentStatus: any[]
 }) => {
   return (
     <main className={styles.container}>
@@ -77,7 +78,7 @@ const HomeScreen = (props: {
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
           <ElementHead name="scrollto_5.1" text={"Signed Documents"} />
-          <SignedDocuments data={props.attachements} />
+          <SignedDocuments data={props.attachements} documentStatus={props.documentStatus} event_id={props.event_id} />
           <ElementHead name="scrollto_6" text={props.section_titles.FOURTH} />
 
           <DocumentSection
