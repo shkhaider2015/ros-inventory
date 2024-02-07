@@ -40,13 +40,30 @@ const SignedDocuments: React.FC<{
       signedData.length > 0 &&
       (!documentStatus.length || documentStatus.length <= 0)
     ) {
-      let temp:IDocumentStatus[] = signedData.map(item => ({ document_id: item?.id, completed: false }))
-      setModifiedData(temp)
+      // let temp:IDocumentStatus[] = signedData.map(item => ({ document_id: item?.id, completed: false }))
+      // setModifiedData(temp)
     } else {
       let updatedAt:string = moment(documentStatus?.[0]?.updated_at).format("MMM DD, YYYY - hh:mmA")
       setUpdatedAt(updatedAt)
-      setModifiedData(documentStatus);
+      // setModifiedData(documentStatus);
     }
+    let temp:any[] = signedData;
+    temp = temp.map(item =>  {
+      let doc = documentStatus.find(itemX => itemX.document_id === item.id)
+      if(doc) {
+        // exist
+        return {
+          document_id: item.id,
+          completed: doc.completed
+        }
+      } else {
+        return {
+          document_id: item.id,
+          completed: false
+        }
+      }
+    })
+    setModifiedData(temp);
   };
 
   const _saveInfo = async () => {
@@ -70,7 +87,7 @@ const SignedDocuments: React.FC<{
     }
   };
 
-  // console.log("Item : ", modifiedData);
+  // console.log("Item : ", modifiedData, documentStatus, data.filter(item => item.section_type == "SIGNED_DOCUMENTS_SECTION"));
 
   return (
     <div className={styles.container}>
@@ -140,7 +157,7 @@ const SignDocItem: React.FC<{
   }, []);
 
   const _downloadFile = async () => {
-    if (isChrome && props.item.file_type === "pdf") {
+    if (isChrome && props.item.url?.includes('inventory') && props.item.file_type === "pdf") {
       try {
         const response = await axios.get(props.item.url, {
           responseType: "blob",

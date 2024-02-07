@@ -208,7 +208,7 @@ async function getData(eventId: string) {
       // Access url is change for client side
       if (itemX?.uploaded_via === "CLIENT")
         itemX.url = client_file_url + itemX?.url + "." + extension;
-      else if(!itemX?.url?.includes('inventory') && !itemX?.url?.includes('file')) itemX?.url
+      else if(!(itemX?.url?.includes('inventory') && itemX?.url?.includes('file'))) itemX?.url
       else itemX.url = image_url + itemX?.url;
 
       itemX.file_logo = fileExtensionImages[item?.file_type];
