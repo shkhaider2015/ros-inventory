@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./signedDocument.module.css";
 import Image from "next/image";
 import moment from "moment";
@@ -41,24 +41,18 @@ const SignedDocuments: React.FC<{
     let signedData = data?.filter(
       (item) => item.section_type === "SIGNED_DOCUMENTS_SECTION"
     );
-    if (
-      signedData.length > 0 &&
-      (!documentStatus.length || documentStatus.length <= 0)
-    ) {
-      // let temp:IDocumentStatus[] = signedData.map(item => ({ document_id: item?.id, completed: false }))
-      // setModifiedData(temp)
-    } else {
-      let updatedAt: string = moment(documentStatus?.[0]?.updated_at).format(
-        "MMM DD, YYYY - hh:mmA"
-      );
-      setUpdatedAt(updatedAt);
-      // setModifiedData(documentStatus);
-    }
+
     let temp: any[] = signedData;
+    let updatedDate: string = "";
     temp = temp.map((item) => {
       let doc = documentStatus.find((itemX) => itemX.document_id === item.id);
       if (doc) {
         // exist
+        if (updatedDate === "") updatedDate = doc.updated_at;
+        else if (moment(updatedDate).isBefore(doc?.updated_at))
+          updatedDate = doc.updated_at;
+        else {
+        }
         return {
           document_id: item.id,
           completed: doc.completed,
@@ -70,6 +64,7 @@ const SignedDocuments: React.FC<{
         };
       }
     });
+    setUpdatedAt(moment(updatedDate).format("MMM DD, YYYY - hh:mmA"));
     setModifiedData(temp);
   };
 
@@ -91,8 +86,8 @@ const SignedDocuments: React.FC<{
       });
       // console.log("ResPonse : ", response);
 
-      openSnackBar("File status changed successfully", "success");
       router.refresh();
+      openSnackBar("File status changed successfully", "success");
     } catch (error) {
       openSnackBar("File status changing failed", "danger");
       console.error("Document Status : ", error);
@@ -134,6 +129,9 @@ const SignedDocuments: React.FC<{
                   ?.completed
               }
               workspace_name={props.workspaceName}
+              onSuccessAPI={() =>
+                openSnackBar("File Share successfully", "success")
+              }
             />
           ))}
       </div>
@@ -170,6 +168,7 @@ const SignDocItem: React.FC<{
   onChange: (val: boolean, id: string) => void;
   isChecked: boolean | undefined;
   workspace_name: string;
+  onSuccessAPI: () => void;
 }> = (props) => {
   const [isChrome, setIsChrome] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -231,12 +230,18 @@ const SignDocItem: React.FC<{
     try {
       setLoading(true);
       await axios.post(END_POINTS.SHARE_FILE_VIA_EMAIL, data);
-      setOpenShareModal(false);
+      _handleClose();
+      props.onSuccessAPI();
     } catch (error) {
       console.error("Share File : ", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const _handleClose = () => {
+    setOpenShareModal(false);
+    setValue(undefined);
   };
 
   return (
@@ -295,13 +300,19 @@ const SignDocItem: React.FC<{
           ? "..." + props.item.name.slice(-15)
           : props.item.name}
       </div>
-      <ROSModal open={openShareModal} onClose={() => setOpenShareModal(false)}>
+      <ROSModal open={openShareModal} onClose={_handleClose}>
         <div className={styles.shareModalRoot}>
+          {/* {renderInput()} */}
+
           <ROSInput
+            key={2}
+            value={value ? value : ""}
             className={styles.shareInput}
             onChange={(e) => setValue(e.target.value)}
             type="email"
+            placeholder="Email"
           />
+
           <div className={styles.errorMessage}>{error}</div>
           <Button
             label="Share"
