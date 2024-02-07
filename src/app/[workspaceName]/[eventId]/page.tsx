@@ -91,6 +91,7 @@ async function getData(eventId: string) {
       checkout_client_info,
       cart_items,
       section_titles,
+      document_status
     } = data;
     workspaceInfo = workspaceInfo[0];
 
@@ -207,6 +208,7 @@ async function getData(eventId: string) {
       // Access url is change for client side
       if (itemX?.uploaded_via === "CLIENT")
         itemX.url = client_file_url + itemX?.url + "." + extension;
+      else if(!(itemX?.url?.includes('inventory') && itemX?.url?.includes('file'))) itemX?.url
       else itemX.url = image_url + itemX?.url;
 
       itemX.file_logo = fileExtensionImages[item?.file_type];
@@ -264,6 +266,7 @@ async function getData(eventId: string) {
       cart_items,
       event_id: eventId,
       newTitles,
+      document_status
     };
   } catch (error) {
     // console.log("Error at server : ", error);
@@ -308,6 +311,10 @@ function _getExtension(uri: string): string {
   return extension;
 }
 
+function _isURL(url:string) {
+  // if(url?.includes())
+}
+
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
   // console.log("guest ", data?.checkout_client_info);
@@ -333,6 +340,7 @@ export default async function Inventory(params: IInventory) {
         cart_items={data.cart_items}
         event_id={data?.event_id}
         section_titles={data.newTitles}
+        documentStatus={data.document_status}
       />
     </Suspense>
   );
