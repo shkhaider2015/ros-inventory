@@ -13,6 +13,8 @@ import ROSInput from "../common/ROSInput";
 import { END_POINTS } from "@/lib/constants";
 import { useParams, useRouter } from "next/navigation";
 import { validateEmail } from "@/lib/func";
+import { useSnackbar } from "@/hooks/useSnackbar";
+import ROSSnackbar from "../common/ROSSnackbar";
 
 const SignedDocuments: React.FC<{
   data: IAttachements[];
@@ -25,6 +27,7 @@ const SignedDocuments: React.FC<{
   const [updatedAt, setUpdatedAt] = useState<string>("");
   const [modifiedData, setModifiedData] = useState<IDocumentStatus[]>([]);
   const router = useRouter();
+  const { isActive, type, message, openSnackBar } = useSnackbar();
 
   useEffect(() => {
     // console.log("Data : ", data);
@@ -72,6 +75,7 @@ const SignedDocuments: React.FC<{
 
   const _saveInfo = async () => {
     // console.log("Item : ", modifiedData, event_id);
+
     let documents = modifiedData.map((item) => ({
       document_id: item.document_id,
       event_id,
@@ -82,13 +86,15 @@ const SignedDocuments: React.FC<{
     try {
       setLoading(true);
 
-       await axios.post(
-        END_POINTS.UPDATE_SIGNED_DOCUMENTS_STATUS,
-        { documents }
-      );
+      await axios.post(END_POINTS.UPDATE_SIGNED_DOCUMENTS_STATUS, {
+        documents,
+      });
       // console.log("ResPonse : ", response);
+
+      openSnackBar("File status changed successfully", "success");
       router.refresh();
     } catch (error) {
+      openSnackBar("File status changing failed", "danger");
       console.error("Document Status : ", error);
     } finally {
       setLoading(false);
@@ -143,9 +149,7 @@ const SignedDocuments: React.FC<{
             />
           </div>
           {/* Last Saved: Nov 15, 2023 - 11:00PM GST */}
-          {
-            updatedAt !== '' && "Last Saved: " + updatedAt
-          }
+          {updatedAt !== "" && "Last Saved: " + updatedAt}
         </div>
         <div className={styles.saveBtn}>
           <Button
@@ -156,6 +160,7 @@ const SignedDocuments: React.FC<{
           />
         </div>
       </div>
+      <ROSSnackbar isActive={isActive} type={type} message={message} />
     </div>
   );
 };
@@ -171,7 +176,7 @@ const SignDocItem: React.FC<{
   const [openShareModal, setOpenShareModal] = useState(false);
   const [value, setValue] = useState<string>();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const ref = useRef<HTMLDivElement>(null);
 
   useOutsideClick(ref, () => setShowMenu(false));
@@ -210,11 +215,11 @@ const SignDocItem: React.FC<{
   };
 
   const _shareViaEmail = async () => {
-    if(!validateEmail(value || '')) {
+    if (!validateEmail(value || "")) {
       setError("Please enter valid email address");
-      return
+      return;
     } else {
-      setError('')
+      setError("");
     }
     // console.log("Share data : ", props.workspace_name, props.item.url, value);
 
@@ -226,7 +231,7 @@ const SignDocItem: React.FC<{
     try {
       setLoading(true);
       await axios.post(END_POINTS.SHARE_FILE_VIA_EMAIL, data);
-      setOpenShareModal(false)
+      setOpenShareModal(false);
     } catch (error) {
       console.error("Share File : ", error);
     } finally {
@@ -297,7 +302,7 @@ const SignDocItem: React.FC<{
             onChange={(e) => setValue(e.target.value)}
             type="email"
           />
-          <div className={styles.errorMessage} >{error}</div>
+          <div className={styles.errorMessage}>{error}</div>
           <Button
             label="Share"
             className={styles.shareBtn}
