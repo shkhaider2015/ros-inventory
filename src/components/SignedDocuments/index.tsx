@@ -64,7 +64,9 @@ const SignedDocuments: React.FC<{
         };
       }
     });
-    setUpdatedAt(moment(updatedDate).format("MMM DD, YYYY - hh:mmA"));
+    if (moment(updatedDate).isValid())
+      setUpdatedAt(moment(updatedDate).format("MMM DD, YYYY - hh:mmA"));
+    else setUpdatedAt("N/A");
     setModifiedData(temp);
   };
 
