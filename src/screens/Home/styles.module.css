@@ -61,6 +61,8 @@
     cursor: pointer;
 }
 
+.signed_desc {}
+
 @media screen and (max-width: 900px) {
     .sectionContainer {
         flex-direction: column;

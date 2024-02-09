@@ -78,6 +78,7 @@ const HomeScreen = (props: {
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
           <ElementHead name="scrollto_6" text={"Signed Documents"} />
+          <p className={styles.signed_desc} >Be sure to check off the box once the document (s) are signed. </p>
           <SignedDocuments
             data={props.attachements}
             documentStatus={props.documentStatus}
