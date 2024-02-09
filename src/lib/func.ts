@@ -52,7 +52,10 @@ export const fileExtensionImages: { [key: string]: any } = {
   jpeg: jpg,
   pdf: pdf,
   webp: png,
-  other: Others
+  other: Others,
+  docusign: worldWideWeb,
+  gdrive: worldWideWeb,
+  goform: worldWideWeb,
 };
 
 export const folderImage = folder;
