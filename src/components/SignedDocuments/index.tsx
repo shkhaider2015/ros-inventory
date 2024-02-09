@@ -257,12 +257,25 @@ const SignDocItem: React.FC<{
 
   return (
     <div className={styles.docItemContainer}>
-      <div className={styles.docTopRow}>
+      <div className={styles.mostTopRow} >
         <ROSCheckbox
           id={props.item.id || "1"}
           onChange={(value: boolean) => props.onChange(value, props.item.id)}
           defaultChecked={props.isChecked}
         />
+
+        <div className={styles.fileType} >{props.item.file_type}</div>
+      </div>
+      <div className={styles.docTopRow}>
+        {/* <ROSCheckbox
+          id={props.item.id || "1"}
+          onChange={(value: boolean) => props.onChange(value, props.item.id)}
+          defaultChecked={props.isChecked}
+        /> */}
+        <div className={styles.externalFileText} >
+          <Image src={"/images/icons/extensions/other-theme.svg"} width={15} height={15} alt=""  />
+          <span>External File</span>
+        </div>
         <div className={styles.menu}>
           <div className={styles.menuLogo} onClick={() => setShowMenu(true)}>
             <Image
@@ -307,8 +320,8 @@ const SignDocItem: React.FC<{
         )}
       </div>
       <div className={styles.fileName} onClick={() => _downloadFile()}>
-        {props.item.name.length > 15
-          ? "..." + props.item.name.slice(-15)
+        {props.item.name.length > 12
+          ? props.item.name.slice(12) + "..."
           : props.item.name}
       </div>
       <ROSModal open={openShareModal} onClose={_handleClose}>
