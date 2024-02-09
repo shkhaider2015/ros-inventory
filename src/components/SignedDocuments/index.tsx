@@ -319,6 +319,9 @@ const SignDocItem: React.FC<{
             key={2}
             value={value ? value : ""}
             className={styles.shareInput}
+            inputStyle={{
+              fontSize: '15px'
+            }}
             onChange={(e) => setValue(e.target.value)}
             type="email"
             placeholder="Email"
