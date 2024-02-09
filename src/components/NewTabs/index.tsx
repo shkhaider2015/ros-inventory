@@ -31,7 +31,7 @@ const tabsData: {
   },
   {
     id: "6",
-    title: "Signed Docs",
+    title: "Agreement",
   },
   {
     id: "7",
