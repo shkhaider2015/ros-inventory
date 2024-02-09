@@ -252,6 +252,7 @@ const SignDocItem: React.FC<{
   const _handleClose = () => {
     setOpenShareModal(false);
     setValue(undefined);
+    setDescription(undefined)
   };
 
   return (
@@ -326,9 +327,10 @@ const SignDocItem: React.FC<{
           <div className={styles.errorMessage}>{error.value}</div>
 
           <textarea
+            key={3}
             className={styles.shareDesc}
             rows={3}
-            value={description}
+            value={description ? description : ''}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Description"
           />

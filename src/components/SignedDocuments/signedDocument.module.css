@@ -148,9 +148,9 @@
     border-radius: 10px;
     outline: none;
     padding: 10px;
+    font-size: 20px;
 }
 
 .shareDesc::placeholder {
-   font-weight: 600;
-   font-family: 'inter';
+   /* font-size: 20px; */
 }
