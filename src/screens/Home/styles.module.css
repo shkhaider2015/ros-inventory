@@ -61,7 +61,10 @@
     cursor: pointer;
 }
 
-.signed_desc {}
+.signed_desc {
+    font-weight: 500;
+    font-size: 13px;
+}
 
 @media screen and (max-width: 900px) {
     .sectionContainer {
