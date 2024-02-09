@@ -176,8 +176,12 @@ const SignDocItem: React.FC<{
   const [showMenu, setShowMenu] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [value, setValue] = useState<string>();
+  const [description, setDescription] = useState<string>();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState({
+    value: "",
+    description: "",
+  });
   const ref = useRef<HTMLDivElement>(null);
 
   useOutsideClick(ref, () => setShowMenu(false));
@@ -217,16 +221,20 @@ const SignDocItem: React.FC<{
 
   const _shareViaEmail = async () => {
     if (!validateEmail(value || "")) {
-      setError("Please enter valid email address");
+      setError((pS) => ({ ...pS, value: "Please enter valid email address" }));
       return;
     } else {
-      setError("");
+      setError({
+        value: "",
+        description: "",
+      });
     }
     // console.log("Share data : ", props.workspace_name, props.item.url, value);
 
     let data = {
       workspace_name: props.workspace_name,
       attachment_url: props.item.url,
+      additional_text: description || "",
       email: value,
     };
     try {
@@ -315,7 +323,17 @@ const SignDocItem: React.FC<{
             placeholder="Email"
           />
 
-          <div className={styles.errorMessage}>{error}</div>
+          <div className={styles.errorMessage}>{error.value}</div>
+
+          <textarea
+            className={styles.shareDesc}
+            rows={3}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Description"
+          />
+
+          <div className={styles.errorMessage}>{error.description}</div>
           <Button
             label="Share"
             className={styles.shareBtn}

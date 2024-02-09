@@ -120,16 +120,17 @@
 }
 
 .shareModalRoot {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
 };
 
-.shareInput .inputElement {
+.shareInput {
     width: 100%;
-    color: rgb(155, 155, 155) !important;
 }
+
 .errorMessage {
     width: 100%;
     height: 30px;
@@ -139,4 +140,17 @@
 .shareBtn {
     width: 30%;
     margin-top: 10px;
+}
+
+.shareDesc {
+    width: 100%;
+    border: 1px solid #00000029;
+    border-radius: 10px;
+    outline: none;
+    padding: 10px;
+}
+
+.shareDesc::placeholder {
+   font-weight: 600;
+   font-family: 'inter';
 }
