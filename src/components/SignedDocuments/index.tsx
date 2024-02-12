@@ -252,19 +252,19 @@ const SignDocItem: React.FC<{
   const _handleClose = () => {
     setOpenShareModal(false);
     setValue(undefined);
-    setDescription(undefined)
+    setDescription(undefined);
   };
 
   return (
     <div className={styles.docItemContainer}>
-      <div className={styles.mostTopRow} >
+      <div className={styles.mostTopRow}>
         <ROSCheckbox
           id={props.item.id || "1"}
           onChange={(value: boolean) => props.onChange(value, props.item.id)}
           defaultChecked={props.isChecked}
         />
 
-        <div className={styles.fileType} >{props.item.file_type}</div>
+        <div className={styles.fileType}>{props.item.file_type}</div>
       </div>
       <div className={styles.docTopRow}>
         {/* <ROSCheckbox
@@ -272,8 +272,13 @@ const SignDocItem: React.FC<{
           onChange={(value: boolean) => props.onChange(value, props.item.id)}
           defaultChecked={props.isChecked}
         /> */}
-        <div className={styles.externalFileText} >
-          <Image src={"/images/icons/extensions/other-theme.svg"} width={15} height={15} alt=""  />
+        <div className={styles.externalFileText}>
+          <Image
+            src={"/images/icons/extensions/other-theme.svg"}
+            width={15}
+            height={15}
+            alt=""
+          />
           <span>External File</span>
         </div>
         <div className={styles.menu}>
@@ -319,10 +324,22 @@ const SignDocItem: React.FC<{
           />
         )}
       </div>
-      <div className={styles.fileName} onClick={() => _downloadFile()}>
-        {props.item.name.length > 12
-          ? props.item.name.slice(12) + "..."
-          : props.item.name}
+      <div
+        className={styles.fileName}
+        onClick={() => _downloadFile()}
+        title={props.item.name}
+      >
+        {
+          // I have used here IIFE (immediately invoked function expression)
+          (() => {
+            const words = props.item.name.split(" ");
+            if (words.length > 2) {
+              return words.slice(0, 2).join(" ") + "...";
+            } else {
+              return props.item.name;
+            }
+          })()
+        }
       </div>
       <ROSModal open={openShareModal} onClose={_handleClose}>
         <div className={styles.shareModalRoot}>
@@ -333,7 +350,7 @@ const SignDocItem: React.FC<{
             value={value ? value : ""}
             className={styles.shareInput}
             inputStyle={{
-              fontSize: '15px'
+              fontSize: "15px",
             }}
             onChange={(e) => setValue(e.target.value)}
             type="email"
@@ -346,7 +363,7 @@ const SignDocItem: React.FC<{
             key={3}
             className={styles.shareDesc}
             rows={3}
-            value={description ? description : ''}
+            value={description ? description : ""}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Description"
           />

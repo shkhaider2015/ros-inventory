@@ -31,7 +31,7 @@ const tabsData: {
   },
   {
     id: "6",
-    title: "Agreement",
+    title: "Agreements",
   },
   {
     id: "7",
