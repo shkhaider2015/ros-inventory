@@ -9,7 +9,9 @@ import Tabs from "@/components/Tabs";
 import SocialMediaIcon from "@/components/SocialMediaIcons";
 import DocumentSection from "@/components/DocumentSection";
 import ExpectedGuest from "@/components/ExpectedGuest";
-import GlobalModal from "@/components/common/GlobalModal";
+import NewTabs from "@/components/NewTabs";
+import CometChatPopup from "@/components/CometChat";
+import SignedDocuments from "@/components/SignedDocuments";
 
 
 const HomeScreen = (props: {
@@ -22,20 +24,27 @@ const HomeScreen = (props: {
   guest_info: IGuestInfo;
   cart_items: any[];
   event_id: string;
+  section_titles: ISectionTitle;
+  documentStatus: any[];
 }) => {
   return (
     <main className={styles.container}>
       <EventTopRow {...props.eventInfo} />
-      <Tabs />
+      {/* <Tabs /> */}
+      <NewTabs />
       <div className={styles.sectionContainer}>
         {/* Left Side Column */}
         <section className={styles.section}>
+          <ElementHead name="scrollto_1" text="" />
           <InventoryDetails
             info={props.workspaceInfo}
             contacts={props.contacts}
           />
-          <ExpectedGuest initialData={props.guest_info} />
-          <ElementHead name="scrollto_2" text="About The Venue" />
+          <ExpectedGuest
+            initialData={props.guest_info}
+            event_id={props.event_id}
+          />
+          <ElementHead name="scrollto_2" text={props.section_titles.FIRST} />
           <DocumentSection
             item={props.items.find((item) => item.type === "ABOUT_THE_VENUE")}
             section_type={"ABOUT_THE_VENUE"}
@@ -44,7 +53,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-          <ElementHead name="scrollto_3" text="Event Supply" />
+          <ElementHead name="scrollto_3" text={props.section_titles.SECOND} />
           {/* <div className={styles.header}></div> */}
           {props.items
             .filter((item) => item.type === "INVENTORY_MENU")
@@ -62,14 +71,22 @@ const HomeScreen = (props: {
               ))}
           </div>
 
-          <ElementHead name="scrollto_5" text="Kitchen Supply" />
+          <ElementHead name="scrollto_5" text={props.section_titles.THIRED} />
 
           {props.items
             .filter((item) => item.type === "KITCHEN_SUPPLY")
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
-          <ElementHead name="scrollto_6" text="Insurance Requirements" />
+          <ElementHead name="scrollto_6" text={"Signed Documents"} />
+          <p className={styles.signed_desc} >Be sure to check off the box once the document (s) are signed. </p>
+          <SignedDocuments
+            data={props.attachements}
+            documentStatus={props.documentStatus}
+            event_id={props.event_id}
+            workspaceName={props.workspaceInfo.workspace_info?.name || ""}
+          />
+          <ElementHead name="scrollto_7" text={props.section_titles.FOURTH} />
 
           <DocumentSection
             item={props.items.find(
@@ -81,7 +98,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-          <ElementHead name="scrollto_7" text="Food and Beverage" />
+          <ElementHead name="scrollto_8" text={props.section_titles.FIFTH} />
           <DocumentSection
             item={props.items.find((item) => item.type === "FOOD_AND_BEVERAGE")}
             section_type={"FOOD_AND_BEVERAGE"}
@@ -90,7 +107,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-          <ElementHead name="scrollto_8" text="Misc" />
+          <ElementHead name="scrollto_9" text={props.section_titles.SIXTH} />
           <DocumentSection
             item={props.items.find((item) => item.type === "MISC")}
             section_type={"MISC"}
@@ -114,6 +131,7 @@ const HomeScreen = (props: {
               <path d="M18 12L12 6L6 12" stroke="#ffffff" stroke-width="2" />
             </svg>
           </div> */}
+          <CometChatPopup event_id={props.event_id} />
         </section>
 
         {/* Right Side Column */}
@@ -124,7 +142,6 @@ const HomeScreen = (props: {
             updated_at={props.guest_info.updated_at}
           />
         </aside>
-        <GlobalModal />
       </div>
     </main>
   );
@@ -139,6 +156,9 @@ interface IInventoryInfo {
   secondary_phone_number: string;
   workspace_id: string;
   id?: string;
+  workspace_info?: {
+    name: string;
+  };
 }
 
 export interface IInventoryItem {
@@ -201,6 +221,15 @@ export interface IGuestInfo {
   expected_guest_count: number;
   created_at: string;
   updated_at: string;
+}
+
+export interface ISectionTitle {
+  FIRST: string;
+  SECOND: string;
+  THIRED: string;
+  FOURTH: string;
+  FIFTH: string;
+  SIXTH: string;
 }
 
 export default HomeScreen;

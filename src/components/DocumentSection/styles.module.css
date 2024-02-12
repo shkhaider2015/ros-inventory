@@ -48,6 +48,7 @@
 
 .docsContainer::-webkit-scrollbar {
     width: 2px;
+    height: 2px;
 }
 
 .docsContainer::-webkit-scrollbar-track {
@@ -103,6 +104,7 @@
     position: sticky;
     top: 0px;
     background-color: #fff;
+    z-index: 2;
 }
 
 
@@ -132,8 +134,21 @@
     align-items: center;
     gap: 10px;
 }
+.icon_column {
+    /* width: ; */
+    /* border: 1px solid blue; */
+}
 
-.textCon {}
+
+.textCon {
+    padding: 0px 10px 0px 5px;
+    width: 80%;
+    text-wrap: wrap;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    /* border: 1px solid red; */
+}
 
 .docTitle {
     font-size: 13px;
@@ -141,16 +156,16 @@
 }
 
 .decDesc {
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 400;
     color: #888888;
     margin-top: 5px;
 }
 
 .docIconContainer {
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -262,6 +277,7 @@
     font-weight: 500;
     color: #000000c4;
 }
+
 .desc {
     font-size: 16px;
     font-weight: 500;
@@ -276,3 +292,33 @@
     padding: 15px 10px 10px 0px;
     gap: 15px;
 }
+
+@media screen and (max-width: 650px) { 
+
+    .docIconContainer {
+        width: 35px;
+        height: 35px;
+    }
+
+    .docIconContainer img {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .textCon {
+        padding: 0px 3px 0px 3px;
+        position: relative;
+    }
+    
+    .docTitle {
+        font-size: 11px;
+        font-weight: 400;
+    }
+    
+    .decDesc {
+        font-size: 12px;
+        font-weight: 400;
+        color: #888888;
+        margin-top: 5px;
+    }
+ }

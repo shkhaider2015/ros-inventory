@@ -21,6 +21,12 @@ export const _toTitleCase = (value:string) => {
 }
 
 
+export const validateEmail = (email:string) => {
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+};
+
 
 
 
@@ -46,7 +52,10 @@ export const fileExtensionImages: { [key: string]: any } = {
   jpeg: jpg,
   pdf: pdf,
   webp: png,
-  other: Others
+  other: Others,
+  docusign: worldWideWeb,
+  gdrive: worldWideWeb,
+  goform: worldWideWeb,
 };
 
 export const folderImage = folder;

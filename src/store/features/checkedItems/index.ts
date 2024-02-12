@@ -9,7 +9,18 @@ export const cart = createSlice({
   initialState,
   reducers: {
     initializeData: (state, action) => {
-      return action.payload
+      let uniqueIds = new Set<string[]>();
+      let mergeData = [...state, ...action.payload];
+      mergeData = mergeData.filter((item: any) => {
+        if (!uniqueIds.has(item?.id)) {
+          uniqueIds.add(item?.id);
+          return true;
+        }
+        return false;
+      });
+      // console.log("Data : ");
+
+      return mergeData;
     },
     addToCart: (state, action) => {
       state.push(action.payload);
@@ -19,12 +30,15 @@ export const cart = createSlice({
     },
     updateQuantity: (state, action) => {
       // console.log("Value : ", action.payload)
-      return state.map(item => item.id === action.payload?.id ? (action.payload) : item)
-    }
+      return state.map((item) =>
+        item.id === action.payload?.id ? action.payload : item
+      );
+    },
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, initializeData } = cart.actions;
+export const { addToCart, removeFromCart, updateQuantity, initializeData } =
+  cart.actions;
 
 interface IItem {
   description: string;
@@ -34,9 +48,9 @@ interface IItem {
   quantity: number;
   selectedQuantity: number;
   rental_price: number;
-  type: 'INVENTORY_MENU' | 'VENUE_SPEC' | 'KITCHEN_SUPPLY';
+  type: "INVENTORY_MENU" | "VENUE_SPEC" | "KITCHEN_SUPPLY";
   workspace_id?: string;
-  updated_at?: string
+  updated_at?: string;
 }
 
 export default cart.reducer;

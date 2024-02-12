@@ -49,7 +49,7 @@ const CheckedOut: React.FC<{
   const _onSave = async () => {
     // console.log("_onSave() : ", cartItems);
 
-    let data = {
+    let data:any = {
       ...guestInfo,
       event_id: props.event_id,
     };
@@ -118,6 +118,9 @@ const CheckedOut: React.FC<{
     }
   };
 
+  // console.log("Initial Cart Items : ", props.initialData);
+  // console.log("Cart Items : ", props.initialData);
+
   return (
     <div className={styles.container}>
       <div className={styles.topSec}>
@@ -145,9 +148,9 @@ const CheckedOut: React.FC<{
                   message: "Are you sure you want to delete this item?",
                   onOk: async () => {
                     _onDelete(item.id, item.cart_id);
-                    if (!formFields.isFormFieldsChanged) {
-                      dispatch(updateFormFields({ isFormFieldsChanged: true }));
-                    }
+                    // if (!formFields.isFormFieldsChanged) {
+                    //   dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                    // }
                   },
                 });
               }}

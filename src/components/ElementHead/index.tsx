@@ -5,7 +5,7 @@ import { Element } from "react-scroll";
 
 
 const ElementHead:React.FC<IElementHead> = ({name, text}) => {
-    return <Element name={name} className={styles.container} >
+    return <Element name={name} className={text === "" ? styles.notSetup  : styles.container} >
         {text}
     </Element>
 }
