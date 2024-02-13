@@ -11,14 +11,13 @@ import ROSSnackbar from "../common/ROSSnackbar";
 
 // const eventId = "a7219297-bee3-4099-98d3-935689927d7f";
 
-const Header= () => {
+const Header = () => {
   // const cartItems = useSelector((state: any) => state.cart);
   const router = useRouter();
   const pathName = usePathname();
   const [loading, setLoading] = useState<boolean>(false);
 
   const { isActive, type, message, openSnackBar } = useSnackbar();
-
 
   const _gotoCheckout = () => {
     let splitData = pathName.split("/");
@@ -40,13 +39,13 @@ const Header= () => {
 
   const _dlownloadPdf = async () => {
     try {
-      let URL = 'http://localhost:3005/api/pdf';
-      let Prod = "https://ros-inventory.vercel.app/api/pdf";
-      let event_id = pathName.split('/')?.[2];
+      let URL = "http://localhost:3005/api/pdf";
+      let Prod = "https://inventory.runofshowapp.com/api/pdf";
+      let event_id = pathName.split("/")?.[2];
       setLoading(true);
       const response = await axios.post(
         Prod,
-        { event_id: event_id},
+        { event_id: event_id },
         { responseType: "blob" }
       );
 
@@ -65,9 +64,9 @@ const Header= () => {
         window.URL.revokeObjectURL(fileURL);
         // openSnackBar("File downloaded successfully", "success");
       } else {
-        console.log("Messagfe : ", response.data)
+        console.log("Messagfe : ", response.data);
 
-      // openSnackBar("Download file error", "danger");
+        // openSnackBar("Download file error", "danger");
       }
     } catch (error) {
       console.log("Error : ", error);
