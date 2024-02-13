@@ -39,13 +39,14 @@ const Header = () => {
 
   const _dlownloadPdf = async () => {
     try {
-      let URL = "http://localhost:3005/api/pdf";
-      let URL2 = "http://localhost:4042/api/pdf";
-      let Prod = "https://inventory.runofshowapp.com/api/pdf";
+      // let URL = "http://localhost:3005/api/pdf";
+      // // let URL2 = "http://localhost:4042/api/pdf";
+      // let Prod = "https://inventory.runofshowapp.com/api/pdf";
+      let URL = "/api/proxy-pdf";
       let event_id = pathName.split("/")?.[2];
       setLoading(true);
       const response = await axios.post(
-        URL2,
+          URL,
         { event_id: event_id },
         { responseType: "blob" }
       );
