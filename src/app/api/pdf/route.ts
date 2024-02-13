@@ -101,6 +101,11 @@ export async function POST(request: NextRequest, response: NextResponse) {
       (item: any) => item.type === "FOOD_AND_BEVERAGE"
     );
     const misc = data?.items.filter((item: any) => item.type === "MISC");
+    let sum_rental_price = 0;
+    const total_rental_price = data?.cart_items.forEach((item: any) => {
+      sum_rental_price += item?.rental_price;
+      return sum_rental_price;
+    });
 
     const returnString = (stringToReturn: string | undefined | null) =>
       stringToReturn ? stringToReturn : "";
@@ -112,7 +117,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
       },
       eventInfo: {
         name: data?.eventInfo.name,
-        end: moment(data?.eventInfo.end).format(
+        start: moment(data?.eventInfo.start).format(
           "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
         ),
       },
@@ -142,6 +147,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
         ...item,
         total_price: item?.selectedQuantity * item?.rental_price,
       })),
+      sum_rental_price: sum_rental_price,
     };
 
     convertAllToHtml(pdfData);
@@ -451,7 +457,7 @@ interface IData {
   };
   eventInfo: {
     name: string;
-    end: string;
+    start: string;
   };
   contacts: [];
   about_venue: {
@@ -470,4 +476,5 @@ interface IData {
   event_items: [];
   kitchen_items: [];
   checked_out_items: [];
+  sum_rental_price: number;
 }
