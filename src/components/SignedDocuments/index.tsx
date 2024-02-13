@@ -176,8 +176,12 @@ const SignDocItem: React.FC<{
   const [showMenu, setShowMenu] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [value, setValue] = useState<string>();
+  const [description, setDescription] = useState<string>();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState({
+    value: "",
+    description: "",
+  });
   const ref = useRef<HTMLDivElement>(null);
 
   useOutsideClick(ref, () => setShowMenu(false));
@@ -217,16 +221,20 @@ const SignDocItem: React.FC<{
 
   const _shareViaEmail = async () => {
     if (!validateEmail(value || "")) {
-      setError("Please enter valid email address");
+      setError((pS) => ({ ...pS, value: "Please enter valid email address" }));
       return;
     } else {
-      setError("");
+      setError({
+        value: "",
+        description: "",
+      });
     }
     // console.log("Share data : ", props.workspace_name, props.item.url, value);
 
     let data = {
       workspace_name: props.workspace_name,
       attachment_url: props.item.url,
+      additional_text: description || "",
       email: value,
     };
     try {
@@ -244,16 +252,35 @@ const SignDocItem: React.FC<{
   const _handleClose = () => {
     setOpenShareModal(false);
     setValue(undefined);
+    setDescription(undefined);
   };
 
   return (
     <div className={styles.docItemContainer}>
-      <div className={styles.docTopRow}>
+      <div className={styles.mostTopRow}>
         <ROSCheckbox
           id={props.item.id || "1"}
           onChange={(value: boolean) => props.onChange(value, props.item.id)}
           defaultChecked={props.isChecked}
         />
+
+        <div className={styles.fileType}>{props.item.file_type}</div>
+      </div>
+      <div className={styles.docTopRow}>
+        {/* <ROSCheckbox
+          id={props.item.id || "1"}
+          onChange={(value: boolean) => props.onChange(value, props.item.id)}
+          defaultChecked={props.isChecked}
+        /> */}
+        <div className={styles.externalFileText}>
+          <Image
+            src={"/images/icons/extensions/other-theme.svg"}
+            width={15}
+            height={15}
+            alt=""
+          />
+          <span>External File</span>
+        </div>
         <div className={styles.menu}>
           <div className={styles.menuLogo} onClick={() => setShowMenu(true)}>
             <Image
@@ -297,10 +324,22 @@ const SignDocItem: React.FC<{
           />
         )}
       </div>
-      <div className={styles.fileName} onClick={() => _downloadFile()}>
-        {props.item.name.length > 15
-          ? "..." + props.item.name.slice(-15)
-          : props.item.name}
+      <div
+        className={styles.fileName}
+        onClick={() => _downloadFile()}
+        title={props.item.name}
+      >
+        {
+          // I have used here IIFE (immediately invoked function expression)
+          (() => {
+            const words = props.item.name.split(" ");
+            if (words.length > 2) {
+              return words.slice(0, 2).join(" ") + "...";
+            } else {
+              return props.item.name;
+            }
+          })()
+        }
       </div>
       <ROSModal open={openShareModal} onClose={_handleClose}>
         <div className={styles.shareModalRoot}>
@@ -310,12 +349,26 @@ const SignDocItem: React.FC<{
             key={2}
             value={value ? value : ""}
             className={styles.shareInput}
+            inputStyle={{
+              fontSize: "15px",
+            }}
             onChange={(e) => setValue(e.target.value)}
             type="email"
             placeholder="Email"
           />
 
-          <div className={styles.errorMessage}>{error}</div>
+          <div className={styles.errorMessage}>{error.value}</div>
+
+          <textarea
+            key={3}
+            className={styles.shareDesc}
+            rows={3}
+            value={description ? description : ""}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Description"
+          />
+
+          <div className={styles.errorMessage}>{error.description}</div>
           <Button
             label="Share"
             className={styles.shareBtn}
