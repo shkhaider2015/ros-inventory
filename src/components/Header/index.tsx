@@ -51,6 +51,7 @@ const Header = () => {
         { responseType: "blob" }
       );
 
+      console.log(response);
       const contentType = response.headers["content-type"];
       if (
         contentType &&
