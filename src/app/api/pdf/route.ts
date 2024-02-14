@@ -132,8 +132,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
       });
     });
 
-    console.log(signed_documents, "signed");
-
     const returnString = (stringToReturn: string | undefined | null) =>
       stringToReturn ? stringToReturn : "";
 
@@ -182,7 +180,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
     };
 
     convertAllToHtml(pdfData);
-    // console.log(pdfData);
 
     let pdfBuffer = await createPDF(pdfData);
     const header = new Headers();
