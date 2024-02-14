@@ -7,25 +7,25 @@
 
     <style>
       @font-face {
-        font-family: 'inter';
+        font-family: "inter";
         src: url("./Inter/static/Inter-Regular.ttf");
         font-style: normal;
       }
 
       @font-face {
-        font-family: 'inter';
+        font-family: "inter";
         src: url("./Inter/static/Inter-Medium.ttf");
         font-style: medium;
       }
-  
+
       @font-face {
-        font-family: 'inter';
+        font-family: "inter";
         src: url("./Inter/static/Inter-Bold.ttf");
         font-style: bold;
       }
 
       @font-face {
-        font-family: 'inter';
+        font-family: "inter";
         src: url("./Inter/static/Inter-ExtraBold.ttf");
         font-style: bolder;
       }
@@ -47,8 +47,8 @@
         <span style="font-weight: 600">{{data.eventInfo.name}}</span></span
       ><br />
       <span
-        >Due Date:
-        <span style="font-weight: 600">{{data.eventInfo.end}}</span></span
+        >Start Date:
+        <span style="font-weight: 600">{{data.eventInfo.start}}</span></span
       >
     </div>
     <div
@@ -61,7 +61,7 @@
     >
       <img
         src="{{data.workspaceInfo.image}}"
-        style="max-width: 700px; max-height: 350px; border-radius: 10px;"
+        style="max-width: 700px; max-height: 350px; border-radius: 10px"
         alt=""
       />
     </div>
@@ -73,13 +73,19 @@
         justify-content: center;
         align-items: center;
         padding: 0px 0px;
-        width: 100%
+        width: 100%;
       "
     >
       <h1 style="margin: 0px">Event Operation & Logistics</h1>
-      <hr style="height: 3px; background-color: rgb(76, 76, 76); margin-top: 20px; width: 80%;" />
+      <hr
+        style="
+          height: 3px;
+          background-color: rgb(76, 76, 76);
+          margin-top: 20px;
+          width: 80%;
+        "
+      />
     </div>
-
 
     <div
       style="
@@ -89,10 +95,8 @@
         align-items: center;
       "
     >
-      <h3 style="text-align: left; width: 80%">Details</h3>
-      <div style="width: 80%;">
-        {{{data.workspaceInfo.description}}}
-      </div>
+      <h2 style="color: indigo; text-align: left; width: 80%">Details</h2>
+      <div style="width: 80%">{{{data.workspaceInfo.description}}}</div>
     </div>
 
     <div style="display: flex; justify-content: center">
@@ -107,9 +111,9 @@
         align-items: center;
       "
     >
-      <h3 style="text-align: left; width: 80%">Contacts</h3>
+      <h2 style="color: indigo; text-align: left; width: 80%">Contacts</h2>
       <table style="width: 80%">
-        <thead style="background-color: aqua">
+        <thead style="color: purple; font-weight: bold">
           <tr>
             <td>Name</td>
             <td>Title</td>
@@ -161,9 +165,27 @@
         </tbody>
       </table>
     </div>
-    <div style="display: flex; justify-content: center; margin-top: 10px;">
+    <div style="display: flex; justify-content: center; margin-top: 10px">
       <hr style="width: 80%" />
     </div>
+
+    <!-- Expected Guest Count -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h2 style="color: indigo; text-align: left; width: 80%">
+        Expected Guest Count: {{data.checkout_client_info.expected_guest_count}}
+      </h2>
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 10px">
+      <hr style="width: 80%" />
+    </div>
+
     <!-- About The Venue -->
     <div
       style="
@@ -173,7 +195,9 @@
         align-items: center;
       "
     >
-      <h3 style="text-align: left; width: 80%">About The Venue</h3>
+      <h2 style="color: indigo; text-align: left; width: 80%">
+        About The Venue
+      </h2>
       <div style="width: 80%; text-align: left">
         {{{data.about_venue.description}}}
       </div>
@@ -181,6 +205,58 @@
     <div style="display: flex; justify-content: center">
       <hr style="width: 80%" />
     </div>
+    <!-- Signed Documents -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h2 style="color: indigo; text-align: left; width: 80%">Agreements</h2>
+      <div
+        style="
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 80%;
+        "
+      >
+        {{#each data.signed_documents}}
+        <div style="text-align: center; margin: 5px">
+          <input type="checkbox" style="margin-bottom: 10px" {{#if
+          this.completed}}checked{{/if}} />
+          <label
+            style="
+              display: block;
+              margin-bottom: 5px;
+              font-size: 16px;
+              border: 1px solid grey;
+              padding: 2px 15px;
+            "
+          >
+            {{this.file_type}}
+          </label>
+          <span
+            style="
+              display: block;
+              margin-top: 10px;
+              font-style: italic;
+              border: 1.5px dotted grey;
+              padding: 10px;
+            "
+          >
+            {{this.name}}
+          </span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 10px">
+      <hr style="width: 80%" />
+    </div>
+
     <!-- Event Supply Items-->
     <div
       style="
@@ -190,9 +266,11 @@
         align-items: center;
       "
     >
-      <h3 style="text-align: left; width: 80%">Event Supply Items</h3>
+      <h2 style="color: indigo; text-align: left; width: 80%">
+        Event Supply Items
+      </h2>
       <table style="width: 80%; border-spacing: 0px 7px">
-        <thead style="background-color: aqua">
+        <thead style="color: purple; font-weight: bold">
           <tr>
             <td>Name</td>
             <td style="width: 60%">Description</td>
@@ -249,7 +327,7 @@
         </tbody>
       </table>
     </div>
-    <div style="display: flex; justify-content: center; margin-top: 10px;">
+    <div style="display: flex; justify-content: center; margin-top: 10px">
       <hr style="width: 80%" />
     </div>
     <!-- Kitchen Supply Items-->
@@ -261,9 +339,11 @@
         align-items: center;
       "
     >
-      <h3 style="text-align: left; width: 80%">Kitchen Supply Items</h3>
+      <h2 style="color: indigo; text-align: left; width: 80%">
+        Kitchen Supply Items
+      </h2>
       <table style="width: 80%; border-spacing: 0px 7px">
-        <thead style="background-color: aqua">
+        <thead style="color: purple; font-weight: bold">
           <tr>
             <td>Name</td>
             <td style="width: 60%">Description</td>
@@ -332,7 +412,9 @@
         margin-top: 10px;
       "
     >
-      <h3 style="text-align: left; width: 80%">Venue Specifications</h3>
+      <h2 style="color: indigo; text-align: left; width: 80%">
+        Venue Specifications
+      </h2>
     </div>
     {{#each data.venue_specification}}
     <div
@@ -343,7 +425,16 @@
         align-items: center;
       "
     >
-      <h5 style="text-align: left; width: 80%">{{this.name}}</h5>
+      <h4
+        style="
+          text-align: left;
+          width: 80%;
+          text-decoration: underline;
+          color: plum;
+        "
+      >
+        {{this.name}}
+      </h4>
       <div style="width: 80%; text-align: left">{{{this.description}}}</div>
     </div>
     {{/each}}
@@ -356,15 +447,16 @@
         align-items: center;
       "
     >
-      <h3 style="text-align: left; width: 80%">Checked Out Items</h3>
+      <h2 style="color: indigo; text-align: left; width: 80%">
+        Checked Out Items
+      </h2>
       <table style="width: 80%; border-spacing: 0px 7px">
-        <thead style="background-color: aqua">
+        <thead style="color: purple; font-weight: bold">
           <tr>
             <td>Name</td>
             <td style="width: 60%">Description</td>
             <td>$Unit Price</td>
             <td>Quantity</td>
-            <td>$Total Price</td>
           </tr>
         </thead>
         <tbody>
@@ -411,23 +503,25 @@
             >
               {{this.selectedQuantity}}
             </td>
-            <td
-              style="
-                padding: 8px 2px 8px 0px;
-                vertical-align: top;
-                width: 18%;
-                border-bottom: 1px solid rgb(237, 237, 237);
-              "
-            >
-              ${{this.total_price}}
-            </td>
           </tr>
           {{/each}}
         </tbody>
+        <tfoot>
+          <tr>
+            <td
+              colspan="2"
+              style="text-align: right; padding: 8px; font-weight: bold"
+            >
+              Total:
+            </td>
+            <td style="padding: 8px">${{data.sum_rental_price}}</td>
+            <td></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
 
-    <div style="display: flex; justify-content: center; margin-top: 10px;">
+    <div style="display: flex; justify-content: center; margin-top: 10px">
       <hr style="width: 80%" />
     </div>
 
@@ -440,7 +534,9 @@
         align-items: center;
       "
     >
-      <h3 style="text-align: left; width: 80%">Insurance Requirements</h3>
+      <h2 style="color: indigo; text-align: left; width: 80%">
+        Insurance Requirements
+      </h2>
       <div style="width: 80%; text-align: left">
         {{{data.insurance_requirement.description}}}
       </div>
@@ -454,7 +550,9 @@
         align-items: center;
       "
     >
-      <h3 style="text-align: left; width: 80%">Food & Beverages</h3>
+      <h2 style="color: indigo; text-align: left; width: 80%">
+        Food & Beverages
+      </h2>
       <div style="width: 80%; text-align: left">
         {{{data.food_and_beverage.description}}}
       </div>
@@ -468,7 +566,7 @@
         align-items: center;
       "
     >
-      <h3 style="text-align: left; width: 80%">Misc</h3>
+      <h2 style="color: indigo; text-align: left; width: 80%">Misc</h2>
       <div style="width: 80%; text-align: left">
         {{{data.misc.description}}}
       </div>
