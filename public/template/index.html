@@ -168,6 +168,24 @@
     <div style="display: flex; justify-content: center; margin-top: 10px">
       <hr style="width: 80%" />
     </div>
+
+    <!-- Expected Guest Count -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h2 style="color: indigo; text-align: left; width: 80%">
+        Expected Guest Count: {{data.checkout_client_info.expected_guest_count}}
+      </h2>
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 10px">
+      <hr style="width: 80%" />
+    </div>
+
     <!-- About The Venue -->
     <div
       style="
@@ -187,6 +205,58 @@
     <div style="display: flex; justify-content: center">
       <hr style="width: 80%" />
     </div>
+    <!-- Signed Documents -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h2 style="color: indigo; text-align: left; width: 80%">Agreements</h2>
+      <div
+        style="
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 80%;
+        "
+      >
+        {{#each data.signed_documents}}
+        <div style="text-align: center; margin: 5px">
+          <input type="checkbox" style="margin-bottom: 10px" {{#if
+          this.completed}}checked{{/if}} />
+          <label
+            style="
+              display: block;
+              margin-bottom: 5px;
+              font-size: 16px;
+              border: 1px solid grey;
+              padding: 2px 15px;
+            "
+          >
+            {{this.file_type}}
+          </label>
+          <span
+            style="
+              display: block;
+              margin-top: 10px;
+              font-style: italic;
+              border: 1.5px dotted grey;
+              padding: 10px;
+            "
+          >
+            {{this.name}}
+          </span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 10px">
+      <hr style="width: 80%" />
+    </div>
+
     <!-- Event Supply Items-->
     <div
       style="

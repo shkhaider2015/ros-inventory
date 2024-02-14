@@ -22,6 +22,15 @@ import Chromium from "chrome-aws-lambda";
 //   puppeteer = require('puppeteer');
 // }
 
+// ? 2nd method
+// const signed_documents = data?.attachments
+//   .filter((item) => item.section_type === "SIGNED_DOCUMENTS_SECTION")
+//   .map((signedDoc) => ({
+//     ...signedDoc,
+//     completed: data?.attachments.find((att) => att.document_id === signedDoc.id)
+//       ?.completed,
+//   }));
+
 const convertToHTML = (description: string) => {
   try {
     if (description.length <= 0) return "";
@@ -94,17 +103,33 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const aboutVenue = data?.items.filter(
       (item: any) => item.type === "ABOUT_THE_VENUE"
     );
+
     const insuranceRequirements = data?.items.filter(
       (item: any) => item.type === "INSURANCE_REQUIREMENTS"
     );
+
     const foodAndBeverage = data?.items.filter(
       (item: any) => item.type === "FOOD_AND_BEVERAGE"
     );
+
     const misc = data?.items.filter((item: any) => item.type === "MISC");
+
     let sum_rental_price = 0;
     const total_rental_price = data?.cart_items.forEach((item: any) => {
       sum_rental_price += item?.rental_price;
       return sum_rental_price;
+    });
+
+    const signed_documents = data?.attachments.filter(
+      (item: any) => item.section_type === "SIGNED_DOCUMENTS_SECTION"
+    );
+
+    signed_documents.forEach((item1: any) => {
+      return data?.document_status.forEach((item2: any) => {
+        if (item1.id === item2.document_id) {
+          item1.completed = item2.completed;
+        }
+      });
     });
 
     const returnString = (stringToReturn: string | undefined | null) =>
@@ -147,6 +172,10 @@ export async function POST(request: NextRequest, response: NextResponse) {
         ...item,
         total_price: item?.selectedQuantity * item?.rental_price,
       })),
+      signed_documents: signed_documents,
+      checkout_client_info: {
+        expected_guest_count: data?.checkout_client_info.expected_guest_count,
+      },
       sum_rental_price: sum_rental_price,
     };
 
@@ -273,6 +302,7 @@ async function getData(eventId: string) {
       attachments,
       checkout_client_info,
       cart_items,
+      document_status,
     } = data;
     workspaceInfo = workspaceInfo[0];
 
@@ -406,6 +436,7 @@ async function getData(eventId: string) {
       checkout_client_info,
       cart_items,
       event_id: eventId,
+      document_status,
     };
   } catch (error) {
     // console.log("Error at server : ", error);
@@ -476,5 +507,9 @@ interface IData {
   event_items: [];
   kitchen_items: [];
   checked_out_items: [];
+  signed_documents: [];
+  checkout_client_info: {
+    expected_guest_count: number;
+  };
   sum_rental_price: number;
 }
