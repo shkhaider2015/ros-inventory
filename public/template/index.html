@@ -181,6 +181,20 @@
       <h2 style="color: indigo; text-align: left; width: 80%">
         Expected Guest Count: {{data.checkout_client_info.expected_guest_count}}
       </h2>
+      <div style="width: 80%; text-align: left">
+        Please confirm if you have someone to check in your guests
+      </div>
+      <div style="width: 80%; margin-top: 5px">
+        <label>
+          <input type="radio" name="checkoutConfirm" value="yes" {{#if
+          data.checkout_client_info.checkin_at_door}}checked{{/if}} /> Yes
+        </label>
+        <label>
+          <input type="radio" name="checkoutConfirm" value="no" {{#unless
+          data.checkout_client_info.checkin_at_door}}checked{{/unless}} /> No
+        </label>
+      </div>
+    </div>
     </div>
     <div style="display: flex; justify-content: center; margin-top: 10px">
       <hr style="width: 80%" />
