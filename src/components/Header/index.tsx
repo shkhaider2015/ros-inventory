@@ -40,7 +40,7 @@ const Header = () => {
   const _dlownloadPdf = async () => {
     try {
       let URL = "http://localhost:3005/api/pdf";
-      let URL2 = "http://localhost:4042/api/pdf";
+      let URL2 = "/api/pdf";
       let Prod = "https://inventory.runofshowapp.com/api/pdf";
       let event_id = pathName.split("/")?.[2];
       setLoading(true);
