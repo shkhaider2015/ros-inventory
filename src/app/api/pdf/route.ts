@@ -175,6 +175,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
       signed_documents: signed_documents,
       checkout_client_info: {
         expected_guest_count: data?.checkout_client_info.expected_guest_count,
+        checkin_at_door: data?.checkout_client_info.checkin_at_door,
       },
       sum_rental_price: sum_rental_price,
     };
@@ -510,6 +511,7 @@ interface IData {
   signed_documents: [];
   checkout_client_info: {
     expected_guest_count: number;
+    checkin_at_door: number;
   };
   sum_rental_price: number;
 }
