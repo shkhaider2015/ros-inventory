@@ -1,96 +1,96 @@
 .container {
-    width: 100vw;
-    min-height: 100vh;
-    padding: 5%;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 2%;
 }
 
 .sectionContainer {
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .section {
-    width: 70%;
-    padding-top: 3%;
-    padding-right: 1%;
-    position: relative;
-    /* border: 1px solid red; */
+  width: 70%;
+  padding-top: 3%;
+  padding-right: 1%;
+  position: relative;
+  /* border: 1px solid red; */
 }
 
 .aside {
-    width: 30%;
-    padding-top: 3%;
-    padding-left: 1%;
-    /* border: 1px solid red; */
+  width: 30%;
+  padding-top: 3%;
+  padding-left: 1%;
+  /* border: 1px solid red; */
 }
 
 .header {
-    padding: 30px 0px 10px 0px;
-    font-size: 23px;
-    font-weight: 600;
+  padding: 30px 0px 10px 0px;
+  font-size: 23px;
+  font-weight: 600;
 }
 
 .venueContainer {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .upArrow {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin-bottom: 100px;
-    margin-right: -150px;
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    background-color: #6200EE;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #FFFFFF;
-    box-shadow: 1px 5px 5px 0px rgba(102, 49, 253, 0.25);
-    -webkit-box-shadow: 1px 5px 5px 0px rgba(102, 49, 253, 0.25);
-    -moz-box-shadow: 1px 5px 5px 0px rgba(102, 49, 253, 0.25);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 100px;
+  margin-right: -150px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: #6200ee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  box-shadow: 1px 5px 5px 0px rgba(102, 49, 253, 0.25);
+  -webkit-box-shadow: 1px 5px 5px 0px rgba(102, 49, 253, 0.25);
+  -moz-box-shadow: 1px 5px 5px 0px rgba(102, 49, 253, 0.25);
 }
 
 .upArrow:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .signed_desc {
-    font-weight: 500;
-    font-size: 13px;
+  font-weight: 500;
+  font-size: 13px;
 }
 
 @media screen and (max-width: 900px) {
-    .sectionContainer {
-        flex-direction: column;
-    }
+  .sectionContainer {
+    flex-direction: column;
+  }
 
-    .section {
-        width: 100%;
-        order: 2;
-        padding-bottom: 100px;
-    }
+  .section {
+    width: 100%;
+    order: 2;
+    padding-bottom: 100px;
+  }
 
-    .aside {
-        width: 100%;
-        order: 1;
-        /* position: sticky;
+  .aside {
+    width: 100%;
+    order: 1;
+    /* position: sticky;
         top: 0; */
-    }
-    .upArrow {
-        margin-right: 0px;
-        margin-bottom: 0px;
-     }
+  }
+  .upArrow {
+    margin-right: 0px;
+    margin-bottom: 0px;
+  }
 }
 
 @media screen and (max-width: 650px) {
-    .aside {
-        display: none;
-    }
+  .aside {
+    display: none;
+  }
 }

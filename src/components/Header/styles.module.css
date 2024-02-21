@@ -127,4 +127,14 @@
   .pdfBtnContainer {
     /* display: none; */
   }
+
+  .pdfBtnContainer .pdfBtn {
+    padding: 5px 7px;
+  }
+
+  .logoContainer span {
+    margin-left: 5px;
+    font-size: 20px;
+    font-weight: bold;
+  }
 }
