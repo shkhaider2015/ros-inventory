@@ -129,7 +129,12 @@
   }
 
   .pdfBtnContainer .pdfBtn {
-    padding: 5px 7px;
+    padding: 0px 7px;
+    margin-top: 2px;
+  }
+
+  .pdfBtnContainer .pdfBtn span {
+    font-size: 11px;
   }
 
   .logoContainer span {
