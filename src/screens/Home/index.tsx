@@ -30,7 +30,7 @@ const HomeScreen = (props: {
     <main className={styles.container}>
       <EventTopRow {...props.eventInfo} />
       {/* <Tabs /> */}
-      <NewTabs />
+      <NewTabs titles={props.section_titles} />
       <div className={styles.sectionContainer}>
         {/* Left Side Column */}
         <section className={styles.section}>
@@ -77,8 +77,10 @@ const HomeScreen = (props: {
             .map((item, index) => (
               <EventSupplyItem {...item} key={item.name + index} />
             ))}
-          <ElementHead name="scrollto_6" text={"Signed Documents"} />
-          <p className={styles.signed_desc} >Be sure to check off the box once the document (s) are signed. </p>
+          <ElementHead name="scrollto_6" text={props.section_titles.SEVENTH} />
+          <p className={styles.signed_desc}>
+            Be sure to check off the box once the document (s) are signed.{" "}
+          </p>
           <SignedDocuments
             data={props.attachements}
             documentStatus={props.documentStatus}
@@ -229,6 +231,7 @@ export interface ISectionTitle {
   FOURTH: string;
   FIFTH: string;
   SIXTH: string;
+  SEVENTH: string;
 }
 
 export default HomeScreen;
