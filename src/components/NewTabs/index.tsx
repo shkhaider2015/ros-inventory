@@ -5,49 +5,51 @@ import Image from "next/image";
 import myImage from "../NewTabs/arrow-right.svg";
 import { scroller } from "react-scroll";
 
-const tabsData: {
-  id: string;
-  title: string;
-}[] = [
-  {
-    id: "1",
-    title: "General Info",
-  },
-  {
-    id: "2",
-    title: "About The Venue",
-  },
-  {
-    id: "3",
-    title: "Event Supply",
-  },
-  {
-    id: "4",
-    title: "Venue Specifications",
-  },
-  {
-    id: "5",
-    title: "Kitchen Supply",
-  },
-  {
-    id: "6",
-    title: "Agreements",
-  },
-  {
-    id: "7",
-    title: "Insurance Requirements",
-  },
-  {
-    id: "8",
-    title: "Food & Beverage",
-  },
-  {
-    id: "9",
-    title: "Misc",
-  },
-];
+const NewTabs: React.FC = (props: any) => {
+  console.log(props.titles);
+  // const titlesArr = Object.values(props.titles);
+  const tabsData: {
+    id: string;
+    title: string;
+  }[] = [
+    {
+      id: "1",
+      title: "General Info",
+    },
+    {
+      id: "2",
+      title: props.titles.FIRST, // About venue
+    },
+    {
+      id: "3",
+      title: props.titles.SECOND, // inventory menu
+    },
+    {
+      id: "4",
+      title: "Venue Specifications",
+    },
+    {
+      id: "5",
+      title: props.titles.THIRED, // Kitchen
+    },
+    {
+      id: "6",
+      title: props.titles.SEVENTH, // Signed documents
+    },
+    {
+      id: "7",
+      title: props.titles.FOURTH, // Insurance requirements
+    },
+    {
+      id: "8",
+      title: props.titles.FIFTH, // Food and beverage
+    },
+    {
+      id: "9",
+      title: props.titles.SIXTH, // Misc
+    },
+  ];
 
-const NewTabs: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<string>("1");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -75,7 +77,7 @@ const NewTabs: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.tabs} ref={scrollContainerRef}>
-        {tabsData.map((item) => (
+        {tabsData.map((item: any) => (
           <Tab
             key={item.id}
             id={item.id}

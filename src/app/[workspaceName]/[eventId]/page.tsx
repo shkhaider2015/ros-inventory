@@ -20,6 +20,7 @@ const sectionIds = {
   FOURTH: "3e0b14da-baea-4880-bcb6-b1506a350b46",
   FIFTH: "c6e290cc-215d-4459-b8ce-287b2e6de350",
   SIXTH: "532140d7-7bc3-4669-ad79-088395ce3f27",
+  SEVENTH: "41fbdc41-eaa0-4d2d-939b-ed955518502e",
 };
 
 const sectionTitleData: ISectionTitle[] = [
@@ -46,6 +47,10 @@ const sectionTitleData: ISectionTitle[] = [
   {
     section_uuid: sectionIds.SIXTH,
     section_title: "Misc",
+  },
+  {
+    section_uuid: sectionIds.SEVENTH,
+    section_title: "Signed Documents",
   },
 ];
 
@@ -91,7 +96,7 @@ async function getData(eventId: string) {
       checkout_client_info,
       cart_items,
       section_titles,
-      document_status
+      document_status,
     } = data;
     workspaceInfo = workspaceInfo[0];
 
@@ -208,7 +213,10 @@ async function getData(eventId: string) {
       // Access url is change for client side
       if (itemX?.uploaded_via === "CLIENT")
         itemX.url = client_file_url + itemX?.url + "." + extension;
-      else if(!(itemX?.url?.includes('inventory') && itemX?.url?.includes('file'))) itemX?.url
+      else if (
+        !(itemX?.url?.includes("inventory") && itemX?.url?.includes("file"))
+      )
+        itemX?.url;
       else itemX.url = image_url + itemX?.url;
 
       itemX.file_logo = fileExtensionImages[item?.file_type];
@@ -223,6 +231,7 @@ async function getData(eventId: string) {
       FOURTH: "Insurance Requirements",
       FIFTH: "Food & Beverage",
       SIXTH: "Misc",
+      SEVENTH: "Signed Documents",
     };
     // filter section titles
     if (section_titles && section_titles?.length <= 0)
@@ -232,22 +241,25 @@ async function getData(eventId: string) {
       section_titles?.forEach((item: ISectionTitle) => {
         switch (item?.section_uuid) {
           case sectionIds.FIRST:
-            newTitles.FIRST = item.section_title
+            newTitles.FIRST = item.section_title;
             break;
           case sectionIds.SECOND:
-            newTitles.SECOND = item.section_title
+            newTitles.SECOND = item.section_title;
             break;
           case sectionIds.THIRED:
-            newTitles.THIRED = item.section_title
+            newTitles.THIRED = item.section_title;
             break;
           case sectionIds.FOURTH:
-            newTitles.FOURTH = item.section_title
+            newTitles.FOURTH = item.section_title;
             break;
           case sectionIds.FIFTH:
-            newTitles.FIFTH = item.section_title
+            newTitles.FIFTH = item.section_title;
             break;
           case sectionIds.SIXTH:
-            newTitles.SIXTH = item.section_title
+            newTitles.SIXTH = item.section_title;
+            break;
+          case sectionIds.SEVENTH:
+            newTitles.SEVENTH = item.section_title;
             break;
           default:
             break;
@@ -266,7 +278,7 @@ async function getData(eventId: string) {
       cart_items,
       event_id: eventId,
       newTitles,
-      document_status
+      document_status,
     };
   } catch (error) {
     // console.log("Error at server : ", error);
@@ -311,7 +323,7 @@ function _getExtension(uri: string): string {
   return extension;
 }
 
-function _isURL(url:string) {
+function _isURL(url: string) {
   // if(url?.includes())
 }
 
