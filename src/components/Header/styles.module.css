@@ -131,6 +131,7 @@
   .pdfBtnContainer .pdfBtn {
     padding: 0px 7px;
     margin-top: 2px;
+    width: 80px;
   }
 
   .pdfBtnContainer .pdfBtn span {
