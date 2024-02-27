@@ -5,7 +5,7 @@ import Image from "next/image";
 import myImage from "../NewTabs/arrow-right.svg";
 import { scroller } from "react-scroll";
 
-const NewTabs: React.FC = (props: any) => {
+const NewTabs = (props: any) => {
   console.log(props.titles);
   // const titlesArr = Object.values(props.titles);
   const tabsData: {
