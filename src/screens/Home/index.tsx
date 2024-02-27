@@ -12,6 +12,7 @@ import ExpectedGuest from "@/components/ExpectedGuest";
 import NewTabs from "@/components/NewTabs";
 import CometChatPopup from "@/components/CometChat";
 import SignedDocuments from "@/components/SignedDocuments";
+import LoadInAndOut from "@/components/LoadInAndOut";
 
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
@@ -43,6 +44,7 @@ const HomeScreen = (props: {
             initialData={props.guest_info}
             event_id={props.event_id}
           />
+          <LoadInAndOut/>
           <ElementHead name="scrollto_2" text={props.section_titles.FIRST} />
           <DocumentSection
             item={props.items.find((item) => item.type === "ABOUT_THE_VENUE")}

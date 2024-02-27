@@ -1,0 +1,32 @@
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 30px;
+  
+}
+.secondcontainer{
+margin-top: 10px;
+    
+}
+.loadin{
+    margin-right: 50%;
+}
+.button{
+    margin-left:75%;
+    margin-bottom: 40px;
+
+}
+.save {
+    background-color: blueviolet;
+    color: white; /* text color */
+    border: none;
+  }
+.lastSaved {
+    color: grey;
+    font-size: 12px;
+    font-style: italic;
+    /* margin-top: 2px; */
+  
+  }
+ 
