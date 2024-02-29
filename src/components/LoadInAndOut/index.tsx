@@ -1,128 +1,50 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React from "react";
 import styles from "./styles.module.css";
 import { Col, Form, Row } from "antd";
 import { DatePicker as AntdDatePicker } from "antd";
-import moment, { Moment } from "moment";
-// import dayjs, { Dayjs } from "dayjs";
+import { useDispatch, useSelector } from "react-redux";
+import { updateFormFields } from "@/store/features/formFields";
+
+import dayjs, { Dayjs } from "dayjs";
 
 interface IProps {
-  loadInTime: Moment | undefined;
-  loadOutTime: Moment | undefined;
-  setLoadInTime: (value: Moment | null) => void;
-  setLoadOutTime: (value: Moment | null) => void;
+  loadInTime: Dayjs | undefined;
+  loadOutTime: Dayjs | undefined;
+  setLoadInTime: (value: Dayjs | null) => void;
+  setLoadOutTime: (value: Dayjs | null) => void;
 }
 
 const LoadInAndOut = (props: IProps) => {
   const { loadInTime, loadOutTime, setLoadInTime, setLoadOutTime } = props;
+  const dispatch = useDispatch();
 
-  console.log(loadInTime, "load in time at compnent");
-  console.log(loadOutTime, "load out time at component");
-
-  const disabledStartDate = (current: any) => {
-    return current && current < moment().startOf("minute");
+  const disabledStartDate = (current: Dayjs) => {
+    return current && current.isBefore(dayjs().startOf("minute"));
   };
 
-  const disabledEndDate = (current: any) => {
+  const disabledEndDate = (current: Dayjs) => {
     if (!loadInTime) {
-      return current && current < moment().startOf("minute");
+      return current && current.isBefore(dayjs().startOf("minute"));
     }
-    const startOfDay = moment(loadInTime).startOf("day");
     return (
-      current &&
-      (current.isBefore(startOfDay, "day") ||
-        (current.isSame(startOfDay, "day") && current.isBefore(loadInTime)) ||
-        current < moment().startOf("minute"))
+      (current &&
+        (current.isBefore(loadInTime.startOf("day"), "day") ||
+          (current.isSame(loadInTime.startOf("day"), "day") &&
+            current.isBefore(loadInTime)))) ||
+      current.isBefore(dayjs().startOf("minute"))
     );
   };
 
-  // const disabledPastTime = (current: any) => {
-  //   const now = moment();
-  //   return current && current.isBefore(now);
-  // };
+  const onStartChange = (value: any) => {
+    setLoadInTime(value);
+    dispatch(updateFormFields({ isFormFieldsChanged: true }));
+  };
 
-  // // Function to disable times before the start time for the end time picker
-  // const disabledBeforeStartTime = (current: any) => {
-  //   return current && loadInTime && current < loadInTime;
-  // };
-
-  // const onStartChange = useCallback(
-  //   (value: any) => {
-  //     const newValue = value
-  //       ? loadInTime
-  //         ? value.set({
-  //             hour: loadInTime.hour(),
-  //             minute: loadInTime.minute(),
-  //             second: loadInTime.second(),
-  //           })
-  //         : value
-  //       : null;
-  //     setLoadInTime(newValue);
-  //     console.log("re-render test");
-  //   },
-  //   [loadInTime]
-  // );
-
-  // const onEndChange = useCallback(
-  //   (value: any) => {
-  //     const newValue = value
-  //       ? loadOutTime
-  //         ? value.set({
-  //             hour: loadOutTime.hour(),
-  //             minute: loadOutTime.minute(),
-  //             second: loadOutTime.second(),
-  //           })
-  //         : value
-  //       : null;
-  //     setLoadOutTime(newValue);
-  //     console.log("re-render test");
-  //   },
-  //   [loadOutTime]
-  // );
-
-  const onStartChange = useCallback(
-    (value: any) => {
-      const newValue = value
-        ? // Check if new time is different from existing state
-          loadInTime && !value.isSame(loadInTime, "minute")
-          ? value.set({
-              hour: loadInTime.hour(),
-              minute: loadInTime.minute(),
-              second: loadInTime.second(),
-            })
-          : value.set({
-              hour: 0, // Set initial time to 00:00 on change
-              minute: 0,
-              second: 0,
-            })
-        : null;
-      setLoadInTime(newValue);
-      console.log("re-render test");
-    },
-    [loadInTime]
-  );
-
-  const onEndChange = useCallback(
-    (value: any) => {
-      const newValue = value
-        ? // Check if new time is different from existing state
-          loadOutTime && !value.isSame(loadOutTime, "minute")
-          ? value.set({
-              hour: loadOutTime.hour(),
-              minute: loadOutTime.minute(),
-              second: loadOutTime.second(),
-            })
-          : value.set({
-              hour: 0, // Set initial time to 00:00 on change
-              minute: 0,
-              second: 0,
-            })
-        : null;
-      setLoadOutTime(newValue);
-      console.log("re-render test");
-    },
-    [loadOutTime]
-  );
+  const onEndChange = (value: any) => {
+    setLoadOutTime(value);
+    dispatch(updateFormFields({ isFormFieldsChanged: true }));
+  };
 
   const timeFormat: any = {
     format: "MMM DD, YYYY hh:mm a",
@@ -137,9 +59,10 @@ const LoadInAndOut = (props: IProps) => {
       </div>
       <div className={styles.secondcontainer}>
         <Row justify="space-between">
-          <Col flex="4">
+          <Col flex="3">
             <Form.Item
               label="Load in"
+              style={{ fontWeight: "bold" }}
               rules={[
                 {
                   required: true,
@@ -148,6 +71,7 @@ const LoadInAndOut = (props: IProps) => {
               ]}
             >
               <AntdDatePicker
+                style={{ width: "65%", borderRadius: "10px" }}
                 showTime={timeFormat}
                 format="MMM DD, YYYY hh:mm a"
                 disabledDate={disabledStartDate}
@@ -156,10 +80,11 @@ const LoadInAndOut = (props: IProps) => {
               />
             </Form.Item>
           </Col>
-          <Col flex="1" />
-          <Col flex="4">
+          {/* <Col flex="1" /> */}
+          <Col flex="3">
             <Form.Item
               label="Load-out "
+              style={{ fontWeight: "bold" }}
               rules={[
                 {
                   required: true,
@@ -168,11 +93,12 @@ const LoadInAndOut = (props: IProps) => {
               ]}
             >
               <AntdDatePicker
+                style={{ width: "65%", borderRadius: "10px" }}
                 showTime={timeFormat}
                 format="MMM DD, YYYY hh:mm a"
                 disabledDate={disabledEndDate}
                 onChange={onEndChange}
-                value={moment(loadOutTime)}
+                value={loadOutTime}
               />
             </Form.Item>
           </Col>
@@ -187,123 +113,3 @@ const LoadInAndOut = (props: IProps) => {
 };
 
 export default LoadInAndOut;
-
-// "use client";
-// import React, { useState } from "react";
-// import styles from "./styles.module.css";
-// import { Col, Form, Row, Button } from "antd";
-// import { DatePicker as AntdDatePicker } from "antd";
-// import moment, { Moment } from "moment";
-// import dayjs, { Dayjs } from "dayjs";
-// import DatePicker from "../DatePicker/DatePicker";
-
-// interface IProps {
-//   loadInTime: Moment | undefined;
-//   loadOutTime: Moment | undefined;
-//   setLoadInTime: (value: Moment | null) => void;
-//   setLoadOutTime: (value: Moment | null) => void;
-// }
-
-// const LoadInAndOut = (props: IProps) => {
-//   const { loadInTime, loadOutTime, setLoadInTime, setLoadOutTime } = props;
-//   const [lastSaved, setLastSaved] = useState<string | null>(null);
-
-//   const handleRetrieveLastSaved = () => {
-//     const lastSavedDate = getLastSavedDate();
-//     setLastSaved(lastSavedDate);
-//   };
-
-//   console.log(loadInTime, "load in time 2");
-//   console.log(loadOutTime, "load out time 2");
-
-//   // Function to disable past dates for the start date picker
-//   const disabledStartDate = (current: any) => {
-//     // Can not select days before today
-//     return current && current < moment().startOf("day");
-//   };
-
-//   // Function to disable dates for the end date picker
-//   const disabledEndDate = (current: any) => {
-//     // Can not select days before the start date or before today
-//     return (
-//       current &&
-//       (current.isBefore(loadInTime, "day") || current < moment().startOf("day"))
-//     );
-//   };
-
-//   // Handlers for date changes
-//   const onStartChange = (value: any) => {
-//     setLoadInTime(value);
-//   };
-
-//   const onEndChange = (value: any) => {
-//     setLoadOutTime(value);
-//   };
-
-//   // Time format for the time picker
-//   const timeFormat: any = {
-//     format: "MMM DD, YYYY hh:mm a",
-//     minuteStep: 15, // Change this as needed
-//     use12Hours: true,
-//   };
-
-//   return (
-//     <div className={styles.container}>
-//       <div style={{ marginBottom: "20px" }} className={styles.title}>
-//         Load-in & out
-//       </div>
-//       <div className={styles.secondcontainer}>
-//         <Row justify="space-between">
-//           <Col flex="4">
-//             <Form.Item
-//               label="Load in"
-//               rules={[
-//                 {
-//                   required: true,
-//                   message: "Please select Load-in date and time",
-//                 },
-//               ]}
-//             >
-//               <DatePicker
-//                 showTime={timeFormat}
-//                 format="MMM DD, YYYY hh:mm a"
-//                 disabledDate={disabledStartDate}
-//                 onChange={onStartChange}
-//                 value={loadInTime}
-//               />
-//             </Form.Item>
-//           </Col>
-//           <Col flex="1" />
-//           <Col flex="4">
-//             <Form.Item
-//               label="Load-out "
-//               rules={[
-//                 {
-//                   required: true,
-//                   message: "Please select Load-out date and time",
-//                 },
-//               ]}
-//             >
-//               <DatePicker
-//                 showTime={timeFormat}
-//                 format="MMM DD, YYYY hh:mm a"
-//                 disabledDate={disabledEndDate}
-//                 onChange={onEndChange}
-//                 value={loadOutTime}
-//               />
-//             </Form.Item>
-//           </Col>
-//         </Row>
-//       </div>
-//       <div style={{ marginBottom: "20px" }} className={styles.title}>
-//         Special Instructions
-//       </div>
-//     </div>
-//   );
-// };
-
-// function getLastSavedDate(): string {
-//   return moment().format("MMM DD, YYYY - hh:mmA");
-// }
-
-// export default LoadInAndOut;

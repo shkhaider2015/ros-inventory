@@ -15,6 +15,7 @@ import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
 import { useRouter } from "next/navigation";
 import LoadInAndOut from "../LoadInAndOut";
+import dayjs, { Dayjs } from "dayjs";
 
 const ExpectedGuest: React.FC<{ initialData: IGuestInfo; event_id: string }> = (
   props
@@ -26,14 +27,14 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo; event_id: string }> = (
   const formFields = useSelector((state: any) => state.formFields);
   const { isActive, type, message, openSnackBar } = useSnackbar();
   //
-  const [loadInTime, setLoadInTime] = useState<Moment | null>(
+  const [loadInTime, setLoadInTime] = useState<Dayjs | null>(
     props.initialData.load_in_time
-      ? moment.parseZone(props.initialData.load_in_time)
+      ? dayjs(props.initialData.load_in_time)
       : null
   );
-  const [loadOutTime, setLoadOutTime] = useState<Moment | null>(
+  const [loadOutTime, setLoadOutTime] = useState<Dayjs | null>(
     props.initialData.load_out_time
-      ? moment.parseZone(props.initialData.load_out_time)
+      ? dayjs(props.initialData.load_out_time)
       : null
   );
 
@@ -64,15 +65,14 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo; event_id: string }> = (
   }, [props.initialData]);
 
   const _saveInfo = async () => {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     const formattedLoadInTime = loadInTime
-      ? loadInTime.format("YYYY-MM-DDTHH:mm:ss.SSSSSS") + "Z"
+      ? loadInTime.format("YYYY-MM-DDTHH:mm:ss.SSSSSS") + `[${userTimezone}]`
       : null;
     const formattedLoadOutTime = loadOutTime
-      ? loadOutTime.format("YYYY-MM-DDTHH:mm:ss.SSSSSS") + "Z"
+      ? loadOutTime.format("YYYY-MM-DDTHH:mm:ss.SSSSSS") + `[${userTimezone}]`
       : null;
-
-    console.log("Formatted Load In Time:", formattedLoadInTime);
-    console.log("Formatted Load Out Time:", formattedLoadOutTime);
 
     let URL = "https://myapi.runofshowapp.com/api/inventory/checkout";
     console.log("Guest Count : ", guestCount);
@@ -200,8 +200,8 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo; event_id: string }> = (
         </div>
       </div>
       <LoadInAndOut
-        loadInTime={loadInTime ? moment.parseZone(loadInTime) : undefined}
-        loadOutTime={loadOutTime ? moment.parseZone(loadOutTime) : undefined}
+        loadInTime={loadInTime ? dayjs(loadInTime) : undefined}
+        loadOutTime={loadOutTime ? dayjs(loadOutTime) : undefined}
         setLoadInTime={setLoadInTime}
         setLoadOutTime={setLoadOutTime}
       />
