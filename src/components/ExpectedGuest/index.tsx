@@ -7,21 +7,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateGuest } from "@/store/features/GuestInfo";
 import { updateFormFields } from "@/store/features/formFields";
 import { IGuestInfo } from "@/screens/Home";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import ROSInput from "../common/ROSInput";
 import Button from "../common/Button";
 import axios from "axios";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
 import { useRouter } from "next/navigation";
+import LoadInAndOut from "../LoadInAndOut";
+import dayjs, { Dayjs } from "dayjs";
 
-const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (props) => {
+const ExpectedGuest: React.FC<{ initialData: IGuestInfo; event_id: string }> = (
+  props
+) => {
   const [guestCount, setGuestCount] = useState<number>(0);
   const [isConfirm, setIsConfirm] = useState<"1" | "0" | "2">("2");
   const [loading, setLoading] = useState<boolean>(false);
   const guestInfo = useSelector((state: any) => state.guestInfo);
   const formFields = useSelector((state: any) => state.formFields);
   const { isActive, type, message, openSnackBar } = useSnackbar();
+  //
+  const [loadInTime, setLoadInTime] = useState<Dayjs | null>(
+    props.initialData.load_in_time
+      ? dayjs(props.initialData.load_in_time)
+      : null
+  );
+  const [loadOutTime, setLoadOutTime] = useState<Dayjs | null>(
+    props.initialData.load_out_time
+      ? dayjs(props.initialData.load_out_time)
+      : null
+  );
+
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -33,14 +49,12 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
       if (typeof checkin_at_door !== "number") checkin_at_door = 0;
       if (typeof expected_guest_count !== "number") expected_guest_count = 0;
 
-
-
-      setGuestCount(expected_guest_count)
+      setGuestCount(expected_guest_count);
       setIsConfirm(() => {
-        if(checkin_at_door === 0) return "0"
-        if(checkin_at_door === 1) return "1"
-        else return "2"
-      })
+        if (checkin_at_door === 0) return "0";
+        if (checkin_at_door === 1) return "1";
+        else return "2";
+      });
       // dispatch(
       //   updateGuest({
       //     checkin_at_door,
@@ -51,21 +65,40 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
   }, [props.initialData]);
 
   const _saveInfo = async () => {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const formattedLoadInTime = loadInTime
+      ? loadInTime.format("YYYY-MM-DDTHH:mm:ss.SSSSSS") + `[${userTimezone}]`
+      : null;
+    const formattedLoadOutTime = loadOutTime
+      ? loadOutTime.format("YYYY-MM-DDTHH:mm:ss.SSSSSS") + `[${userTimezone}]`
+      : null;
+
     let URL = "https://myapi.runofshowapp.com/api/inventory/checkout";
     console.log("Guest Count : ", guestCount);
-    console.log("IsConfirm : ", isConfirm)
-    
+    console.log("IsConfirm : ", isConfirm);
+
     try {
       setLoading(true);
-      await axios.post(URL, {
-        expected_guest_count: guestCount,
-        checkin_at_door: Number(isConfirm),
-        event_id: props.event_id
-      }, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios
+        .post(
+          URL,
+          {
+            expected_guest_count: guestCount,
+            checkin_at_door: Number(isConfirm),
+            event_id: props.event_id,
+            load_in_time: formattedLoadInTime,
+            load_out_time: formattedLoadOutTime,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+        });
       if (formFields.isFormFieldsChanged) {
         dispatch(updateFormFields({ isFormFieldsChanged: false }));
       }
@@ -77,7 +110,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   // console.log("Props init: ", props.initialData);
 
@@ -100,9 +133,9 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
       {/* <div className={styles.inputBox}> */}
       <ROSInput
         // value={parseInt(guestInfo.expected_guest_count).toString()
-          // guestInfo.expected_guest_count?.toString().length > 1
-          //   ? guestInfo.expected_guest_count?.toString().replace(/^0+/, "")
-          //   : guestInfo.expected_guest_count
+        // guestInfo.expected_guest_count?.toString().length > 1
+        //   ? guestInfo.expected_guest_count?.toString().replace(/^0+/, "")
+        //   : guestInfo.expected_guest_count
         // }
         value={parseInt(guestCount.toString()).toString()}
         className={styles.inputCon}
@@ -110,9 +143,9 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
         onChange={(e) => {
           let val = Number(e.target.value);
           if (val < 0) val = 0;
-          let newVal = parseInt(val.toString())
+          let newVal = parseInt(val.toString());
           dispatch(updateGuest({ expected_guest_count: newVal }));
-          setGuestCount(newVal)
+          setGuestCount(newVal);
           if (!formFields.isFormFieldsChanged) {
             dispatch(updateFormFields({ isFormFieldsChanged: true }));
           }
@@ -131,7 +164,7 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
             value={isConfirm === "1"}
             onChange={(val) => {
               dispatch(updateGuest({ checkin_at_door: 1 }));
-              setIsConfirm(val ?"1" : "0")
+              setIsConfirm(val ? "1" : "0");
               if (!formFields.isFormFieldsChanged) {
                 dispatch(updateFormFields({ isFormFieldsChanged: true }));
               }
@@ -150,10 +183,9 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
             label="No"
             // value={guestInfo.checkin_at_door === 0}
             value={isConfirm === "0"}
-
             onChange={(val) => {
               dispatch(updateGuest({ checkin_at_door: 0 }));
-              setIsConfirm(val ? "0" : "1")
+              setIsConfirm(val ? "0" : "1");
               if (!formFields.isFormFieldsChanged) {
                 dispatch(updateFormFields({ isFormFieldsChanged: true }));
               }
@@ -167,6 +199,12 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
           />
         </div>
       </div>
+      <LoadInAndOut
+        loadInTime={loadInTime ? dayjs(loadInTime) : undefined}
+        loadOutTime={loadOutTime ? dayjs(loadOutTime) : undefined}
+        setLoadInTime={setLoadInTime}
+        setLoadOutTime={setLoadOutTime}
+      />
       <div className={styles.bottomRow}>
         <div className={styles.iconTextCon}>
           <div className={styles.iconContainer}>
@@ -183,7 +221,12 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo, event_id:string }> = (p
           {moment(props.initialData.updated_at).format("MMM DD, YYYY - hh:mmA")}
         </div>
         <div className={styles.saveBtn}>
-          <Button type="Primary" label="Save" onClick={_saveInfo} loading={loading} />
+          <Button
+            type="Primary"
+            label="Save"
+            onClick={_saveInfo}
+            loading={loading}
+          />
         </div>
       </div>
       <ROSSnackbar isActive={isActive} type={type} message={message} />
