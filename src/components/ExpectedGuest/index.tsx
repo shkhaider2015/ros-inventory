@@ -17,9 +17,11 @@ import { useRouter } from "next/navigation";
 import LoadInAndOut from "../LoadInAndOut";
 import dayjs, { Dayjs } from "dayjs";
 
-const ExpectedGuest: React.FC<{ initialData: IGuestInfo; event_id: string }> = (
-  props
-) => {
+const ExpectedGuest: React.FC<{
+  initialData: IGuestInfo;
+  event_id: string;
+  specialInstructions: any;
+}> = (props) => {
   const [guestCount, setGuestCount] = useState<number>(0);
   const [isConfirm, setIsConfirm] = useState<"1" | "0" | "2">("2");
   const [loading, setLoading] = useState<boolean>(false);
@@ -41,6 +43,46 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo; event_id: string }> = (
   const router = useRouter();
 
   const dispatch = useDispatch();
+
+  const ContentParse = ({ content }: any) => {
+    const contentObject =
+      typeof content === "string" ? JSON.parse(content) : content;
+
+    return (
+      <div>
+        {contentObject.blocks.map((block: any) => {
+          const styles: any = {};
+          block.inlineStyleRanges.forEach((range: any) => {
+            switch (range.style) {
+              case "BOLD":
+                styles.fontWeight = "bold";
+                break;
+              case "ITALIC":
+                styles.fontStyle = "italic";
+                break;
+              case "UNDERLINE":
+                styles.textDecoration = "underline";
+                break;
+              default:
+                break;
+            }
+          });
+
+          return (
+            <React.Fragment key={block.key}>
+              {block.type === "unordered-list-item" ||
+              block.type === "ordered-list-item" ? (
+                <li style={styles}>{block.text}</li>
+              ) : (
+                <p style={styles}>{block.text}</p>
+              )}
+              <br />
+            </React.Fragment>
+          );
+        })}
+      </div>
+    );
+  };
 
   useLayoutEffect(() => {
     if (props.initialData) {
@@ -205,6 +247,17 @@ const ExpectedGuest: React.FC<{ initialData: IGuestInfo; event_id: string }> = (
         setLoadInTime={setLoadInTime}
         setLoadOutTime={setLoadOutTime}
       />
+      <div
+        style={{ marginTop: "15px", marginBottom: "20px" }}
+        className={styles.title}
+      >
+        Special Instructions
+      </div>
+      <div style={{ marginBottom: "20px" }} className={styles.description}>
+        {props.specialInstructions && (
+          <ContentParse content={props.specialInstructions} />
+        )}
+      </div>
       <div className={styles.bottomRow}>
         <div className={styles.iconTextCon}>
           <div className={styles.iconContainer}>
