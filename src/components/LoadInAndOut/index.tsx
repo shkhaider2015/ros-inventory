@@ -5,6 +5,7 @@ import { Col, Form, Row } from "antd";
 import { DatePicker as AntdDatePicker } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFormFields } from "@/store/features/formFields";
+import "./ant-styles.css";
 
 import dayjs, { Dayjs } from "dayjs";
 
@@ -20,7 +21,10 @@ const LoadInAndOut = (props: IProps) => {
   const dispatch = useDispatch();
 
   const disabledStartDate = (current: Dayjs) => {
-    return current && current.isBefore(dayjs().startOf("minute"));
+    return (
+      (current && current.isBefore(dayjs().startOf("minute"))) ||
+      current.isAfter(loadOutTime)
+    );
   };
 
   const disabledEndDate = (current: Dayjs) => {
