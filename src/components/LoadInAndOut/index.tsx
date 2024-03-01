@@ -54,7 +54,10 @@ const LoadInAndOut = (props: IProps) => {
 
   return (
     <div className={styles.container}>
-      <div style={{ marginBottom: "20px" }} className={styles.title}>
+      <div
+        style={{ marginBottom: "20px", fontSize: "16px" }}
+        className={styles.title}
+      >
         Load-in & out
       </div>
       <div className={styles.secondcontainer}>
@@ -103,10 +106,6 @@ const LoadInAndOut = (props: IProps) => {
             </Form.Item>
           </Col>
         </Row>
-      </div>
-
-      <div style={{ marginBottom: "20px" }} className={styles.title}>
-        Special Instructions
       </div>
     </div>
   );

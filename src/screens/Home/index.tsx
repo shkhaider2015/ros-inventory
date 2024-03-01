@@ -43,6 +43,7 @@ const HomeScreen = (props: {
           <ExpectedGuest
             initialData={props.guest_info}
             event_id={props.event_id}
+            specialInstructions={props.workspaceInfo.special_instructions}
           />
           {/* <LoadInAndOut/> */}
           <ElementHead name="scrollto_2" text={props.section_titles.FIRST} />
@@ -158,6 +159,7 @@ interface IInventoryInfo {
   secondary_email_address: string;
   secondary_phone_number: string;
   workspace_id: string;
+  special_instructions: any;
   id?: string;
   workspace_info?: {
     name: string;
