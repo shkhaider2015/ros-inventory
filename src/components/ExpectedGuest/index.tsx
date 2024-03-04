@@ -260,6 +260,7 @@ const ExpectedGuest: React.FC<{
         {props.specialInstructions && (
           <ContentParse content={props.specialInstructions} />
         )}
+        
       </div> */}
       <div className={styles.special_desc}>
         <TextEditor value={props.specialInstructions} isReadOnly={true} />
