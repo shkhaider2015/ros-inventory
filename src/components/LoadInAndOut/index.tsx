@@ -23,7 +23,14 @@ const LoadInAndOut = (props: IProps) => {
   const dispatch = useDispatch();
 
   const disabledStartDate = (current: Dayjs) => {
-    return current && current.isBefore(dayjs().startOf("minute"));
+    if (loadOutTime)
+      return (
+        (current && current.isBefore(dayjs().startOf("minute"))) ||
+        current.isAfter(loadOutTime)
+      );
+    else {
+      return current && current.isBefore(dayjs().startOf("minute"));
+    }
   };
 
   const disabledEndDate = (current: Dayjs) => {
@@ -33,8 +40,7 @@ const LoadInAndOut = (props: IProps) => {
     return (
       (current &&
         (current.isBefore(loadInTime.startOf("day"), "day") ||
-          (current.isSame(loadInTime.startOf("day"), "day") &&
-            current.isBefore(loadInTime)))) ||
+          current.isBefore(loadInTime))) ||
       current.isBefore(dayjs().startOf("minute"))
     );
   };
