@@ -16,15 +16,14 @@ interface IProps {
   setLoadOutTime: (value: Dayjs | null) => void;
 }
 
+console.log("test");
+
 const LoadInAndOut = (props: IProps) => {
   const { loadInTime, loadOutTime, setLoadInTime, setLoadOutTime } = props;
   const dispatch = useDispatch();
 
   const disabledStartDate = (current: Dayjs) => {
-    return (
-      (current && current.isBefore(dayjs().startOf("minute"))) ||
-      current.isAfter(loadOutTime)
-    );
+    return current && current.isBefore(dayjs().startOf("minute"));
   };
 
   const disabledEndDate = (current: Dayjs) => {

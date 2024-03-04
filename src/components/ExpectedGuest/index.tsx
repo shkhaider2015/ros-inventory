@@ -16,8 +16,6 @@ import ROSSnackbar from "../common/ROSSnackbar";
 import { useRouter } from "next/navigation";
 import LoadInAndOut from "../LoadInAndOut";
 import dayjs, { Dayjs } from "dayjs";
-import TextEditor from "../TextEditor";
-import ROSModal from "../common/ROSModal";
 
 const ExpectedGuest: React.FC<{
   initialData: IGuestInfo;
@@ -27,7 +25,6 @@ const ExpectedGuest: React.FC<{
   const [guestCount, setGuestCount] = useState<number>(0);
   const [isConfirm, setIsConfirm] = useState<"1" | "0" | "2">("2");
   const [loading, setLoading] = useState<boolean>(false);
-  const [showDetails, setShowDetails] = useState<boolean>(false);
   const guestInfo = useSelector((state: any) => state.guestInfo);
   const formFields = useSelector((state: any) => state.formFields);
   const { isActive, type, message, openSnackBar } = useSnackbar();
@@ -256,26 +253,9 @@ const ExpectedGuest: React.FC<{
       >
         Special Instructions
       </div>
-      {/* <div style={{ marginBottom: "20px" }} className={styles.description}>
+      <div style={{ marginBottom: "20px" }} className={styles.description}>
         {props.specialInstructions && (
           <ContentParse content={props.specialInstructions} />
-        )}
-      </div> */}
-      <div className={styles.special_desc}>
-        <TextEditor value={props.specialInstructions} isReadOnly={true} />
-        <div className={styles.special_descShadow} />
-      </div>
-      <div className={styles.special_btnContainer}>
-        {props.specialInstructions && (
-          <div className={styles.special_btn} onClick={() => setShowDetails(true)}>
-            <div className={styles.special_btnTitle}>View Details</div>
-            <Image
-              src={"/images/icons/arrow-up.svg"}
-              alt="arrow"
-              width={22}
-              height={22}
-            />
-          </div>
         )}
       </div>
       <div className={styles.bottomRow}>
@@ -302,14 +282,6 @@ const ExpectedGuest: React.FC<{
           />
         </div>
       </div>
-      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
-        <div className={styles.special_sectionModalContainer}>
-          {/* <div className={styles.dsModalTitle} >Title</div> */}
-          <div className={styles.special_sectionModalContent}>
-            <TextEditor value={props.specialInstructions} isReadOnly={true} />
-          </div>
-        </div>
-      </ROSModal>
       <ROSSnackbar isActive={isActive} type={type} message={message} />
     </div>
   );
