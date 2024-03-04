@@ -16,6 +16,8 @@ interface IProps {
   setLoadOutTime: (value: Dayjs | null) => void;
 }
 
+console.log("test");
+
 const LoadInAndOut = (props: IProps) => {
   const { loadInTime, loadOutTime, setLoadInTime, setLoadOutTime } = props;
   const dispatch = useDispatch();
