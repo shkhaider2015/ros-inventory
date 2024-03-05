@@ -2,7 +2,9 @@ import Layout from "@/components/Layout";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Providers } from "@/store/provider";
-import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import { ConfigProvider } from "antd";
+import theme from "@/theme/themeConfig";
+import { RootStyleRegistry } from "@/components/RootStyleRegistry/RootStyleRegistry";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,10 +27,14 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <body>
         <Providers>
-          <Layout>{children}</Layout>
+          <RootStyleRegistry>
+            <ConfigProvider theme={theme} >
+            <Layout>{children}</Layout>
+            <div id="modal-root"></div>
+            <div id="carousel-root"></div>
+            </ConfigProvider>
+          </RootStyleRegistry>
         </Providers>
-        <div id="modal-root"></div>
-        <div id="carousel-root"></div>
       </body>
     </html>
   );
