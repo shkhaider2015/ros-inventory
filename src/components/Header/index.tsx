@@ -8,6 +8,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
+import { DownloadOutlined, LoadingOutlined } from "@ant-design/icons";
 
 // const eventId = "a7219297-bee3-4099-98d3-935689927d7f";
 
@@ -119,6 +120,13 @@ const Header = () => {
           />
         </div> */}
         <div className={styles.pdfBtnContainer}>
+          <div className={styles.iconBtnContainer} onClick={_dlownloadPdf}>
+            {
+              loading ? <LoadingOutlined spin /> : <DownloadOutlined className={styles.iconBtn} />
+            }
+            
+          </div>
+
           <Button
             className={styles.pdfBtn}
             type="Primary"
