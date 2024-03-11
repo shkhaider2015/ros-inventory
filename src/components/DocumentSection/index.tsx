@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import styles from "./styles.module.css";
+import styles from "./DocumentSection.module.css";
 import TextEditor from "../TextEditor";
 import { IAttachements, IInventoryItem } from "@/screens/Home";
 import axios, { AxiosError, AxiosResponse } from "axios";
