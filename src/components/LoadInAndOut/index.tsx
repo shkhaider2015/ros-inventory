@@ -96,7 +96,7 @@ const LoadInAndOut = (props: IProps) => {
       </div>
       <div className={styles.secondcontainer}>
         <Row justify="space-between" gutter={[20, 0]}>
-          <Col flex="3">
+          <Col xs={24} sm={12} lg={12} xl={12}  >
             <Form.Item
               label="Load in"
               style={{ fontWeight: "bold" }}
@@ -108,7 +108,7 @@ const LoadInAndOut = (props: IProps) => {
               ]}
             >
               <AntdDatePicker
-                style={{ width: "65%", borderRadius: "10px" }}
+                // style={{ width: "65%", borderRadius: "10px" }}
                 className={styles.loadDatePicker}
                 showTime={timeFormat}
                 format="MMM DD, YYYY hh:mm a"
@@ -120,7 +120,7 @@ const LoadInAndOut = (props: IProps) => {
             </Form.Item>
           </Col>
           {/* <Col flex="1" /> */}
-          <Col flex="3">
+          <Col xs={24} sm={12} lg={12} xl={12} >
             <Form.Item
               label="Load-out "
               style={{ fontWeight: "bold" }}
