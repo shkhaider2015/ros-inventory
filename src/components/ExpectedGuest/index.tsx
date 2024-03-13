@@ -47,46 +47,6 @@ const ExpectedGuest: React.FC<{
 
   const dispatch = useDispatch();
 
-  const ContentParse = ({ content }: any) => {
-    const contentObject =
-      typeof content === "string" ? JSON.parse(content) : content;
-
-    return (
-      <div>
-        {contentObject.blocks.map((block: any) => {
-          const styles: any = {};
-          block.inlineStyleRanges.forEach((range: any) => {
-            switch (range.style) {
-              case "BOLD":
-                styles.fontWeight = "bold";
-                break;
-              case "ITALIC":
-                styles.fontStyle = "italic";
-                break;
-              case "UNDERLINE":
-                styles.textDecoration = "underline";
-                break;
-              default:
-                break;
-            }
-          });
-
-          return (
-            <React.Fragment key={block.key}>
-              {block.type === "unordered-list-item" ||
-              block.type === "ordered-list-item" ? (
-                <li style={styles}>{block.text}</li>
-              ) : (
-                <p style={styles}>{block.text}</p>
-              )}
-              <br />
-            </React.Fragment>
-          );
-        })}
-      </div>
-    );
-  };
-
   useLayoutEffect(() => {
     if (props.initialData) {
       let { checkin_at_door, expected_guest_count } = props.initialData;

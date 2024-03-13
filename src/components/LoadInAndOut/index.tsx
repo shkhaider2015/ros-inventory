@@ -30,36 +30,6 @@ const LoadInAndOut = (props: IProps) => {
   const { loadInTime, loadOutTime, setLoadInTime, setLoadOutTime } = props;
   const dispatch = useDispatch();
 
-  const disabledStartDate = (current: Dayjs) => {
-    if (loadOutTime)
-      return (
-        (current && current.isBefore(dayjs().startOf("minute"))) ||
-        current.isAfter(loadOutTime)
-      );
-    else {
-      return current && current.isBefore(dayjs().startOf("day"));
-    }
-  };
-
-  const disabledEndDate = (current: Dayjs) => {
-    if (!loadInTime) {
-      return current && current.isBefore(dayjs().startOf("minute"));
-    }
-    return (
-      current &&
-      (current.isBefore(loadInTime.startOf("minute")) ||
-        current.isBefore(loadInTime.startOf("hour"))) &&
-      current.isBefore(dayjs().startOf("day"))
-    );
-  };
-
-  const disabledDateTimeLoadIn = () => {
-    return {
-      disabledHours: () => range(0, 24).splice(4, 20),
-      disabledMinutes: () => range(30, 60),
-      disabledSeconds: () => [55, 56],
-    };
-  };
 
   const disableDates = (date:Dayjs, type:'loadin' | 'loadout') => {
     if(type === "loadin") {
@@ -125,7 +95,7 @@ const LoadInAndOut = (props: IProps) => {
         Load-in & out
       </div>
       <div className={styles.secondcontainer}>
-        <Row justify="space-between">
+        <Row justify="space-between" gutter={[20, 0]}>
           <Col flex="3">
             <Form.Item
               label="Load in"
@@ -139,6 +109,7 @@ const LoadInAndOut = (props: IProps) => {
             >
               <AntdDatePicker
                 style={{ width: "65%", borderRadius: "10px" }}
+                className={styles.loadDatePicker}
                 showTime={timeFormat}
                 format="MMM DD, YYYY hh:mm a"
                 disabledDate={(date) => disableDates(date, 'loadin')}
@@ -161,7 +132,8 @@ const LoadInAndOut = (props: IProps) => {
               ]}
             >
               <AntdDatePicker
-                style={{ width: "65%", borderRadius: "10px" }}
+                // style={{ width: "100%", borderRadius: "10px" }}
+                className={styles.loadDatePicker}
                 showTime={timeFormat}
                 format="MMM DD, YYYY hh:mm a"
                 disabledDate={(date) => disableDates(date, 'loadout')}

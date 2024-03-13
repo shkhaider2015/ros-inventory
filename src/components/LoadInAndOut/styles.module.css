@@ -1,5 +1,6 @@
 .container {
 }
+
 .secondcontainer {
   margin-top: 10px;
 }
@@ -24,4 +25,16 @@
   font-size: 12px;
   font-style: italic;
   /* margin-top: 2px; */
+}
+
+.loadDatePicker {
+  width: 65% !important;
+}
+
+@media screen and (max-width: 650px) {
+
+  .loadDatePicker {
+    width: 100% !important;
+  }
+
 }
