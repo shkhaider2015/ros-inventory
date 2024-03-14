@@ -1,5 +1,4 @@
-.container {
-}
+.container {}
 
 .secondcontainer {
   margin-top: 10px;
@@ -17,7 +16,8 @@
 } */
 .save {
   background-color: blueviolet;
-  color: white; /* text color */
+  color: white;
+  /* text color */
   border: none;
 }
 .lastSaved {

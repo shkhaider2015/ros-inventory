@@ -5,7 +5,6 @@ import { Col, Form, Row } from "antd";
 import { DatePicker as AntdDatePicker } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFormFields } from "@/store/features/formFields";
-import "./ant-styles.css";
 
 import dayjs, { Dayjs } from "dayjs";
 
@@ -116,6 +115,7 @@ const LoadInAndOut = (props: IProps) => {
                 disabledTime={(date) => disableTimes(date, 'loadin')}
                 onChange={onStartChange}
                 value={loadInTime}
+                
               />
             </Form.Item>
           </Col>
