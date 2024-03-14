@@ -105,3 +105,12 @@ a {
     color-scheme: dark;
   }
 } */
+
+@media screen and (max-width: 450px) {
+
+  .ant-picker-dropdown .ant-picker-datetime-panel-container .ant-picker-panel-layout div .ant-picker-panel .ant-picker-datetime-panel {
+    flex-direction: column;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+}
