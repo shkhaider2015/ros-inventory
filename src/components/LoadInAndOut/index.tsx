@@ -5,7 +5,6 @@ import { Col, Form, Row } from "antd";
 import { DatePicker as AntdDatePicker } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFormFields } from "@/store/features/formFields";
-import "./ant-styles.css";
 
 import dayjs, { Dayjs } from "dayjs";
 
@@ -30,36 +29,6 @@ const LoadInAndOut = (props: IProps) => {
   const { loadInTime, loadOutTime, setLoadInTime, setLoadOutTime } = props;
   const dispatch = useDispatch();
 
-  const disabledStartDate = (current: Dayjs) => {
-    if (loadOutTime)
-      return (
-        (current && current.isBefore(dayjs().startOf("minute"))) ||
-        current.isAfter(loadOutTime)
-      );
-    else {
-      return current && current.isBefore(dayjs().startOf("day"));
-    }
-  };
-
-  const disabledEndDate = (current: Dayjs) => {
-    if (!loadInTime) {
-      return current && current.isBefore(dayjs().startOf("minute"));
-    }
-    return (
-      current &&
-      (current.isBefore(loadInTime.startOf("minute")) ||
-        current.isBefore(loadInTime.startOf("hour"))) &&
-      current.isBefore(dayjs().startOf("day"))
-    );
-  };
-
-  const disabledDateTimeLoadIn = () => {
-    return {
-      disabledHours: () => range(0, 24).splice(4, 20),
-      disabledMinutes: () => range(30, 60),
-      disabledSeconds: () => [55, 56],
-    };
-  };
 
   const disableDates = (date:Dayjs, type:'loadin' | 'loadout') => {
     if(type === "loadin") {
@@ -125,8 +94,8 @@ const LoadInAndOut = (props: IProps) => {
         Load-in & out
       </div>
       <div className={styles.secondcontainer}>
-        <Row justify="space-between">
-          <Col flex="3">
+        <Row justify="space-between" gutter={[20, 0]}>
+          <Col xs={24} sm={12} lg={12} xl={12}  >
             <Form.Item
               label="Load in"
               style={{ fontWeight: "bold" }}
@@ -138,18 +107,20 @@ const LoadInAndOut = (props: IProps) => {
               ]}
             >
               <AntdDatePicker
-                style={{ width: "65%", borderRadius: "10px" }}
+                // style={{ width: "65%", borderRadius: "10px" }}
+                className={styles.loadDatePicker}
                 showTime={timeFormat}
                 format="MMM DD, YYYY hh:mm a"
                 disabledDate={(date) => disableDates(date, 'loadin')}
                 disabledTime={(date) => disableTimes(date, 'loadin')}
                 onChange={onStartChange}
                 value={loadInTime}
+                
               />
             </Form.Item>
           </Col>
           {/* <Col flex="1" /> */}
-          <Col flex="3">
+          <Col xs={24} sm={12} lg={12} xl={12} >
             <Form.Item
               label="Load-out "
               style={{ fontWeight: "bold" }}
@@ -161,7 +132,8 @@ const LoadInAndOut = (props: IProps) => {
               ]}
             >
               <AntdDatePicker
-                style={{ width: "65%", borderRadius: "10px" }}
+                // style={{ width: "100%", borderRadius: "10px" }}
+                className={styles.loadDatePicker}
                 showTime={timeFormat}
                 format="MMM DD, YYYY hh:mm a"
                 disabledDate={(date) => disableDates(date, 'loadout')}

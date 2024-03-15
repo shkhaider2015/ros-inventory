@@ -1,5 +1,5 @@
-.container {
-}
+.container {}
+
 .secondcontainer {
   margin-top: 10px;
 }
@@ -16,7 +16,8 @@
 } */
 .save {
   background-color: blueviolet;
-  color: white; /* text color */
+  color: white;
+  /* text color */
   border: none;
 }
 .lastSaved {
@@ -24,4 +25,20 @@
   font-size: 12px;
   font-style: italic;
   /* margin-top: 2px; */
+}
+
+.loadDatePicker {
+  width: 65% !important;
+}
+
+@media screen and (max-width: 650px) {
+
+  .loadDatePicker {
+    width: 100% !important;
+  }
+
+  .secondcontainer {
+    /* border: 1px solid red; */
+  }
+
 }
