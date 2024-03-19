@@ -1,4 +1,5 @@
-.container {}
+.container {
+}
 
 .secondcontainer {
   margin-top: 10px;
@@ -31,8 +32,17 @@
   width: 65% !important;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (min-width: 760px) and (max-width: 795px) {
+  .loadDatePicker {
+  }
 
+  .secondcontainer {
+    padding-left: 2px;
+    padding-right: 33px;
+  }
+}
+
+@media screen and (min-width: 410px) and (max-width: 650px) {
   .loadDatePicker {
     width: 100% !important;
   }
@@ -40,5 +50,11 @@
   .secondcontainer {
     /* border: 1px solid red; */
   }
+}
 
+@media screen and (max-width: 409px) {
+  .secondcontainer {
+    /* border: 1px solid red; */
+    padding: 10px !important;
+  }
 }
