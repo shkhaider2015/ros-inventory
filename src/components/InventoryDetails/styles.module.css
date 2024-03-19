@@ -84,7 +84,14 @@
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 89%);
     /* border: 1px solid red; */
     margin-bottom: 50px;
+}@media screen and (max-width: 650px) {
+    .detailsShadow {
+        height: 110px;
+        margin-bottom: 30px;
+
+    }
 }
+
 
 .containerListing::-webkit-scrollbar,
 .detailsSec::-webkit-scrollbar {
