@@ -121,6 +121,17 @@ const HomeScreen = (props: {
             workspace_id={props.workspaceInfo.workspace_id}
           />
 
+          <ElementHead name="scrollto_9" text={"Client/Planner attachments"} />
+          <DocumentSection
+            item={onLyDocsInitialItem}
+            section_type={"client_planner"}
+            section_title={"client_planner"}
+            attachements={props.attachements}
+            event_id={props.event_id}
+            workspace_id={props.workspaceInfo.workspace_id}
+            isOnlyDocs
+          />
+
           <SocialMediaIcon items={props.socialMedia} />
 
           {/* <div className={styles.upArrow}>
@@ -149,6 +160,22 @@ const HomeScreen = (props: {
       </div>
     </main>
   );
+};
+
+const onLyDocsInitialItem: IInventoryItem = {
+  description: "",
+  icon_url: undefined,
+  id: "",
+  name: "client_planner",
+  quantity: 0,
+  rental_price: 0,
+  type: "client_planner",
+  event_id: "",
+  workspace_id: "",
+  updated_at: "",
+  additional_images: {
+    images: [],
+  },
 };
 
 interface IInventoryInfo {
@@ -180,7 +207,8 @@ export interface IInventoryItem {
     | "ABOUT_THE_VENUE"
     | "INSURANCE_REQUIREMENTS"
     | "FOOD_AND_BEVERAGE"
-    | "MISC";
+    | "MISC"
+    | "client_planner";
   event_id: string;
   workspace_id?: string;
   updated_at?: string;
