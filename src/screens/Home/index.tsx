@@ -40,11 +40,11 @@ const HomeScreen = (props: {
             info={props.workspaceInfo}
             contacts={props.contacts}
           />
-          <ExpectedGuest
+          {/* <ExpectedGuest
             initialData={props.guest_info}
             event_id={props.event_id}
             specialInstructions={props.workspaceInfo.special_instructions}
-          />
+          /> */}
           {/* <LoadInAndOut/> */}
           <ElementHead name="scrollto_2" text={props.section_titles.FIRST} />
           <DocumentSection
@@ -54,6 +54,11 @@ const HomeScreen = (props: {
             attachements={props.attachements}
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
+          />
+           <ExpectedGuest
+            initialData={props.guest_info}
+            event_id={props.event_id}
+            specialInstructions={props.workspaceInfo.special_instructions}
           />
           <ElementHead name="scrollto_3" text={props.section_titles.SECOND} />
           {/* <div className={styles.header}></div> */}

@@ -13,9 +13,20 @@ const EventTopRow = (props: IEventInfo) => {
           {/* <div className={styles.desc}>VISITING FROM</div> */}
           <div className={styles.title}>{props?.name}</div>
           <div className={styles.date}>
+            <span>
             {moment(props?.start).format(
               "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
             )}
+
+            </span>
+            <span>-</span>
+            <span>
+            {moment(props?.end).format(
+              "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
+            )}
+
+            </span>
+           
           </div>
           <div className={styles.info}>
             {/* <table>
