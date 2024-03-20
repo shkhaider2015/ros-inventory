@@ -15,6 +15,7 @@ import { useParams, useRouter } from "next/navigation";
 import { validateEmail } from "@/lib/func";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
+import { Tooltip } from "antd";
 
 const SignedDocuments: React.FC<{
   data: IAttachements[];
@@ -281,34 +282,20 @@ const SignDocItem: React.FC<{
           />
           <span>External File</span>
         </div>
+
         <div className={styles.menu}>
-          <div className={styles.menuLogo} onClick={() => setShowMenu(true)}>
+          <Tooltip title="share via email">
             <Image
-              width={20}
-              height={20}
-              src={"/images/icons/Meatballs_menu.svg"}
-              alt=""
+              alt="icon"
+              width={25}
+              height={25}
+              onClick={() => {
+                setOpenShareModal(true);
+              }}
+              src="/images/icons/Send_fill.svg"
+              style={{ cursor: "pointer" }}
             />
-          </div>
-          <div
-            ref={ref}
-            className={`${styles.menuItemCon} ${
-              showMenu ? styles.visibleMenu : ""
-            }`}
-          >
-            {Array.from(["Share via Email"]).map((item, index) => (
-              <div
-                key={index}
-                className={styles.menuItem}
-                onClick={() => {
-                  setShowMenu(false);
-                  setOpenShareModal(true);
-                }}
-              >
-                {item}
-              </div>
-            ))}
-          </div>
+          </Tooltip>
         </div>
       </div>
 
