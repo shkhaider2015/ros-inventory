@@ -17,6 +17,7 @@ const DocumentSection = (props: {
   section_title: string;
   event_id: string;
   workspace_id: string;
+  isOnlyDocs?: boolean;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showDetails, setShowDetails] = useState<boolean>(false);
@@ -107,53 +108,58 @@ const DocumentSection = (props: {
     }
   };
 
-  // console.log("File ", props.attachements);
+  console.log(`${props.item} - Files : `, props.attachements);
 
   return (
     <div className={styles.container}>
-      <div className={styles.titleContainer}>
-        <div className={styles.iconColumn}>
-          <div className={styles.iconContainer}>
-            <Image
-              src={"/images/icons/HandHeart.svg"}
-              alt=""
-              width={30}
-              height={30}
-            />
-          </div>
-        </div>
-        <div className={styles.textColumn}>
-          {/* <div className={styles.title}>
-            {props.item?.name || props.section_title}
-          </div> */}
-          <div className={styles.desc}>
-            <TextEditor value={props.item?.description} isReadOnly={true} />
-            <div className={styles.descShadow} />
-          </div>
-          <div className={styles.btnContainer}>
-            {props.item?.description && (
-              <div
-                className={styles.thirdRow}
-                onClick={() => setShowDetails(true)}
-              >
-                <div className={styles.title}>View Details</div>
+      {!props.isOnlyDocs && (
+        <>
+          <div className={styles.titleContainer}>
+            <div className={styles.iconColumn}>
+              <div className={styles.iconContainer}>
                 <Image
-                  src={"/images/icons/arrow-up.svg"}
-                  alt="arrow"
-                  width={22}
-                  height={22}
+                  src={"/images/icons/HandHeart.svg"}
+                  alt=""
+                  width={30}
+                  height={30}
                 />
               </div>
-            )}
-          </div>
-        </div>
+            </div>
+            <div className={styles.textColumn}>
+              {/* <div className={styles.title}>
+            {props.item?.name || props.section_title}
+          </div> */}
+              <div className={styles.desc}>
+                <TextEditor value={props.item?.description} isReadOnly={true} />
+                <div className={styles.descShadow} />
+              </div>
+              <div className={styles.btnContainer}>
+                {props.item?.description && (
+                  <div
+                    className={styles.thirdRow}
+                    onClick={() => setShowDetails(true)}
+                  >
+                    <div className={styles.title}>View Details</div>
+                    <Image
+                      src={"/images/icons/arrow-up.svg"}
+                      alt="arrow"
+                      width={22}
+                      height={22}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
 
-        {/* 
+            {/* 
           <div className={styles.descContainer}>
           </div> 
         */}
-      </div>
-      <div className={styles.hrLine} />
+          </div>
+          <div className={styles.hrLine} />
+        </>
+      )}
+
       <div className={styles.docsContainer}>
         <div className={styles.docsTitle}>
           {
