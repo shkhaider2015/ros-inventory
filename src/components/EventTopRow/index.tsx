@@ -1,10 +1,10 @@
 "use client";
 import { IEventInfo } from "@/screens/Home";
-import styles from "./styles.module.css";
+import styles from "./EventTopRow.module.css";
 import moment from "moment";
 
 const EventTopRow = (props: IEventInfo) => {
-  console.log("Event Info : ", props);
+  // console.log("Event Info : ", props);
 
   return (
     <div className={styles.container}>
@@ -13,9 +13,20 @@ const EventTopRow = (props: IEventInfo) => {
           {/* <div className={styles.desc}>VISITING FROM</div> */}
           <div className={styles.title}>{props?.name}</div>
           <div className={styles.date}>
+            <span>
             {moment(props?.start).format(
               "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
             )}
+
+            </span>
+            <span>-</span>
+            <span>
+            {moment(props?.end).format(
+              "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
+            )}
+
+            </span>
+           
           </div>
           <div className={styles.info}>
             {/* <table>
