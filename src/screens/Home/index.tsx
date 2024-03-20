@@ -126,7 +126,7 @@ const HomeScreen = (props: {
             workspace_id={props.workspaceInfo.workspace_id}
           />
 
-          <ElementHead name="scrollto_9" text={"Client/Planner attachments"} />
+          <ElementHead name="scrollto_9" text={"Client/Planner Attachments"} />
           <DocumentSection
             item={onLyDocsInitialItem}
             section_type={"client_planner"}
