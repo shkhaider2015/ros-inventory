@@ -145,6 +145,9 @@ export async function POST(request: NextRequest, response: NextResponse) {
         start: moment(data?.eventInfo.start).format(
           "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
         ),
+        end: moment(data?.eventInfo.end).format(
+          "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
+        ),
       },
       contacts: data?.contacts,
       about_venue: {
@@ -490,6 +493,7 @@ interface IData {
   eventInfo: {
     name: string;
     start: string;
+    end: string;
   };
   contacts: [];
   about_venue: {
