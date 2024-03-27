@@ -65,6 +65,7 @@ async function getData(eventId: string) {
     "/images/icons/lightning.svg",
     "/images/icons/wifi.svg",
     "/images/icons/tec_spec.svg",
+    "/images/icons/HandHeart.svg"
   ];
   //   const res = await fetch(URL, {...obj});
   // console.log("Event Id ", eventId);
@@ -136,7 +137,10 @@ async function getData(eventId: string) {
             icon_url: Spec_Icons[2],
           };
         } else {
-          itemX = itemX;
+          itemX = {
+            ...itemX,
+            icon_url: Spec_Icons[4]
+          }
         }
         return itemX;
       } else return item;
