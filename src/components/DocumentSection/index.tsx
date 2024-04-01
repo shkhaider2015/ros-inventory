@@ -108,7 +108,7 @@ const DocumentSection = (props: {
     }
   };
 
-  console.log(`${props.item} - Files : `, props.attachements);
+  // console.log(`${props.item} - Files : `, props.attachements);
 
   return (
     <div className={styles.container}>
