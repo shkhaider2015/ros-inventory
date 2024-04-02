@@ -48,6 +48,10 @@ const NewTabs = (props: any) => {
       id: "9",
       title: props.titles.SIXTH, // Misc
     },
+    {
+      id: "10",
+      title: props.titles.EIGTH, // client/planner attachement
+    },
   ];
 
   const [selectedTab, setSelectedTab] = useState<string>("1");
