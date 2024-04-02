@@ -200,6 +200,20 @@
     display: none;
 }
 
+.address_field {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgb(237, 237, 237);
+}
+
+.address_field_text {
+    opacity: .7;
+}
+
 @media screen and (max-width: 1350px) {
     .imageCon img {
         width: 200px !important;

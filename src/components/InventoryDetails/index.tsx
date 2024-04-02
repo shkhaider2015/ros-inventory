@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import styles from "./styles.module.css";
+import styles from "./inventoryDetails.module.css";
 import TextEditor from "../TextEditor";
 import { _toTitleCase } from "@/lib/func";
 import { useState, useEffect } from "react";
@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import ROSModal from "../common/ROSModal";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
+import { EnvironmentOutlined } from "@ant-design/icons";
 
 const InventoryDetails = (props: IInventoryDetails) => {
   const { info, contacts } = props;
@@ -62,6 +63,12 @@ const InventoryDetails = (props: IInventoryDetails) => {
         {contacts.length > 3 && <div className={styles.contactShadow} />}
       {/* </div> */}
 
+      <div className={styles.address_field} >
+      <span>
+        <EnvironmentOutlined style={{ color: '#6200EE' }} />
+      </span>
+      <span className={styles.address_field_text} >{info.secondary_email_address}</span>
+      </div>
       <div className={styles.detailsSec}>
         <TextEditor value={info.description} isReadOnly />
       </div>
