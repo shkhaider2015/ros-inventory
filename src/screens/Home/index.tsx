@@ -55,7 +55,7 @@ const HomeScreen = (props: {
             event_id={props.event_id}
             workspace_id={props.workspaceInfo.workspace_id}
           />
-           <ExpectedGuest
+          <ExpectedGuest
             initialData={props.guest_info}
             event_id={props.event_id}
             specialInstructions={props.workspaceInfo.special_instructions}
@@ -126,7 +126,7 @@ const HomeScreen = (props: {
             workspace_id={props.workspaceInfo.workspace_id}
           />
 
-          <ElementHead name="scrollto_9" text={"Client/Planner Attachments"} />
+          <ElementHead name="scrollto_10" text={props.section_titles.EIGTH} />
           <DocumentSection
             item={onLyDocsInitialItem}
             section_type={"client_planner"}
@@ -271,6 +271,7 @@ export interface ISectionTitle {
   FIFTH: string;
   SIXTH: string;
   SEVENTH: string;
+  EIGTH: string;
 }
 
 export default HomeScreen;
