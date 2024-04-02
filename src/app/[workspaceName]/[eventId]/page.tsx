@@ -21,6 +21,7 @@ const sectionIds = {
   FIFTH: "c6e290cc-215d-4459-b8ce-287b2e6de350",
   SIXTH: "532140d7-7bc3-4669-ad79-088395ce3f27",
   SEVENTH: "41fbdc41-eaa0-4d2d-939b-ed955518502e",
+  EIGTH: "bb19bfcd-72a1-4980-8bf0-65a582acadf3",
 };
 
 const sectionTitleData: ISectionTitle[] = [
@@ -52,6 +53,10 @@ const sectionTitleData: ISectionTitle[] = [
     section_uuid: sectionIds.SEVENTH,
     section_title: "Signed Documents",
   },
+  {
+    section_uuid: sectionIds.EIGTH,
+    section_title: "Client / Planner Attachments",
+  },
 ];
 
 async function getData(eventId: string) {
@@ -65,7 +70,7 @@ async function getData(eventId: string) {
     "/images/icons/lightning.svg",
     "/images/icons/wifi.svg",
     "/images/icons/tec_spec.svg",
-    "/images/icons/HandHeart.svg"
+    "/images/icons/HandHeart.svg",
   ];
   //   const res = await fetch(URL, {...obj});
   // console.log("Event Id ", eventId);
@@ -139,8 +144,8 @@ async function getData(eventId: string) {
         } else {
           itemX = {
             ...itemX,
-            icon_url: Spec_Icons[4]
-          }
+            icon_url: Spec_Icons[4],
+          };
         }
         return itemX;
       } else return item;
@@ -236,6 +241,7 @@ async function getData(eventId: string) {
       FIFTH: "Food & Beverage",
       SIXTH: "Misc",
       SEVENTH: "Signed Documents",
+      EIGTH: "Client / Planner Attachments",
     };
     // filter section titles
     if (section_titles && section_titles?.length <= 0)
@@ -264,6 +270,9 @@ async function getData(eventId: string) {
             break;
           case sectionIds.SEVENTH:
             newTitles.SEVENTH = item.section_title;
+            break;
+          case sectionIds.EIGTH:
+            newTitles.EIGTH = item.section_title;
             break;
           default:
             break;
