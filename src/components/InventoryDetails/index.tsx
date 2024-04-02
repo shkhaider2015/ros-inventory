@@ -64,8 +64,8 @@ const InventoryDetails = (props: IInventoryDetails) => {
       {/* </div> */}
 
       <div className={styles.address_field} >
-      <span>
-        <EnvironmentOutlined style={{ color: '#6200EE' }} />
+      <span className={styles.iconField} >
+        <EnvironmentOutlined />
       </span>
       <span className={styles.address_field_text} >{info.secondary_email_address}</span>
       </div>
