@@ -216,6 +216,8 @@ async function getData(eventId: string) {
       return itemFromList;
     });
 
+    // cart_items = cart_items.filter((item:any) => !item.is_deleted && item?.selectedQuantity > 0 )
+
     // filter attachements
     attachments = attachments?.map((item: any) => {
       let itemX = item;
@@ -284,6 +286,15 @@ async function getData(eventId: string) {
 
     // filter is_deletd items 
     items = items?.filter((item:any) => !item?.is_deleted)
+
+    // filter is_deleted item from cart
+    cart_items = cart_items?.filter((item:any) => {
+      if(item?.is_deleted) {
+        if(item?.selectedQuantity <= 0) return false
+        else return true
+      }
+      else return true
+    })
 
     return {
       workspaceInfo,
