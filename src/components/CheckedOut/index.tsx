@@ -218,6 +218,7 @@ const Item = ({
   onRemove,
   onChangeCounter,
   quantity,
+  is_deleted
 }: any) => {
   return (
     <div className={styles.itemContainer}>
@@ -242,6 +243,7 @@ const Item = ({
             minValue={0}
             maxValue={quantity}
             onChange={onChangeCounter}
+            disable={is_deleted}
           />
         </div>
         <div className={styles.deletCon}>
