@@ -81,6 +81,8 @@
 
 .unitPrice {
     width: 40%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .unitPrice div {
@@ -90,6 +92,7 @@
     font-weight: 400;
     background-color: #F5F5F5;
     text-align: center;
+    width: fit-content;
 }
 .unitPrice div span {
     color: #6200EE;
