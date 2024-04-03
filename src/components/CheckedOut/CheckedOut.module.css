@@ -79,13 +79,13 @@
     width: 60%;
 }
 
-.unitPrice {
+.unitPriceCon {
     width: 40%;
     display: flex;
     justify-content: flex-end;
 }
 
-.unitPrice div {
+.unitPriceBox {
     padding: 5px 8px;
     border-radius: 10px;
     font-size: 10px;
@@ -94,7 +94,7 @@
     text-align: center;
     width: fit-content;
 }
-.unitPrice div span {
+.unitPrice {
     color: #6200EE;
 }
 

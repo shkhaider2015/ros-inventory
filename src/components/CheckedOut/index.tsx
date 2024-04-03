@@ -230,9 +230,9 @@ const Item = ({
         <div className={styles.textCon}>
           <div className={styles.titleContainer}>
             <div className={styles.title}>{_toTitleCase(name)}</div>
-            <div className={styles.unitPrice}>
-              <div>
-                Unit Price: <span>${rental_price}</span>
+            <div className={styles.unitPriceCon}>
+              <div className={styles.unitPriceBox} >
+                Unit Price: <span className={styles.unitPrice} >${rental_price}</span>
               </div>
             </div>
           </div>
