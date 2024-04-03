@@ -74,7 +74,7 @@ const InventoryDetails = (props: IInventoryDetails) => {
       </div>
       <div className={styles.detailsShadow} />
 
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <div style={{ display: "flex", justifyContent: "flex-start" }}>
         {info.description && (
           <div className={styles.thirdRow} onClick={() => setShowDetails(true)}>
             <div className={styles.title}>View Details</div>
