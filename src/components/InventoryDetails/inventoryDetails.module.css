@@ -199,6 +199,10 @@
 .containerListing.forMobile {
     display: none;
 }
+.address_field .iconField {
+    color: #6200EE;
+    font-size: 18px;
+}
 
 .address_field {
     display: flex;
@@ -208,10 +212,12 @@
     padding-bottom: 15px;
     margin-bottom: 15px;
     border-bottom: 1px solid rgb(237, 237, 237);
+    
 }
 
 .address_field_text {
     opacity: .7;
+    font-size: 12px;
 }
 
 @media screen and (max-width: 1350px) {
