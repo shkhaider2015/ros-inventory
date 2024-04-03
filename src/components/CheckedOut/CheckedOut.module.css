@@ -74,6 +74,23 @@
 .title {
     font-size: 12px;
     font-weight: 600;
+    width: 60%;
+}
+
+.unitPrice {
+    width: 40%;
+}
+
+.unitPrice div {
+    padding: 5px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 400;
+    background-color: #F5F5F5;
+    text-align: center;
+}
+.unitPrice div span {
+    color: #6200EE;
 }
 
 .desc {
@@ -142,6 +159,12 @@
 
 .totalItemContainer::-webkit-scrollbar-thumb {
     background-color: #6200EE;
+}
+
+.titleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 @media screen and (max-width: 900px) {

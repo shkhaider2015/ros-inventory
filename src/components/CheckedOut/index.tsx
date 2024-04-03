@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import styles from "./styles.module.css";
+import styles from "./CheckedOut.module.css";
 import CounterButton from "../common/CounterButton";
 import Button from "../common/Button";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,7 +49,7 @@ const CheckedOut: React.FC<{
   const _onSave = async () => {
     // console.log("_onSave() : ", cartItems);
 
-    let data:any = {
+    let data: any = {
       ...guestInfo,
       event_id: props.event_id,
     };
@@ -218,7 +218,8 @@ const Item = ({
   onRemove,
   onChangeCounter,
   quantity,
-  is_deleted
+  is_deleted,
+  rental_price,
 }: any) => {
   return (
     <div className={styles.itemContainer}>
@@ -227,7 +228,14 @@ const Item = ({
           <Image src={icon_url || ""} alt="product" width={60} height={60} />
         </div>
         <div className={styles.textCon}>
-          <div className={styles.title}>{_toTitleCase(name)}</div>
+          <div className={styles.titleContainer}>
+            <div className={styles.title}>{_toTitleCase(name)}</div>
+            <div className={styles.unitPrice}>
+              <div>
+                Unit Price: <span>${rental_price}</span>
+              </div>
+            </div>
+          </div>
           <div className={styles.desc}>
             {description.length > 62
               ? description.slice(0, 62) + "..."
