@@ -111,8 +111,7 @@ async function getData(eventId: string) {
       logo_url: image_url + workspaceInfo?.logo_url,
     };
 
-    // filter deleted items
-    items = items?.filter((item:any) => !item?.is_deleted)
+
 
     items = items?.map((item: any) => ({
       ...item,
@@ -282,6 +281,9 @@ async function getData(eventId: string) {
         }
       });
     }
+
+    // filter is_deletd items 
+    items = items?.filter((item:any) => !item?.is_deleted)
 
     return {
       workspaceInfo,
