@@ -111,6 +111,9 @@ async function getData(eventId: string) {
       logo_url: image_url + workspaceInfo?.logo_url,
     };
 
+    // filter deleted items
+    items = items?.filter((item:any) => !item?.is_deleted)
+
     items = items?.map((item: any) => ({
       ...item,
       icon_url: image_url + item?.icon_url,
@@ -336,14 +339,10 @@ function _getExtension(uri: string): string {
   return extension;
 }
 
-function _isURL(url: string) {
-  // if(url?.includes())
-}
-
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
   // console.log("guest ", data?.checkout_client_info);
-  // console.log("items additional_images ", data?.items);
+  // console.log("items additional_images ", data?.cart_items);
 
   if (!data)
     return (
