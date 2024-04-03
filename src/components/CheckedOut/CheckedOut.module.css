@@ -65,12 +65,16 @@
     align-items: center;
 }
 
+.imageCon {
+    width: 65px;
+}
 .imageCon img {
     border-radius: 5px;
 }
 
 .textCon {
     margin-left: 10px;
+    width: calc(100% - 65px);
 }
 
 .title {
