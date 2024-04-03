@@ -111,6 +111,8 @@ async function getData(eventId: string) {
       logo_url: image_url + workspaceInfo?.logo_url,
     };
 
+
+
     items = items?.map((item: any) => ({
       ...item,
       icon_url: image_url + item?.icon_url,
@@ -214,6 +216,8 @@ async function getData(eventId: string) {
       return itemFromList;
     });
 
+    // cart_items = cart_items.filter((item:any) => !item.is_deleted && item?.selectedQuantity > 0 )
+
     // filter attachements
     attachments = attachments?.map((item: any) => {
       let itemX = item;
@@ -280,6 +284,18 @@ async function getData(eventId: string) {
       });
     }
 
+    // filter is_deletd items 
+    items = items?.filter((item:any) => !item?.is_deleted)
+
+    // filter is_deleted item from cart
+    cart_items = cart_items?.filter((item:any) => {
+      if(item?.is_deleted) {
+        if(item?.selectedQuantity <= 0) return false
+        else return true
+      }
+      else return true
+    })
+
     return {
       workspaceInfo,
       items,
@@ -336,14 +352,10 @@ function _getExtension(uri: string): string {
   return extension;
 }
 
-function _isURL(url: string) {
-  // if(url?.includes())
-}
-
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
   // console.log("guest ", data?.checkout_client_info);
-  // console.log("items additional_images ", data?.items);
+  // console.log("items additional_images ", data?.cart_items);
 
   if (!data)
     return (
