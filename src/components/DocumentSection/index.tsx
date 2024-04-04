@@ -17,6 +17,7 @@ const DocumentSection = (props: {
   section_title: string;
   event_id: string;
   workspace_id: string;
+  isOnlyDocs?: boolean;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showDetails, setShowDetails] = useState<boolean>(false);
@@ -107,7 +108,7 @@ const DocumentSection = (props: {
     }
   };
 
-  // console.log("File ", props.attachements);
+  console.log(`${props.item} - Files : `, props.attachements);
 
   return (
     <div className={styles.container}>
@@ -138,16 +139,15 @@ const DocumentSection = (props: {
               >
                 <div className={styles.title}>View Details</div>
                 <Image
-                  src={"/images/icons/arrow-up.svg"}
-                  alt="arrow"
-                  width={22}
-                  height={22}
+                  src={"/images/icons/HandHeart.svg"}
+                  alt=""
+                  width={30}
+                  height={30}
                 />
               </div>
             )}
           </div> */}
         </div>
-       
 
         {/* 
           <div className={styles.descContainer}>
@@ -155,21 +155,18 @@ const DocumentSection = (props: {
         */}
       </div>
       <div className={styles.btnContainer}>
-          {props.item?.description && (
-            <div
-              className={styles.thirdRow}
-              onClick={() => setShowDetails(true)}
-            >
-              <div className={styles.title}>View Details</div>
-              <Image
-                src={"/images/icons/arrow-up.svg"}
-                alt="arrow"
-                width={22}
-                height={22}
-              />
-            </div>
-          )}
-        </div>
+        {props.item?.description && (
+          <div className={styles.thirdRow} onClick={() => setShowDetails(true)}>
+            <div className={styles.title}>View Details</div>
+            <Image
+              src={"/images/icons/arrow-up.svg"}
+              alt="arrow"
+              width={22}
+              height={22}
+            />
+          </div>
+        )}
+      </div>
       <div className={styles.hrLine} />
       <div className={styles.docsContainer}>
         <div className={styles.docsTitle}>

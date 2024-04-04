@@ -1,10 +1,10 @@
 "use client";
 import { IEventInfo } from "@/screens/Home";
-import styles from "./styles.module.css";
+import styles from "./EventTopRow.module.css";
 import moment from "moment";
 
 const EventTopRow = (props: IEventInfo) => {
-  console.log("Event Info : ", props);
+  // console.log("Event Info : ", props);
 
   return (
     <div className={styles.container}>

@@ -64,7 +64,8 @@ interface IVenueItem {
     | "ABOUT_THE_VENUE"
     | "INSURANCE_REQUIREMENTS"
     | "FOOD_AND_BEVERAGE"
-    | "MISC";
+    | "MISC"
+    | "client_planner";
   workspace_id?: string;
   updated_at?: string;
 }
