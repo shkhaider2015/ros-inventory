@@ -130,7 +130,7 @@ const DocumentSection = (props: {
             <TextEditor value={props.item?.description} isReadOnly={true} />
             <div className={styles.descShadow} />
           </div>
-          <div className={styles.btnContainer}>
+          {/* <div className={styles.btnContainer}>
             {props.item?.description && (
               <div
                 className={styles.thirdRow}
@@ -145,14 +145,31 @@ const DocumentSection = (props: {
                 />
               </div>
             )}
-          </div>
+          </div> */}
         </div>
+       
 
         {/* 
           <div className={styles.descContainer}>
           </div> 
         */}
       </div>
+      <div className={styles.btnContainer}>
+          {props.item?.description && (
+            <div
+              className={styles.thirdRow}
+              onClick={() => setShowDetails(true)}
+            >
+              <div className={styles.title}>View Details</div>
+              <Image
+                src={"/images/icons/arrow-up.svg"}
+                alt="arrow"
+                width={22}
+                height={22}
+              />
+            </div>
+          )}
+        </div>
       <div className={styles.hrLine} />
       <div className={styles.docsContainer}>
         <div className={styles.docsTitle}>
