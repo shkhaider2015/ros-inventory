@@ -241,12 +241,19 @@
 .iconsText_mobile {
     font-size: 10px;
     font-weight: 400;
-    max-width: 100px;
-    min-width: 80px;
+    max-width: 22vw;
+    min-width: 22vw;
     overflow-wrap: break-word;
+    opacity: .6;
 }
 
-.firstCell_mobile {}
+.firstCell_mobile .iconsText_mobile {
+    font-size: 12px;
+    font-weight: 600;
+    max-width: 22vw;
+    min-width: 22vw;
+    overflow-wrap: break-word;
+}
 
 .firstCellFooter_mobile {
     font-size: 10px;
