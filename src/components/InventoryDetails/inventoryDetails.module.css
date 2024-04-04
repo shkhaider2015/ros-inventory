@@ -84,7 +84,9 @@
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 89%);
     /* border: 1px solid red; */
     margin-bottom: 50px;
-}@media screen and (max-width: 650px) {
+}
+
+@media screen and (max-width: 650px) {
     .detailsShadow {
         height: 110px;
         margin-bottom: 30px;
@@ -196,9 +198,12 @@
     background-color: #6200EE;
 }
 
-.containerListing.forMobile {
+.forMobile {
     display: none;
+    border-collapse: collapse;
+    width: 100%;
 }
+
 .address_field .iconField {
     color: #6200EE;
     font-size: 18px;
@@ -212,12 +217,46 @@
     padding-bottom: 15px;
     margin-bottom: 15px;
     border-bottom: 1px solid rgb(237, 237, 237);
-    
+
 }
 
 .address_field_text {
     opacity: .7;
     font-size: 12px;
+    line-height: 18px;
+}
+
+.iconTextCon_mobile {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    /* height: 35px; */
+}
+
+.iconIcon_mobile {
+    color: #6200EE;
+}
+
+.iconsText_mobile {
+    font-size: 10px;
+    font-weight: 400;
+    max-width: 100px;
+    overflow-wrap: break-word;
+}
+
+.firstCell_mobile {}
+
+.firstCellFooter_mobile {
+    font-size: 10px;
+    font-weight: 400;
+    display: flex;
+    opacity: .6;
+}
+
+.forMobile tbody tr td {
+    border-bottom: 1px solid rgb(215, 215, 215);
+    padding: 8px 0px;
 }
 
 @media screen and (max-width: 1350px) {
@@ -254,6 +293,7 @@
         width: 100% !important;
         height: auto;
     }
+
     .textCon {
         width: 50%;
     }
@@ -308,7 +348,8 @@
     .containerListing.forDesktop {
         display: none;
     }
-    .containerListing.forMobile {
+
+    .forMobile {
         display: block;
         width: 100%;
         margin-bottom: 5px;
