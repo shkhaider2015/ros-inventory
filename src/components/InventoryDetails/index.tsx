@@ -53,21 +53,24 @@ const InventoryDetails = (props: IInventoryDetails) => {
         </div>
         <div className={`${styles.textCon}`}>
           <div className={styles.topText}>Event Operation and Logistics</div>
-          <ContactsListing className={styles.forDesktop}  contacts={contacts} />
+          <ContactsListing className={styles.forDesktop} contacts={contacts} />
           {contacts.length > 3 && <div className={styles.contactShadow} />}
         </div>
       </div>
 
+      <ContactsListingMobile contacts={contacts} />
       {/* <div className={`${styles.textConMobile}`}> */}
-        <ContactsListing className={styles.forMobile} contacts={contacts} />
-        {contacts.length > 3 && <div className={styles.contactShadow} />}
+      {/* <ContactsListing className={styles.forMobile} contacts={contacts} /> */}
+      {contacts.length > 3 && <div className={styles.contactShadow} />}
       {/* </div> */}
 
-      <div className={styles.address_field} >
-      <span className={styles.iconField} >
-        <EnvironmentOutlined />
-      </span>
-      <span className={styles.address_field_text} >{info.secondary_email_address}</span>
+      <div className={styles.address_field}>
+        <span className={styles.iconField}>
+          <EnvironmentOutlined />
+        </span>
+        <span className={styles.address_field_text}>
+          {info.secondary_email_address}
+        </span>
       </div>
       <div className={styles.detailsSec}>
         <TextEditor value={info.description} isReadOnly />
@@ -90,20 +93,17 @@ const InventoryDetails = (props: IInventoryDetails) => {
 
       <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
         <div className={styles.inventoryModalContainer}>
-          {/* <div className={styles.dsModalTitle} >Title</div> */}
-          {/* <div className={styles.inventoryModalContent}> */}
           <TextEditor value={info.description} isReadOnly={true} />
-          {/* </div> */}
         </div>
       </ROSModal>
     </div>
   );
 };
 
-const ContactsListing: React.FC<{ contacts: IContactList[], className?: string }> = ({
-  contacts,
-  className
-}) => {
+const ContactsListing: React.FC<{
+  contacts: IContactList[];
+  className?: string;
+}> = ({ contacts, className }) => {
   return (
     <div
       className={`${styles.containerListing} ${className} ${
@@ -153,7 +153,12 @@ const ContactsListing: React.FC<{ contacts: IContactList[], className?: string }
                     width={22}
                     height={22}
                   />
-                  <a className={styles.iconsText} href={`tel:${item.phone_number}`} >{item.phone_number}</a>
+                  <a
+                    className={styles.iconsText}
+                    href={`tel:${item.phone_number}`}
+                  >
+                    {item.phone_number}
+                  </a>
                 </div>
               </td>
               <td>
@@ -165,7 +170,9 @@ const ContactsListing: React.FC<{ contacts: IContactList[], className?: string }
                     width={22}
                     height={22}
                   />
-                  <a className={styles.iconsText} href={`mailto:${item.email}`} >{item.email}</a>
+                  <a className={styles.iconsText} href={`mailto:${item.email}`}>
+                    {item.email}
+                  </a>
                 </div>
               </td>
             </tr>
@@ -173,6 +180,76 @@ const ContactsListing: React.FC<{ contacts: IContactList[], className?: string }
         </tbody>
       </table>
     </div>
+  );
+};
+
+const ContactsListingMobile: React.FC<{
+  contacts: IContactList[];
+  className?: string;
+}> = ({ contacts }) => {
+  return (
+    <table className={styles.forMobile}>
+      <tbody>
+        {contacts.map((item) => (
+          <tr key={item.id}>
+            <td>
+              <div className={styles.firstCell_mobile}>
+                <div className={styles.iconTextCon_mobile}>
+                  <Image
+                    src={"/images/icons/User_Rounded.svg"}
+                    alt="phone call"
+                    className={styles.iconIcon_mobile}
+                    width={22}
+                    height={22}
+                  />
+                  <div className={styles.iconsText_mobile}>{`${_toTitleCase(
+                    item.name
+                  )}`}</div>
+                </div>
+                <div className={styles.firstCellFooter_mobile}>
+                  <div style={{ width: 27 }} />
+                  <div>{item.title}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div className={styles.iconTextCon_mobile}>
+                <Image
+                  src={"/images/icons/PhoneCallingRounded.svg"}
+                  alt="phone call"
+                  className={styles.iconIcon_mobile}
+                  width={22}
+                  height={22}
+                />
+                <a
+                  className={styles.iconsText_mobile}
+                  href={`tel:${item.phone_number}`}
+                >
+                  {item.phone_number}
+                </a>
+              </div>
+            </td>
+            <td>
+              <div className={styles.iconTextCon_mobile}>
+                <Image
+                  src={"/images/icons/email.svg"}
+                  alt="phone call"
+                  className={styles.iconIcon_mobile}
+                  width={22}
+                  height={22}
+                />
+                <a
+                  className={styles.iconsText_mobile}
+                  href={`mailto:${item.email}`}
+                >
+                  {item.email}
+                </a>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 
