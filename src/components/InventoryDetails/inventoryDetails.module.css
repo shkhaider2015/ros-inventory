@@ -241,6 +241,8 @@
 .iconsText_mobile {
     font-size: 10px;
     font-weight: 400;
+    max-width: 100px;
+    overflow-wrap: break-word;
 }
 
 .firstCell_mobile {}
