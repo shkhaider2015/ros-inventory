@@ -221,6 +221,13 @@ const Item = ({
   is_deleted,
   rental_price,
 }: any) => {
+  
+  useEffect(() => {
+    if (is_deleted && selectedQuantity > 0) {
+      onChangeCounter(0);
+    }
+  }, [is_deleted, selectedQuantity]);
+
   return (
     <div className={styles.itemContainer}>
       <div className={styles.itemTopSec}>
@@ -231,8 +238,9 @@ const Item = ({
           <div className={styles.titleContainer}>
             <div className={styles.title}>{_toTitleCase(name)}</div>
             <div className={styles.unitPriceCon}>
-              <div className={styles.unitPriceBox} >
-                Unit Price: <span className={styles.unitPrice} >${rental_price}</span>
+              <div className={styles.unitPriceBox}>
+                Unit Price:{" "}
+                <span className={styles.unitPrice}>${rental_price}</span>
               </div>
             </div>
           </div>
@@ -265,6 +273,11 @@ const Item = ({
           </div>
         </div>
       </div>
+      {is_deleted && (
+        <div className={styles.itemFooter}>
+          This Item is no longer available
+        </div>
+      )}
     </div>
   );
 };

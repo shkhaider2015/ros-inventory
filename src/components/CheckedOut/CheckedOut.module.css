@@ -176,6 +176,13 @@
     align-items: center;
 }
 
+.itemFooter {
+    font-size: 10px;
+    padding: 5px 0px;
+    color: red;
+    font-style: italic;
+}
+
 @media screen and (max-width: 900px) {
     .container {
         position: relative;
