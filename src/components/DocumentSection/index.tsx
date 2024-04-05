@@ -9,6 +9,9 @@ import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
 import ROSModal from "../common/ROSModal";
 import useModal from "@/hooks/useModal";
+import { Button, Form, Input, Modal, Typography, message } from "antd";
+import { useForm } from "antd/es/form/Form";
+import { END_POINTS } from "@/lib/constants";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
@@ -124,15 +127,11 @@ const DocumentSection = (props: {
           </div>
         </div>
         <div className={styles.textColumn}>
-  
           <div className={styles.desc}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
             <div className={styles.descShadow} />
           </div>
-
         </div>
-
-
       </div>
       <div className={styles.btnContainer}>
         {props.item?.description && (
@@ -198,10 +197,14 @@ const DocItem: React.FC<IAttachements> = ({
   file_type,
   uploaded_via,
   id,
+  workspace_id,
 }) => {
   const [isChrome, setIsChrome] = useState<boolean>(false);
   const router = useRouter();
   const { open } = useModal();
+  const [form] = useForm();
+  const [openShareModal, setOpenShareModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (navigator.userAgent.indexOf("Chrome") != -1) {
@@ -249,6 +252,41 @@ const DocItem: React.FC<IAttachements> = ({
     }
   };
 
+  const _shareViaEmail = async () => {
+    try {
+      setLoading(true);
+      const values = await form.validateFields();
+      const { email, desc } = values;
+
+      console.log("Values ", values);
+      if (!email) throw "Email is not found";
+
+      let data = {
+        workspace_name: "workspace",
+        attachment_url: url,
+        additional_text: desc || "",
+        email: email,
+      };
+
+      await axios.post(END_POINTS.SHARE_FILE_VIA_EMAIL, data);
+      message.success({
+        content: "File shared successfully",
+      });
+      _handleCloseShareModal();
+    } catch (error) {
+      message.error({
+        content: "File sharing failed",
+      });
+      console.log("Share Via Email : ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const _handleCloseShareModal = () => {
+    form.resetFields();
+    setOpenShareModal(false);
+  };
   // console.log("FileType ", file_type);
 
   return (
@@ -275,6 +313,17 @@ const DocItem: React.FC<IAttachements> = ({
         </div>
       </div>
       <div className={styles.rightCol}>
+        <div
+          className={styles.docIconContainerOp}
+          onClick={() => setOpenShareModal(true)}
+        >
+          <Image
+            src={"/images/icons/Send_fill.svg"}
+            alt="import"
+            width={22}
+            height={22}
+          />
+        </div>
         {uploaded_via === "CLIENT" && (
           <div
             className={styles.docIconContainerOp}
@@ -302,6 +351,52 @@ const DocItem: React.FC<IAttachements> = ({
           />
         </div>
       </div>
+      <Modal
+        open={openShareModal}
+        onCancel={_handleCloseShareModal}
+        className={styles.shareModal}
+        okText={"Share"}
+        onOk={() => _shareViaEmail()}
+        cancelButtonProps={{
+          style: {
+            display: "none",
+          },
+        }}
+        okButtonProps={{
+          loading: loading,
+        }}
+      >
+        <Form
+          onFinish={_shareViaEmail}
+          form={form}
+          className={styles.shareEmailForm}
+        >
+          <Form.Item>
+            <h3>Share File</h3>
+          </Form.Item>
+          <Form.Item
+            name={"email"}
+            rules={[
+              { required: true, message: "Email is required" },
+              { transform: (value) => value?.trim() },
+              { type: "email", message: "Email is not valid" },
+            ]}
+          >
+            <Input
+              type="email"
+              placeholder="Email Address"
+              disabled={loading}
+            />
+          </Form.Item>
+          <Form.Item name={"desc"}>
+            <Input.TextArea
+              placeholder="Description"
+              rows={3}
+              disabled={loading}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

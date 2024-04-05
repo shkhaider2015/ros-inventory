@@ -135,7 +135,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 }
 
 .icon_column {
@@ -314,6 +314,15 @@
     gap: 15px;
 }
 
+.shareEmailForm {
+    padding: 20px 10px !important;
+
+}
+
+.shareModal {
+    
+}
+
 @media screen and (max-width: 650px) {
 
     .docIconContainer {
@@ -327,12 +336,12 @@
     }
 
     .docIconContainerOp {
-        width: 30px;
-        height: 30px;
+        width: 22px;
+        height: 22px;
     }
     .docIconContainerOp img {
-        width: 20px !important;
-        height: 20px !important;
+        width: 15px !important;
+        height: 15px !important;
     }
 
     .textCon {

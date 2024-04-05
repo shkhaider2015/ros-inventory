@@ -15,7 +15,8 @@ import { useParams, useRouter } from "next/navigation";
 import { validateEmail } from "@/lib/func";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
-import { Tooltip } from "antd";
+import { Form, Input, Modal, Tooltip, message } from "antd";
+import { useForm } from "antd/es/form/Form";
 
 const SignedDocuments: React.FC<{
   data: IAttachements[];
@@ -184,6 +185,7 @@ const SignDocItem: React.FC<{
     description: "",
   });
   const ref = useRef<HTMLDivElement>(null);
+  const [form] = useForm();
 
   useOutsideClick(ref, () => setShowMenu(false));
 
@@ -221,29 +223,37 @@ const SignDocItem: React.FC<{
   };
 
   const _shareViaEmail = async () => {
-    if (!validateEmail(value || "")) {
-      setError((pS) => ({ ...pS, value: "Please enter valid email address" }));
-      return;
-    } else {
-      setError({
-        value: "",
-        description: "",
-      });
-    }
+    // if (!validateEmail(value || "")) {
+    //   setError((pS) => ({ ...pS, value: "Please enter valid email address" }));
+    //   return;
+    // } else {
+    //   setError({
+    //     value: "",
+    //     description: "",
+    //   });
+    // }
     // console.log("Share data : ", props.workspace_name, props.item.url, value);
 
-    let data = {
-      workspace_name: props.workspace_name,
-      attachment_url: props.item.url,
-      additional_text: description || "",
-      email: value,
-    };
     try {
+      const values = await form.validateFields();
+      const { email, desc } = values;
       setLoading(true);
+      let data = {
+        workspace_name: props.workspace_name,
+        attachment_url: props.item.url,
+        additional_text: desc || "",
+        email: email,
+      };
       await axios.post(END_POINTS.SHARE_FILE_VIA_EMAIL, data);
+      message.success({
+        content: "File Shared successfully",
+      });
       _handleClose();
-      props.onSuccessAPI();
+      // props.onSuccessAPI();
     } catch (error) {
+      message.error({
+        content: 'File sharing failed!'
+      })
       console.error("Share File : ", error);
     } finally {
       setLoading(false);
@@ -251,9 +261,10 @@ const SignDocItem: React.FC<{
   };
 
   const _handleClose = () => {
+    form.resetFields();
     setOpenShareModal(false);
-    setValue(undefined);
-    setDescription(undefined);
+    // setValue(undefined);
+    // setDescription(undefined);
   };
 
   return (
@@ -328,9 +339,8 @@ const SignDocItem: React.FC<{
           })()
         }
       </div>
-      <ROSModal open={openShareModal} onClose={_handleClose}>
+      {/* <ROSModal open={false} onClose={_handleClose}>
         <div className={styles.shareModalRoot}>
-          {/* {renderInput()} */}
 
           <ROSInput
             key={2}
@@ -363,7 +373,54 @@ const SignDocItem: React.FC<{
             loading={loading}
           />
         </div>
-      </ROSModal>
+      </ROSModal> */}
+
+      <Modal
+        open={openShareModal}
+        onCancel={_handleClose}
+        className={styles.shareModal}
+        okText={"Share"}
+        onOk={() => _shareViaEmail()}
+        cancelButtonProps={{
+          style: {
+            display: "none",
+          },
+        }}
+        okButtonProps={{
+          loading: loading,
+        }}
+      >
+        <Form
+          onFinish={_shareViaEmail}
+          form={form}
+          className={styles.shareEmailForm}
+        >
+          <Form.Item>
+            <h3>Share File</h3>
+          </Form.Item>
+          <Form.Item
+            name={"email"}
+            rules={[
+              { required: true, message: "Email is required" },
+              { transform: (value) => value?.trim() },
+              { type: "email", message: "Email is not valid" },
+            ]}
+          >
+            <Input
+              type="email"
+              placeholder="Email Address"
+              disabled={loading}
+            />
+          </Form.Item>
+          <Form.Item name={"desc"}>
+            <Input.TextArea
+              placeholder="Description"
+              rows={3}
+              disabled={loading}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
