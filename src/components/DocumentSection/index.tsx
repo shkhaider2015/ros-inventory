@@ -124,35 +124,15 @@ const DocumentSection = (props: {
           </div>
         </div>
         <div className={styles.textColumn}>
-          {/* <div className={styles.title}>
-            {props.item?.name || props.section_title}
-          </div> */}
+  
           <div className={styles.desc}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
             <div className={styles.descShadow} />
           </div>
-          {/* <div className={styles.btnContainer}>
-            {props.item?.description && (
-              <div
-                className={styles.thirdRow}
-                onClick={() => setShowDetails(true)}
-              >
-                <div className={styles.title}>View Details</div>
-                <Image
-                  src={"/images/icons/HandHeart.svg"}
-                  alt=""
-                  width={30}
-                  height={30}
-                />
-              </div>
-            )}
-          </div> */}
+
         </div>
 
-        {/* 
-          <div className={styles.descContainer}>
-          </div> 
-        */}
+
       </div>
       <div className={styles.btnContainer}>
         {props.item?.description && (
@@ -286,12 +266,6 @@ const DocItem: React.FC<IAttachements> = ({
                 height={25}
               />
             )}
-            {/* <Image
-            src={"/images/icons/FileText.svg"}
-            alt=""
-            width={20}
-            height={20}
-          /> */}
           </div>
         </div>
 
@@ -303,7 +277,7 @@ const DocItem: React.FC<IAttachements> = ({
       <div className={styles.rightCol}>
         {uploaded_via === "CLIENT" && (
           <div
-            className={styles.docIconContainer}
+            className={styles.docIconContainerOp}
             onClick={() =>
               open({
                 message: "Are you sure you want to delete this Document?",
@@ -319,7 +293,7 @@ const DocItem: React.FC<IAttachements> = ({
             />
           </div>
         )}
-        <div className={styles.docIconContainer} onClick={_downloadFile}>
+        <div className={styles.docIconContainerOp} onClick={_downloadFile}>
           <Image
             src={"/images/icons/Import.svg"}
             alt="import"

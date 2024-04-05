@@ -174,9 +174,17 @@
     justify-content: center;
     align-items: center;
     background-color: #F0F0F0;
+    cursor: pointer;
 }
 
-.docIconContainer:hover {
+.docIconContainerOp {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F0F0F0;
     cursor: pointer;
 }
 
@@ -309,13 +317,22 @@
 @media screen and (max-width: 650px) {
 
     .docIconContainer {
-        width: 35px;
-        height: 35px;
+        width: 45px;
+        height: 45px;
     }
 
     .docIconContainer img {
-        width: 25px !important;
-        height: 25px !important;
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .docIconContainerOp {
+        width: 30px;
+        height: 30px;
+    }
+    .docIconContainerOp img {
+        width: 20px !important;
+        height: 20px !important;
     }
 
     .textCon {
