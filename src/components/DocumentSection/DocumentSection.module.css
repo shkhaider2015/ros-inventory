@@ -136,7 +136,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 }
 
 .icon_column {
@@ -175,9 +175,17 @@
     justify-content: center;
     align-items: center;
     background-color: #F0F0F0;
+    cursor: pointer;
 }
 
-.docIconContainer:hover {
+.docIconContainerOp {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F0F0F0;
     cursor: pointer;
 }
 
@@ -307,16 +315,34 @@
     gap: 15px;
 }
 
+.shareEmailForm {
+    padding: 20px 10px !important;
+
+}
+
+.shareModal {
+    
+}
+
 @media screen and (max-width: 650px) {
 
     .docIconContainer {
-        width: 35px;
-        height: 35px;
+        width: 45px;
+        height: 45px;
     }
 
     .docIconContainer img {
-        width: 25px !important;
-        height: 25px !important;
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .docIconContainerOp {
+        width: 22px;
+        height: 22px;
+    }
+    .docIconContainerOp img {
+        width: 15px !important;
+        height: 15px !important;
     }
 
     .textCon {
