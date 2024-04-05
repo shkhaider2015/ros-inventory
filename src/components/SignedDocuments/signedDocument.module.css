@@ -188,3 +188,8 @@
     padding: 1px 8px;
     border-radius: 5px;
 }
+
+.shareEmailForm {
+    padding: 20px 10px !important;
+
+}
