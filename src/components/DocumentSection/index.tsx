@@ -176,14 +176,11 @@ const DocumentSection = (props: {
           + Upload Document
         </label>
       </div>
-      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
-        <div className={styles.sectionModalContainer}>
-          {/* <div className={styles.dsModalTitle} >Title</div> */}
+      <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
           <div className={styles.sectionModalContent}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
           </div>
-        </div>
-      </ROSModal>
+      </Modal>
     </div>
   );
 };
@@ -334,7 +331,7 @@ const DocItem: React.FC<IAttachements> = ({
             onClick={() => {
               Modal.confirm({
                 content: "Are you sure you want to delete this Document?",
-                onOk: async () => _deleteClientFile(id)
+                onOk: async () => _deleteClientFile(id),
               })
             }}
           >

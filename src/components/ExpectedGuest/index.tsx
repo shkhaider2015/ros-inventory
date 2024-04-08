@@ -16,7 +16,7 @@ import LoadInAndOut from "../LoadInAndOut";
 import dayjs, { Dayjs } from "dayjs";
 import TextEditor from "../TextEditor";
 import ROSModal from "../common/ROSModal";
-import { message } from "antd";
+import { Modal, message } from "antd";
 
 const ExpectedGuest: React.FC<{
   initialData: IGuestInfo;
@@ -264,14 +264,14 @@ const ExpectedGuest: React.FC<{
           />
         </div>
       </div>
-      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
+      <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
         <div className={styles.special_sectionModalContainer}>
           {/* <div className={styles.dsModalTitle} >Title</div> */}
           <div className={styles.special_sectionModalContent}>
             <TextEditor value={props.specialInstructions} isReadOnly={true} />
           </div>
         </div>
-      </ROSModal>
+      </Modal>
     </div>
   );
 };

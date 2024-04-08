@@ -27,13 +27,13 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <body>
         <Providers>
-          <RootStyleRegistry>
-            <ConfigProvider theme={theme} >
-            <Layout>{children}</Layout>
-            <div id="modal-root"></div>
-            <div id="carousel-root"></div>
-            </ConfigProvider>
-          </RootStyleRegistry>
+          <ConfigProvider theme={theme}>
+            <RootStyleRegistry>
+              <Layout>{children}</Layout>
+              <div id="modal-root"></div>
+              <div id="carousel-root"></div>
+            </RootStyleRegistry>
+          </ConfigProvider>
         </Providers>
       </body>
     </html>

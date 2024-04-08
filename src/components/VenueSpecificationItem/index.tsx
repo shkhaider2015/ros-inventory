@@ -3,14 +3,14 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 import React, { useState } from "react";
 import TextEditor from "../TextEditor";
-import ROSModal from "../common/ROSModal";
+import { Modal } from "antd";
 
 const IconArray: string[] = ["/public/"];
 
 const VenueSpecificationItem: React.FC<IVenueItem> = (props) => {
   const { icon_url, name, description } = props;
   const [showDetails, setShowDetails] = useState(false);
-
+console.log("PPPP      :::   ", showDetails)
   return (
     <div className={styles.container}>
       <div className={styles.firstRow}>
@@ -33,7 +33,7 @@ const VenueSpecificationItem: React.FC<IVenueItem> = (props) => {
         />
       </div>
 
-      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
+      <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
         <div className={styles.modalContainer}>
           <div className={styles.headSec}>
             <div className={styles.iconContainer}>
@@ -45,7 +45,7 @@ const VenueSpecificationItem: React.FC<IVenueItem> = (props) => {
             <TextEditor value={description} />
           </div>
         </div>
-      </ROSModal>
+      </Modal>
     </div>
   );
 };
