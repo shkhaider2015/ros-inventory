@@ -6,9 +6,8 @@ import { useRouter, usePathname } from "next/navigation";
 import Button from "../common/Button";
 import { useState } from "react";
 import axios from "axios";
-import { useSnackbar } from "@/hooks/useSnackbar";
-import ROSSnackbar from "../common/ROSSnackbar";
 import { DownloadOutlined, LoadingOutlined } from "@ant-design/icons";
+import { message } from "antd";
 
 // const eventId = "a7219297-bee3-4099-98d3-935689927d7f";
 
@@ -18,7 +17,6 @@ const Header = () => {
   const pathName = usePathname();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { isActive, type, message, openSnackBar } = useSnackbar();
 
   const _gotoCheckout = () => {
     let splitData = pathName.split("/");
@@ -66,16 +64,22 @@ const Header = () => {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(fileURL);
-        // openSnackBar("File downloaded successfully", "success");
+        message.success({
+          content: "File downloaded successfully"
+        })
       } else {
         console.log("Messagfe : ", response.data);
 
-        // openSnackBar("Download file error", "danger");
+        message.error({
+          content: "Something wrong happen"
+        })
       }
     } catch (error) {
       console.log("Error : ", error);
 
-      // openSnackBar("Download file error", "danger" );
+      message.error({
+        content: "File downloaded failure"
+      })
     } finally {
       setTimeout(() => {
         setLoading(false);
