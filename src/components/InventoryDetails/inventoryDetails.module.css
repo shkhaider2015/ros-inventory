@@ -150,7 +150,7 @@
     width: 100%;
 }
 
-.containerListing table tbody tr {}
+/* .containerListing table tbody tr {} */
 
 .containerListing table tbody tr td {
     text-align: left;
