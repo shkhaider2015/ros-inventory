@@ -16,8 +16,7 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import WarningModal from "../common/WarningModal";
-import useModal from "@/hooks/useModal";
-import {message} from 'antd';
+import {Modal, message} from 'antd';
 
 const CheckedOut: React.FC<{
   event_id: string;
@@ -34,7 +33,6 @@ const CheckedOut: React.FC<{
   }>();
   const dispatch = useDispatch();
   const router = useRouter();
-  const { open } = useModal();
 
   // console.log("Cart Items : ", props.initialData);
 
@@ -146,15 +144,21 @@ const CheckedOut: React.FC<{
               {...item}
               onRemove={() => {
                 // setShowDeleteWarning({main_id: item.id, cart_id: item.cart_id});
-                open({
-                  message: "Are you sure you want to delete this item?",
+                Modal.confirm({
+                  content: "Are you sure you want to delete this item?",
                   onOk: async () => {
                     _onDelete(item.id, item.cart_id);
-                    // if (!formFields.isFormFieldsChanged) {
-                    //   dispatch(updateFormFields({ isFormFieldsChanged: true }));
-                    // }
-                  },
-                });
+                  }
+                })
+                // open({
+                //   message: "Are you sure you want to delete this item?",
+                //   onOk: async () => {
+                //     _onDelete(item.id, item.cart_id);
+                //     // if (!formFields.isFormFieldsChanged) {
+                //     //   dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                //     // }
+                //   },
+                // });
               }}
               onChangeCounter={(val: number) => {
                 dispatch(updateQuantity({ ...item, selectedQuantity: val }));

@@ -8,8 +8,7 @@ import React, { useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
 import ROSModal from "../common/ROSModal";
-import useModal from "@/hooks/useModal";
-import { Button, Form, Input, Modal, Typography, message } from "antd";
+import { Button, Form, Input, Modal, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { END_POINTS } from "@/lib/constants";
 
@@ -201,7 +200,6 @@ const DocItem: React.FC<IAttachements> = ({
 }) => {
   const [isChrome, setIsChrome] = useState<boolean>(false);
   const router = useRouter();
-  const { open } = useModal();
   const [form] = useForm();
   const [openShareModal, setOpenShareModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -327,12 +325,18 @@ const DocItem: React.FC<IAttachements> = ({
         {uploaded_via === "CLIENT" && (
           <div
             className={styles.docIconContainerOp}
-            onClick={() =>
-              open({
-                message: "Are you sure you want to delete this Document?",
-                onOk: async () => _deleteClientFile(id),
+            // onClick={() =>
+            //   open({
+            //     message: "Are you sure you want to delete this Document?",
+            //     onOk: async () => _deleteClientFile(id),
+            //   })
+            // }
+            onClick={() => {
+              Modal.confirm({
+                content: "Are you sure you want to delete this Document?",
+                onOk: async () => _deleteClientFile(id)
               })
-            }
+            }}
           >
             <Image
               src={"/images/icons/delete.svg"}
