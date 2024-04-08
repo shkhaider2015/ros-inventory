@@ -5,12 +5,11 @@ import React, { useState } from "react";
 import TextEditor from "../TextEditor";
 import { Modal } from "antd";
 
-const IconArray: string[] = ["/public/"];
 
 const VenueSpecificationItem: React.FC<IVenueItem> = (props) => {
   const { icon_url, name, description } = props;
   const [showDetails, setShowDetails] = useState(false);
-console.log("PPPP      :::   ", showDetails)
+
   return (
     <div className={styles.container}>
       <div className={styles.firstRow}>
@@ -33,7 +32,11 @@ console.log("PPPP      :::   ", showDetails)
         />
       </div>
 
-      <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
+      <Modal
+        open={showDetails}
+        onCancel={() => setShowDetails(false)}
+        footer={null}
+      >
         <div className={styles.modalContainer}>
           <div className={styles.headSec}>
             <div className={styles.iconContainer}>

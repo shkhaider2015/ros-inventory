@@ -53,6 +53,11 @@
     gap: 5px;
 }
 
+.iconTextCon > a {
+    color: #000000;
+    text-decoration: none;
+}
+
 .iconIcon {
     color: #6200EE;
 }
@@ -234,6 +239,10 @@
     /* height: 35px; */
 }
 
+.iconTextCon_mobile > a {
+    color: #000000;
+    text-decoration: none;
+}
 .iconIcon_mobile {
     color: #6200EE;
 }

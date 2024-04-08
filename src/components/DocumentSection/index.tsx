@@ -7,8 +7,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
-import ROSModal from "../common/ROSModal";
-import { Button, Form, Input, Modal, message } from "antd";
+import { Form, Input, Modal, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { END_POINTS } from "@/lib/constants";
 
@@ -200,7 +199,7 @@ const DocItem: React.FC<IAttachements> = ({
   const [form] = useForm();
   const [openShareModal, setOpenShareModal] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  
   useEffect(() => {
     if (navigator.userAgent.indexOf("Chrome") != -1) {
       setIsChrome(true);
@@ -269,9 +268,6 @@ const DocItem: React.FC<IAttachements> = ({
       });
       _handleCloseShareModal();
     } catch (error) {
-      message.error({
-        content: "File sharing failed",
-      });
       console.log("Share Via Email : ", error);
     } finally {
       setLoading(false);
@@ -332,6 +328,11 @@ const DocItem: React.FC<IAttachements> = ({
               Modal.confirm({
                 content: "Are you sure you want to delete this Document?",
                 onOk: async () => _deleteClientFile(id),
+                // okButtonProps: {
+                //   style: {
+                //     backgroundColor: '#6200EE'
+                //   }
+                // }
               })
             }}
           >
