@@ -146,6 +146,7 @@ const CheckedOut: React.FC<{
                 // setShowDeleteWarning({main_id: item.id, cart_id: item.cart_id});
                 Modal.confirm({
                   content: "Are you sure you want to delete this item?",
+                  okType: "danger",
                   onOk: async () => {
                     _onDelete(item.id, item.cart_id);
                   }

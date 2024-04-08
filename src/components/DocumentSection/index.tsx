@@ -327,12 +327,8 @@ const DocItem: React.FC<IAttachements> = ({
             onClick={() => {
               Modal.confirm({
                 content: "Are you sure you want to delete this Document?",
+                okType: 'danger',
                 onOk: async () => _deleteClientFile(id),
-                // okButtonProps: {
-                //   style: {
-                //     backgroundColor: '#6200EE'
-                //   }
-                // }
               })
             }}
           >
