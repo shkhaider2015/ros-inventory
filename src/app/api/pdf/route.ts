@@ -46,6 +46,9 @@ const convertToHTML = (description: string) => {
   }
 };
 
+const location_icon2 = "http://localhost:3005/images/icons/Pin_light_purple.png"
+const location_icon = "https://inventory.runofshowapp.com/images/icons/Pin_light_purple.png"
+
 const convertAllToHtml = (data: any) => {
   const fields = [
     "workspaceInfo",
@@ -139,6 +142,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
       workspaceInfo: {
         description: returnString(data?.workspaceInfo.description),
         image: returnString(data?.workspaceInfo?.logo_url),
+        address: data?.workspaceInfo?.secondary_email_address,
+        addressIcon: location_icon
       },
       eventInfo: {
         name: data?.eventInfo.name,
@@ -184,9 +189,11 @@ export async function POST(request: NextRequest, response: NextResponse) {
       sum_rental_price: sum_rental_price,
     };
 
+    
+
     convertAllToHtml(pdfData);
 
-    let pdfBuffer = await createPDF(pdfData);
+    let pdfBuffer = await createPDF({...pdfData, location_icon});
     const header = new Headers();
     header.append(
       "Content-Disposition",
@@ -490,6 +497,8 @@ interface IData {
   workspaceInfo: {
     description: string;
     image: string;
+    address: string;
+    addressIcon: string;
   };
   eventInfo: {
     name: string;
