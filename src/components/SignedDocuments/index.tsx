@@ -10,7 +10,10 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 import axios from "axios";
 import { END_POINTS } from "@/lib/constants";
 import { useRouter } from "next/navigation";
-import { Form, Input, Modal, Tooltip, message } from "antd";
+import { validateEmail } from "@/lib/func";
+import { useSnackbar } from "@/hooks/useSnackbar";
+import ROSSnackbar from "../common/ROSSnackbar";
+import { Form, Input, Modal, Popover, Tooltip, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 
 const SignedDocuments: React.FC<{
@@ -318,9 +321,8 @@ const SignDocItem: React.FC<{
       <div
         className={styles.fileName}
         onClick={() => _downloadFile()}
-        title={props.item.name}
       >
-        {
+        {/* {
           // I have used here IIFE (immediately invoked function expression)
           (() => {
             const words = props.item.name.split(" ");
@@ -330,7 +332,15 @@ const SignDocItem: React.FC<{
               return props.item.name;
             }
           })()
-        }
+        } */}
+
+        {props.item.name?.length > 25 ? (
+          <Popover content={props.item.name} overlayClassName={styles.itemNameOverlay}>
+            {props.item.name?.slice(0, 25) + "..."}
+          </Popover>
+        ) : (
+          props.item.name
+        )}
       </div>
       {/* <ROSModal open={false} onClose={_handleClose}>
         <div className={styles.shareModalRoot}>
