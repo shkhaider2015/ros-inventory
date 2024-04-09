@@ -75,14 +75,19 @@
     <div
       style="
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
+        padding: 8px 0px;
+        gap: 20px;
       "
     >
-    <span style="text-align: left;width: 80%;">
-      Location: <span style="width: 80%;">{{data.eventInfo.location}}</span>
-    </span>
+    <div>
+      <img src="{{data.workspaceInfo.addressIcon}}" alt="" style="width: 30px; height: 30px;">
+    </div>
+    <div style="text-align: left;width: 80%;">
+      Location: <span style="width: 80%;">{{data.workspaceInfo.address}}</span>
+    </div>
       
     </div>
     <div
