@@ -74,6 +74,12 @@ const convertAllToHtml = (data: any) => {
   });
 };
 
+function removeSpecialChars(str: string) {
+  const specialCharsRegExp = /[!@#$%&'*+/;<>=^`{|}~\\"\']/g;
+
+  return str.replace(specialCharsRegExp, "");
+}
+
 export async function POST(request: NextRequest, response: NextResponse) {
   try {
     const reqData = await request.json();
@@ -139,6 +145,9 @@ export async function POST(request: NextRequest, response: NextResponse) {
       workspaceInfo: {
         description: returnString(data?.workspaceInfo.description),
         image: returnString(data?.workspaceInfo?.logo_url),
+        address: removeSpecialChars(
+          data?.workspaceInfo.secondary_email_address
+        ),
       },
       eventInfo: {
         name: data?.eventInfo.name,
@@ -148,7 +157,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
         end: moment(data?.eventInfo.end).format(
           "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
         ),
-        location: data?.eventInfo.location,
       },
       contacts: data?.contacts,
       about_venue: {
@@ -296,6 +304,7 @@ async function getData(eventId: string) {
 
     let data = await res.data;
     // console.log("Data at server : ", data);
+    console.log(data?.workspaceInfo);
     // console.log("Error : ");
 
     let {
@@ -449,6 +458,8 @@ async function getData(eventId: string) {
   }
 }
 
+const file_link = "public/images/dummy/location.png";
+
 function _getIconUrl(platform: string): string {
   let final_url = null;
 
@@ -490,12 +501,12 @@ interface IData {
   workspaceInfo: {
     description: string;
     image: string;
+    address: string;
   };
   eventInfo: {
     name: string;
     start: string;
     end: string;
-    location: string;
   };
   contacts: [];
   about_venue: {
