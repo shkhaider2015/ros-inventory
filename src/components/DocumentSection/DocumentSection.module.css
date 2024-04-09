@@ -327,8 +327,8 @@
 @media screen and (max-width: 650px) {
 
     .docIconContainer {
-        width: 45px;
-        height: 45px;
+        width: 60px;
+        height: 60px;
     }
 
     .docIconContainer img {
@@ -337,12 +337,12 @@
     }
 
     .docIconContainerOp {
-        width: 22px;
-        height: 22px;
+        width: 27px;
+        height: 27px;
     }
     .docIconContainerOp img {
-        width: 15px !important;
-        height: 15px !important;
+        width: 20px !important;
+        height: 20px !important;
     }
 
     .textCon {
