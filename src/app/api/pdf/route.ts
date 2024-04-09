@@ -147,10 +147,10 @@ export async function POST(request: NextRequest, response: NextResponse) {
       },
       eventInfo: {
         name: data?.eventInfo.name,
-        start: moment(data?.eventInfo.start).utcOffset('+05:00').format(
+        start: moment(data?.eventInfo.start).format(
           "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
         ),
-        end: moment(data?.eventInfo.end).utcOffset('+05:00').format(
+        end: moment(data?.eventInfo.end).format(
           "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
         ),
         location: data?.eventInfo.location,
