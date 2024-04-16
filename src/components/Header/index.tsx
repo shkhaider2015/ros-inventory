@@ -40,19 +40,22 @@ const Header = () => {
 
   const _dlownloadPdf = async () => {
     try {
+      // let localURL = 'http://localhost:3005/api/pdf'
       let URL = "https://inventory.runofshowapp.com/api/pdf";
+      let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
       // // let URL2 = "http://localhost:4042/api/pdf";
       // let Prod = "https://inventory.runofshowapp.com/api/pdf";
       // let URL = "/api/pdf";
       let event_id = pathName.split("/")?.[2];
+      // console.log("Time zone : ", timeZone)
       setLoading(true);
       const response = await axios.post(
         URL,
-        { event_id: event_id },
+        { event_id: event_id, client_time_zone: timeZone },
         { responseType: "blob" }
       );
 
-      console.log(response);
+      // console.log(response);
       const contentType = response.headers["content-type"];
       if (
         contentType &&
