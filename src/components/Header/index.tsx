@@ -88,18 +88,17 @@ const Header = () => {
   };
 
   const _testAPICall = async () => {
-    // let localURL = "http://localhost:3005/api/test";
+    // let localURL = "http://localhost:3005/api/tes
     let localURL = window.location.href + 'api/test'
     let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     let event_id = pathName.split("/")?.[2];
     // console.log("Time zone : ", timeZone)
     setLoading(true);
     const response = await axios.post(localURL, {
-      event_id: event_id,
+      event_id: event_id || '',
       client_time_zone: timeZone,
     });
 
-    
     console.log("Local URL ", localURL)
     console.log("Response Tesrt ", response)
     console.log("Response Data ", response.data)
@@ -141,6 +140,7 @@ const Header = () => {
             height={25}
           />
         </div> */}
+        
         <div className={styles.pdfBtnContainer}>
           <div className={styles.iconBtnContainer} onClick={_dlownloadPdf}>
             {loading ? (
@@ -150,6 +150,13 @@ const Header = () => {
             )}
           </div>
 
+          <Button
+            className={styles.pdfBtn}
+            type="Primary"
+            label="Test PDF"
+            onClick={_testAPICall}
+            loading={loading}
+          />
           <Button
             className={styles.pdfBtn}
             type="Primary"
