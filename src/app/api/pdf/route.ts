@@ -108,8 +108,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const serverStartDateTime = tz(data?.eventInfo.start, serverTimezone).clone().tz(client_time_zone);
     // const clientDateTime = serverDateTime.clone().tz(client_time_zone)
     const serverEndDateTime = tz(data?.eventInfo.end).clone().tz(client_time_zone)
-    console.log("Client Start Date Time : ", data?.eventInfo.start);
-    console.log("Server Start Date Time : ", serverStartDateTime);
+    // console.log("Client Start Date Time : ", data?.eventInfo.start);
+    // console.log("Server Start Date Time : ", serverStartDateTime);
 
     if (!data) {
       return NextResponse.json(

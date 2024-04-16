@@ -40,9 +40,10 @@ const Header = () => {
 
   const _dlownloadPdf = async () => {
     try {
+      _testAPICall()
       // let localURL = 'http://localhost:3005/api/pdf'
       let URL = "https://inventory.runofshowapp.com/api/pdf";
-      let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+      let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       // // let URL2 = "http://localhost:4042/api/pdf";
       // let Prod = "https://inventory.runofshowapp.com/api/pdf";
       // let URL = "/api/pdf";
@@ -86,6 +87,21 @@ const Header = () => {
     }
   };
 
+  const _testAPICall = async () => {
+    let localURL = "http://localhost:3005/api/test";
+    let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    let event_id = pathName.split("/")?.[2];
+    // console.log("Time zone : ", timeZone)
+    setLoading(true);
+    const response = await axios.post(localURL, {
+      event_id: event_id,
+      client_time_zone: timeZone,
+    });
+
+    console.log("Response Tesrt ", response)
+    console.log("Response Data ", response.data)
+  };
+
   return (
     <header className={styles.container}>
       <div className={styles.leftCon}>
@@ -124,10 +140,11 @@ const Header = () => {
         </div> */}
         <div className={styles.pdfBtnContainer}>
           <div className={styles.iconBtnContainer} onClick={_dlownloadPdf}>
-            {
-              loading ? <LoadingOutlined spin /> : <DownloadOutlined className={styles.iconBtn} />
-            }
-            
+            {loading ? (
+              <LoadingOutlined spin />
+            ) : (
+              <DownloadOutlined className={styles.iconBtn} />
+            )}
           </div>
 
           <Button
