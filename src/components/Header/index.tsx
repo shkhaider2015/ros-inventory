@@ -88,7 +88,8 @@ const Header = () => {
   };
 
   const _testAPICall = async () => {
-    let localURL = "http://localhost:3005/api/test";
+    // let localURL = "http://localhost:3005/api/test";
+    let localURL = window.location.href + 'api/test'
     let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     let event_id = pathName.split("/")?.[2];
     // console.log("Time zone : ", timeZone)
@@ -98,6 +99,8 @@ const Header = () => {
       client_time_zone: timeZone,
     });
 
+    
+    console.log("Local URL ", localURL)
     console.log("Response Tesrt ", response)
     console.log("Response Data ", response.data)
   };
