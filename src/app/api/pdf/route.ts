@@ -10,6 +10,7 @@ import draftToHtml from "draftjs-to-html";
 import moment from "moment";
 import { NextApiRequest } from "next";
 import Chromium from "chrome-aws-lambda";
+import { tz } from "moment-timezone";
 // import {Puppeteer as pptr} from 'puppeteer-core'
 
 // let chrome:any = {};
@@ -82,6 +83,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const reqData = await request.json();
 
     const eventId = reqData.event_id;
+    const client_time_zone = reqData.client_time_zone;
+    const serverTimezone = 'UTC';
 
     if (!eventId || eventId === "") {
       return NextResponse.json(
@@ -91,8 +94,22 @@ export async function POST(request: NextRequest, response: NextResponse) {
         { status: 400 }
       );
     }
+    if (!client_time_zone || client_time_zone === "") {
+      return NextResponse.json(
+        {
+          message: "Current date is required here",
+        },
+        { status: 400 }
+      );
+    }
 
     let data = await getData(eventId);
+
+    const serverStartDateTime = tz(data?.eventInfo.start, serverTimezone).clone().tz(client_time_zone);
+    // const clientDateTime = serverDateTime.clone().tz(client_time_zone)
+    const serverEndDateTime = tz(data?.eventInfo.end).clone().tz(client_time_zone)
+    console.log("Client Start Date Time : ", data?.eventInfo.start);
+    console.log("Server Start Date Time : ", serverStartDateTime);
 
     if (!data) {
       return NextResponse.json(
@@ -102,6 +119,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
         { status: 400 }
       );
     }
+
+
 
     const aboutVenue = data?.items.filter(
       (item: any) => item.type === "ABOUT_THE_VENUE"
@@ -118,7 +137,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const misc = data?.items.filter((item: any) => item.type === "MISC");
 
     let sum_rental_price = 0;
-    const total_rental_price = data?.cart_items.forEach((item: any) => {
+    data?.cart_items.forEach((item: any) => {
       sum_rental_price += item?.rental_price;
       return sum_rental_price;
     });
@@ -147,10 +166,10 @@ export async function POST(request: NextRequest, response: NextResponse) {
       },
       eventInfo: {
         name: data?.eventInfo.name,
-        start: moment(data?.eventInfo.start).format(
+        start: serverStartDateTime.format(
           "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
         ),
-        end: moment(data?.eventInfo.end).format(
+        end: serverEndDateTime.format(
           "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
         ),
         location: data?.eventInfo.location,
