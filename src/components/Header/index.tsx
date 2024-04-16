@@ -40,7 +40,6 @@ const Header = () => {
 
   const _dlownloadPdf = async () => {
     try {
-      _testAPICall()
       // let localURL = 'http://localhost:3005/api/pdf'
       let URL = "https://inventory.runofshowapp.com/api/pdf";
       let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -85,23 +84,6 @@ const Header = () => {
         setLoading(false);
       }, 500);
     }
-  };
-
-  const _testAPICall = async () => {
-    // let localURL = "http://localhost:3005/api/tes
-    let localURL = window.location.href + 'api/test'
-    let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    let event_id = pathName.split("/")?.[2];
-    // console.log("Time zone : ", timeZone)
-    setLoading(true);
-    const response = await axios.post(localURL, {
-      event_id: event_id || '',
-      client_time_zone: timeZone,
-    });
-
-    console.log("Local URL ", localURL)
-    console.log("Response Tesrt ", response)
-    console.log("Response Data ", response.data)
   };
 
   return (
@@ -150,13 +132,6 @@ const Header = () => {
             )}
           </div>
 
-          <Button
-            className={styles.pdfBtn}
-            type="Primary"
-            label="Test PDF"
-            onClick={_testAPICall}
-            loading={loading}
-          />
           <Button
             className={styles.pdfBtn}
             type="Primary"
