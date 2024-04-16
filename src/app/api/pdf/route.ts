@@ -82,11 +82,20 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const reqData = await request.json();
 
     const eventId = reqData.event_id;
+    const currentDate = reqData.current_date;
 
     if (!eventId || eventId === "") {
       return NextResponse.json(
         {
           message: "Event id is required here",
+        },
+        { status: 400 }
+      );
+    }
+    if (!currentDate || currentDate === "") {
+      return NextResponse.json(
+        {
+          message: "Current date is required here",
         },
         { status: 400 }
       );
