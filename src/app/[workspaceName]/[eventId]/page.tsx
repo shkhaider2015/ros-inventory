@@ -59,7 +59,7 @@ const sectionTitleData: ISectionTitle[] = [
   },
 ];
 
-async function getData(eventId: string) {
+export async function getData(eventId: string) {
   const URL = "https://myapi.runofshowapp.com/api/inventory/detailsByEventId";
   const image_url =
     "https://ros-rosbucket221548-newdev.s3.amazonaws.com/public/";

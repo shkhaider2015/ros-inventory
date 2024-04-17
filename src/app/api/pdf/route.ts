@@ -10,6 +10,8 @@ import draftToHtml from "draftjs-to-html";
 import moment from "moment";
 import { NextApiRequest } from "next";
 import Chromium from "chrome-aws-lambda";
+import { tz } from "moment-timezone";
+import { getData } from "@/app/[workspaceName]/[eventId]/page";
 // import {Puppeteer as pptr} from 'puppeteer-core'
 
 // let chrome:any = {};
@@ -45,6 +47,11 @@ const convertToHTML = (description: string) => {
     return description;
   }
 };
+
+const location_icon2 =
+  "http://localhost:3005/images/icons/Pin_light_purple.png";
+const location_icon =
+  "https://inventory.runofshowapp.com/images/icons/Pin_light_purple.png";
 
 const convertAllToHtml = (data: any) => {
   const fields = [
@@ -85,6 +92,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const reqData = await request.json();
 
     const eventId = reqData.event_id;
+    const client_time_zone = reqData.client_time_zone;
+    const serverTimezone = "UTC";
 
     if (!eventId || eventId === "") {
       return NextResponse.json(
@@ -94,8 +103,26 @@ export async function POST(request: NextRequest, response: NextResponse) {
         { status: 400 }
       );
     }
+    if (!client_time_zone || client_time_zone === "") {
+      return NextResponse.json(
+        {
+          message: "Current date is required here",
+        },
+        { status: 400 }
+      );
+    }
 
     let data = await getData(eventId);
+
+    const serverStartDateTime = tz(data?.eventInfo.start, serverTimezone)
+      .clone()
+      .tz(client_time_zone);
+    // const clientDateTime = serverDateTime.clone().tz(client_time_zone)
+    const serverEndDateTime = tz(data?.eventInfo.end, serverTimezone)
+      .clone()
+      .tz(client_time_zone);
+    console.log("Client Start Date Time : ", data?.eventInfo.start);
+    console.log("Server Start Date Time : ", serverStartDateTime);
 
     if (!data) {
       return NextResponse.json(
@@ -106,22 +133,26 @@ export async function POST(request: NextRequest, response: NextResponse) {
       );
     }
 
-    const aboutVenue = data?.items.filter(
+    const sectionTitles = data.newTitles;
+    console.log("Section : ", sectionTitles);
+    const inventoryItems = data?.items?.filter((item: any) => !item.is_deleted);
+
+    const aboutVenue = inventoryItems?.filter(
       (item: any) => item.type === "ABOUT_THE_VENUE"
     );
 
-    const insuranceRequirements = data?.items.filter(
+    const insuranceRequirements = inventoryItems?.filter(
       (item: any) => item.type === "INSURANCE_REQUIREMENTS"
     );
 
-    const foodAndBeverage = data?.items.filter(
+    const foodAndBeverage = inventoryItems?.filter(
       (item: any) => item.type === "FOOD_AND_BEVERAGE"
     );
 
-    const misc = data?.items.filter((item: any) => item.type === "MISC");
+    const misc = inventoryItems?.filter((item: any) => item.type === "MISC");
 
     let sum_rental_price = 0;
-    const total_rental_price = data?.cart_items.forEach((item: any) => {
+    data?.cart_items.forEach((item: any) => {
       sum_rental_price += item?.rental_price;
       return sum_rental_price;
     });
@@ -141,20 +172,23 @@ export async function POST(request: NextRequest, response: NextResponse) {
     const returnString = (stringToReturn: string | undefined | null) =>
       stringToReturn ? stringToReturn : "";
 
+    const address = (
+      data?.workspaceInfo?.secondary_email_address || ""
+    ).replace(/[!@#$%&‘*+/;<>=^`{|}~\\“\’]/g, "");
+
     const pdfData: IData = {
       workspaceInfo: {
         description: returnString(data?.workspaceInfo.description),
         image: returnString(data?.workspaceInfo?.logo_url),
-        address: removeSpecialChars(
-          data?.workspaceInfo.secondary_email_address
-        ),
+        address: address,
+        addressIcon: location_icon,
       },
       eventInfo: {
         name: data?.eventInfo.name,
-        start: moment(data?.eventInfo.start).format(
+        start: serverStartDateTime.format(
           "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
         ),
-        end: moment(data?.eventInfo.end).format(
+        end: serverEndDateTime.format(
           "MMMM, D YYYY\xa0\xa0\xa0\xa0\xa0hh:mm A"
         ),
       },
@@ -171,13 +205,13 @@ export async function POST(request: NextRequest, response: NextResponse) {
       misc: {
         description: returnString(misc[0].description),
       },
-      venue_specification: data?.items?.filter(
+      venue_specification: inventoryItems?.filter(
         (item: any) => item.type === "VENUE_SPEC"
       ),
-      event_items: data?.items.filter(
+      event_items: inventoryItems.filter(
         (item: any) => item.type === "INVENTORY_MENU"
       ),
-      kitchen_items: data?.items?.filter(
+      kitchen_items: inventoryItems?.filter(
         (item: any) => item.type === "KITCHEN_SUPPLY"
       ),
       checked_out_items: data?.cart_items?.map((item: any) => ({
@@ -190,11 +224,12 @@ export async function POST(request: NextRequest, response: NextResponse) {
         checkin_at_door: data?.checkout_client_info.checkin_at_door,
       },
       sum_rental_price: sum_rental_price,
+      sectionTitles: sectionTitles,
     };
 
     convertAllToHtml(pdfData);
 
-    let pdfBuffer = await createPDF(pdfData);
+    let pdfBuffer = await createPDF({ ...pdfData, location_icon });
     const header = new Headers();
     header.append(
       "Content-Disposition",
@@ -274,7 +309,7 @@ async function createPDF(data: any) {
   }
 }
 
-async function getData(eventId: string) {
+async function getData2(eventId: string) {
   const URL = "https://myapi.runofshowapp.com/api/inventory/detailsByEventId";
   const image_url =
     "https://ros-rosbucket221548-newdev.s3.amazonaws.com/public/";
@@ -502,6 +537,7 @@ interface IData {
     description: string;
     image: string;
     address: string;
+    addressIcon: string;
   };
   eventInfo: {
     name: string;
@@ -531,4 +567,5 @@ interface IData {
     checkin_at_door: number;
   };
   sum_rental_price: number;
+  sectionTitles: any;
 }
