@@ -122,6 +122,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
     }
 
 
+    const sectionTitles = data.newTitles;
+    console.log("Section : ", sectionTitles)
     const inventoryItems = data?.items?.filter((item:any) => !item.is_deleted)
 
     const aboutVenue = inventoryItems?.filter(
@@ -210,6 +212,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
         checkin_at_door: data?.checkout_client_info.checkin_at_door,
       },
       sum_rental_price: sum_rental_price,
+      sectionTitles: sectionTitles
     };
 
     
@@ -552,4 +555,5 @@ interface IData {
     checkin_at_door: number;
   };
   sum_rental_price: number;
+  sectionTitles: any
 }
