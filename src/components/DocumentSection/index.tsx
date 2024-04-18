@@ -9,10 +9,11 @@ import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
 import ROSModal from "../common/ROSModal";
 import useModal from "@/hooks/useModal";
-import { Button, Form, Input, Modal, Typography, message } from "antd";
+import { Form, Input, Modal, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { END_POINTS } from "@/lib/constants";
 import FilePreview from "../FilePreview";
+import Button from "../common/Button";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
@@ -25,8 +26,54 @@ const DocumentSection = (props: {
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showDetails, setShowDetails] = useState<boolean>(false);
+  const [openAttachmentsModal, setOpenAttachmentsModal] =
+    useState<boolean>(false);
+  const [attachments, setAttachments] = useState<any[]>([]);
+  const [fileDescription, setFileDescription] = useState<string>("");
+
+  const [form] = useForm();
 
   const router = useRouter();
+
+  const _addAttachment = async () => {
+    try {
+      setLoading(true);
+      await _handleUpload(attachments[0]);
+    } catch (error) {
+      message.error({
+        content: "Attachment Uploading failed",
+      });
+      console.log("Attachment Upload : ", error);
+    } finally {
+      _handleCloseAttachmentModal();
+      setLoading(false);
+    }
+  };
+
+  const _handleCloseAttachmentModal = () => {
+    form.resetFields();
+    setAttachments([]);
+    setOpenAttachmentsModal(false);
+  };
+
+  const _handleFileChange = (event: any) => {
+    const newAttachments = Array.from(event.target.files);
+
+    if (event.target.files[0].size > 1 * 1024 * 1024) {
+      message.error({
+        content: "Attachment Uploading failed, file size exceeds 10 MB",
+      });
+      return;
+    }
+
+    if (newAttachments.length !== 0) setAttachments(newAttachments);
+  };
+
+  const _handleFileDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setFileDescription(event.target.value);
+  };
 
   const _uploadFileDataToServer = async (
     fileData: IUploadData
@@ -79,8 +126,8 @@ const DocumentSection = (props: {
     }
   };
 
-  const _handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    let file = e.target.files?.[0];
+  const _handleUpload = async (attachment: File) => {
+    let file = attachment;
     let workspaceId = props.workspace_id;
     let sectionType = props.section_type;
 
@@ -93,7 +140,7 @@ const DocumentSection = (props: {
       setLoading(true);
       let data: IUploadData = {
         name: file.name,
-        description: "",
+        description: fileDescription,
         workspace_id: workspaceId,
         file_name: `inventory-${workspaceId}-${Date.now()}-file`,
         file_type: _getExtension(file.name),
@@ -164,19 +211,14 @@ const DocumentSection = (props: {
           ))}
       </div>
       <div className={styles.btnCon}>
-        <label className={styles.btn} htmlFor={`upload-${props.section_type}`}>
-          {loading ? (
-            <Loader theme="DARK" />
-          ) : (
-            <input
-              type="file"
-              name="upload-file"
-              id={`upload-${props.section_type}`}
-              onChange={_handleUpload}
-            />
-          )}
-          + Upload Document
-        </label>
+        <Button
+          type="Primary"
+          className={styles.btn}
+          label="+ Upload Attachments"
+          onClick={() => {
+            setOpenAttachmentsModal(true);
+          }}
+        />
       </div>
       <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
         <div className={styles.sectionModalContainer}>
@@ -186,6 +228,127 @@ const DocumentSection = (props: {
           </div>
         </div>
       </ROSModal>
+
+      <Modal
+        open={openAttachmentsModal}
+        onCancel={_handleCloseAttachmentModal}
+        className={styles.shareModal}
+        okText={"Add"}
+        onOk={() => _addAttachment()}
+        cancelButtonProps={{
+          style: {
+            display: "none",
+          },
+        }}
+        okButtonProps={{
+          loading: loading,
+        }}
+      >
+        <Form
+          onFinish={() => _addAttachment()}
+          form={form}
+          className={styles.shareEmailForm}
+        >
+          <Form.Item>
+            <h3>Add an Attachment</h3>
+          </Form.Item>
+
+          <Form.Item>
+            <div className={styles.btnCon}>
+              <label
+                className={styles.btn}
+                htmlFor={`upload-${props.section_type}`}
+              >
+                {loading ? (
+                  <Loader theme="DARK" />
+                ) : (
+                  <input
+                    type="file"
+                    name="upload-file"
+                    id={`upload-${props.section_type}`}
+                    style={{ display: "none" }}
+                    onChange={(event) => _handleFileChange(event)}
+                  />
+                )}
+                + Upload Document
+              </label>
+            </div>
+            <div className={styles.docsContainer}>
+              <div className={styles.docsTitle}>
+                {attachments.length} DOCUMENTS SELECTED
+              </div>
+              {attachments.map((item) => {
+                return (
+                  <div key={item.name} className={styles.docContainer}>
+                    <div className={styles.leftCol}>
+                      <div className={styles.icon_column}>
+                        <div className={styles.docIconContainer}>
+                          {
+                            /* {file_logo ? (
+                            <Image
+                              src={file_logo}
+                              alt=""
+                              width={25}
+                              height={25}
+                            />
+                          ) : ( */
+                            <Image
+                              src={"/images/icons/FileText.svg"}
+                              alt=""
+                              width={25}
+                              height={25}
+                            />
+                          }
+                        </div>
+                      </div>
+
+                      <div className={styles.textCon}>
+                        <div className={styles.docTitle}>{item.name}</div>
+                      </div>
+                    </div>
+                    <div className={styles.rightCol}>
+                      <div
+                        className={styles.docIconContainerOp}
+                        onClick={() => {
+                          // console.log(item.name, "item name");
+                          // const itemsAfterDeletion = attachments.filter(
+                          //   (itemTofilter) => {
+                          //     console.log(itemTofilter.name);
+                          //     return item.name !== itemTofilter.name;
+                          //   }
+                          // );
+                          setAttachments([]);
+                        }}
+                      >
+                        <Image
+                          src={"/images/icons/delete.svg"}
+                          alt="import"
+                          width={22}
+                          height={22}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Form.Item>
+
+          <Form.Item name={"desc"}>
+            <Input.TextArea
+              placeholder="Description"
+              rows={3}
+              disabled={loading}
+              onChange={(event) => _handleFileDescriptionChange(event)}
+              // rules={[
+              //   { required: true, message: "Description is required" },
+              //   { transform: (value: string) => value?.trim() },
+              //   // { type: "text", message: "Email is not"},
+              // ]}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
