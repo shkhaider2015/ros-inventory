@@ -38,14 +38,21 @@ const DocumentSection = (props: {
   const _addAttachment = async () => {
     try {
       setLoading(true);
-      await _handleUpload(attachments[0]);
-    } catch (error) {
+      if (attachments.length > 0) {
+        const response = await _handleUpload(attachments[0]);
+
+        _handleCloseAttachmentModal();
+      } else {
+        message.error({
+          content: "Please upload a file",
+        });
+      }
+    } catch (error: any) {
       message.error({
         content: "Attachment Uploading failed",
       });
       console.log("Attachment Upload : ", error);
     } finally {
-      _handleCloseAttachmentModal();
       setLoading(false);
     }
   };
