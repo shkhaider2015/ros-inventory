@@ -13,6 +13,7 @@ import { Form, Input, Modal, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { END_POINTS } from "@/lib/constants";
 import Button from "../common/Button";
+import FilePreview from "../FilePreview";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
@@ -368,7 +369,7 @@ const DocItem: React.FC<IAttachements> = ({
   const [form] = useForm();
   const [openShareModal, setOpenShareModal] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [openModal, setOpenModal] = useState<boolean>(false);
   useEffect(() => {
     if (navigator.userAgent.indexOf("Chrome") != -1) {
       setIsChrome(true);
@@ -456,7 +457,22 @@ const DocItem: React.FC<IAttachements> = ({
     <div className={styles.docContainer}>
       <div className={styles.leftCol}>
         <div className={styles.icon_column}>
-          <div className={styles.docIconContainer}>
+          <div
+            className={styles.docIconContainer}
+            onClick={() => {
+              const fileExtension = [
+                "pdf",
+                "doc",
+                "docx",
+                "xlsx",
+                "xls",
+                "txt",
+              ];
+              if (!fileExtension.includes(file_type)) {
+                setOpenModal(true);
+              }
+            }}
+          >
             {file_logo ? (
               <Image src={file_logo} alt="" width={25} height={25} />
             ) : (
@@ -469,12 +485,21 @@ const DocItem: React.FC<IAttachements> = ({
             )}
           </div>
         </div>
-
-        <div className={styles.textCon}>
-          <div className={styles.docTitle}>{name}</div>
-          <div className={styles.decDesc}>{description}</div>
-        </div>
       </div>
+      <FilePreview
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+        fileUrl={url}
+        file_type={file_type}
+      />
+
+      <div className={styles.textCon}>
+        <div className={styles.docTitle}>{name}</div>
+        <div className={styles.decDesc}>{description}</div>
+      </div>
+
       <div className={styles.rightCol}>
         <div
           className={styles.docIconContainerOp}
