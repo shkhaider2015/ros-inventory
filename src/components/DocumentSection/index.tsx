@@ -66,7 +66,7 @@ const DocumentSection = (props: {
   const _handleFileChange = (event: any) => {
     const newAttachments = Array.from(event.target.files);
 
-    if (event.target.files[0].size > 1 * 1024 * 1024) {
+    if (event.target.files[0].size > 10 * 1024 * 1024) {
       message.error({
         content: "Attachment Uploading failed, file size exceeds 10 MB",
       });
