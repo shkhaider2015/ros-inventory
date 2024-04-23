@@ -139,7 +139,7 @@ const HomeScreen = (props: {
             isOnlyDocs
           />
 
-          <ElementHead name="scrollto_11" text={'Question Section'} />
+          <ElementHead name="scrollto_11" text={props.section_titles.NINTH} />
           <QuestionSection questions={props.questions} />
 
           <SocialMediaIcon items={props.socialMedia} />
@@ -277,6 +277,7 @@ export interface ISectionTitle {
   SIXTH: string;
   SEVENTH: string;
   EIGTH: string;
+  NINTH: string;
 }
 
 export interface IQuestion {
