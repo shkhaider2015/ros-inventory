@@ -103,6 +103,7 @@ export async function getData(eventId: string) {
       cart_items,
       section_titles,
       document_status,
+      questions
     } = data;
     workspaceInfo = workspaceInfo[0];
 
@@ -296,6 +297,15 @@ export async function getData(eventId: string) {
       else return true
     })
 
+    // filter questions
+    questions = questions?.map(({__typename, options, ...item}:any) => {
+      let itemX:any = item;
+      itemX.options = options?.map(({__typename, ...itemY}:any) => itemY)
+      return itemX;
+    })
+
+    questions = questions?.reverse();
+
     return {
       workspaceInfo,
       items,
@@ -308,6 +318,7 @@ export async function getData(eventId: string) {
       event_id: eventId,
       newTitles,
       document_status,
+      questions
     };
   } catch (error) {
     // console.log("Error at server : ", error);
@@ -378,6 +389,7 @@ export default async function Inventory(params: IInventory) {
         event_id={data?.event_id}
         section_titles={data.newTitles}
         documentStatus={data.document_status}
+        questions={data.questions}
       />
     </Suspense>
   );

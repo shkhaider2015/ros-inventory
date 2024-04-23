@@ -13,6 +13,7 @@ import NewTabs from "@/components/NewTabs";
 import CometChatPopup from "@/components/CometChat";
 import SignedDocuments from "@/components/SignedDocuments";
 import LoadInAndOut from "@/components/LoadInAndOut";
+import QuestionSection from "./components/QuestionSections";
 
 const HomeScreen = (props: {
   workspaceInfo: IInventoryInfo;
@@ -26,6 +27,7 @@ const HomeScreen = (props: {
   event_id: string;
   section_titles: ISectionTitle;
   documentStatus: any[];
+  questions: IQuestion[]
 }) => {
   return (
     <main className={styles.container}>
@@ -136,6 +138,9 @@ const HomeScreen = (props: {
             workspace_id={props.workspaceInfo.workspace_id}
             isOnlyDocs
           />
+
+          <ElementHead name="scrollto_11" text={'Question Section'} />
+          <QuestionSection questions={props.questions} />
 
           <SocialMediaIcon items={props.socialMedia} />
 
@@ -273,5 +278,20 @@ export interface ISectionTitle {
   SEVENTH: string;
   EIGTH: string;
 }
+
+export interface IQuestion {
+  id: string;
+  type: TQuestion;
+  question_title: string;
+  options: IOption[];
+  workspace_id: string;
+}
+export interface IOption {
+  id: string;
+  option_title: string;
+  question_reference: string
+}
+
+type TQuestion = "PARAGRAPH" | "DROPDOWN" | "CHECKBOX";
 
 export default HomeScreen;
