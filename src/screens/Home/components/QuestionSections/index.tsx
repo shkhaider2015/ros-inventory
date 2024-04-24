@@ -45,8 +45,8 @@ const QuestionSection:React.FC<IQuestionSection> = ({questions}) => {
                         label: itemX.option_title,
                         value: itemX.id || "",
                       }))
-                      .map((itemX) => (
-                        <Col span={8}>
+                      .map((itemX, index) => (
+                        <Col span={8} key={item.id+'-'+index}>
                           <Checkbox value={itemX.value}>{itemX.label}</Checkbox>
                         </Col>
                       ))}
