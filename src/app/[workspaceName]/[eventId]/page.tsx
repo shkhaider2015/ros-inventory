@@ -22,6 +22,7 @@ const sectionIds = {
   SIXTH: "532140d7-7bc3-4669-ad79-088395ce3f27",
   SEVENTH: "41fbdc41-eaa0-4d2d-939b-ed955518502e",
   EIGTH: "bb19bfcd-72a1-4980-8bf0-65a582acadf3",
+  NINTH: '61561cc6-dd97-44ea-94a0-882d423e1696'
 };
 
 const sectionTitleData: ISectionTitle[] = [
@@ -56,6 +57,10 @@ const sectionTitleData: ISectionTitle[] = [
   {
     section_uuid: sectionIds.EIGTH,
     section_title: "Client / Planner Attachments",
+  },
+  {
+    section_uuid: sectionIds.NINTH,
+    section_title: "Questions",
   },
 ];
 
@@ -103,6 +108,7 @@ export async function getData(eventId: string) {
       cart_items,
       section_titles,
       document_status,
+      questions
     } = data;
     workspaceInfo = workspaceInfo[0];
 
@@ -246,6 +252,7 @@ export async function getData(eventId: string) {
       SIXTH: "Misc",
       SEVENTH: "Signed Documents",
       EIGTH: "Client / Planner Attachments",
+      NINTH: 'Questions'
     };
     // filter section titles
     if (section_titles && section_titles?.length <= 0)
@@ -296,6 +303,15 @@ export async function getData(eventId: string) {
       else return true
     })
 
+    // filter questions
+    questions = questions?.map(({__typename, options, ...item}:any) => {
+      let itemX:any = item;
+      itemX.options = options?.map(({__typename, ...itemY}:any) => itemY)
+      return itemX;
+    })
+
+    questions = questions?.reverse();
+
     return {
       workspaceInfo,
       items,
@@ -308,6 +324,7 @@ export async function getData(eventId: string) {
       event_id: eventId,
       newTitles,
       document_status,
+      questions
     };
   } catch (error) {
     // console.log("Error at server : ", error);
@@ -378,6 +395,7 @@ export default async function Inventory(params: IInventory) {
         event_id={data?.event_id}
         section_titles={data.newTitles}
         documentStatus={data.document_status}
+        questions={data.questions}
       />
     </Suspense>
   );
