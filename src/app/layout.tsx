@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Providers } from "@/store/provider";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, App as AntApp } from "antd";
 import theme from "@/theme/themeConfig";
 import { RootStyleRegistry } from "@/components/RootStyleRegistry/RootStyleRegistry";
 
@@ -28,11 +28,13 @@ export default function RootLayout({
       <body>
         <Providers>
           <RootStyleRegistry>
-            <ConfigProvider theme={theme} >
-            <Layout>{children}</Layout>
+            <ConfigProvider theme={theme}>
+              <AntApp>
+                <Layout>{children}</Layout>
+              </AntApp>
+            </ConfigProvider>
             <div id="modal-root"></div>
             <div id="carousel-root"></div>
-            </ConfigProvider>
           </RootStyleRegistry>
         </Providers>
       </body>
