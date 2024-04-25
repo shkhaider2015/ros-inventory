@@ -7,8 +7,6 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
-import ROSModal from "../common/ROSModal";
-import useModal from "@/hooks/useModal";
 import { Form, Input, Modal, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { END_POINTS } from "@/lib/constants";
@@ -227,14 +225,12 @@ const DocumentSection = (props: {
           }}
         />
       </div>
-      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
-        <div className={styles.sectionModalContainer}>
-          {/* <div className={styles.dsModalTitle} >Title</div> */}
+      {/* <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
           <div className={styles.sectionModalContent}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
           </div>
         </div>
-      </ROSModal>
+      </ROSModal> */}
 
       <Modal
         open={openAttachmentsModal}
@@ -372,7 +368,6 @@ const DocItem: React.FC<IAttachements> = ({
 }) => {
   const [isChrome, setIsChrome] = useState<boolean>(false);
   const router = useRouter();
-  const { open } = useModal();
   const [form] = useForm();
   const [openShareModal, setOpenShareModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -445,9 +440,6 @@ const DocItem: React.FC<IAttachements> = ({
       });
       _handleCloseShareModal();
     } catch (error) {
-      message.error({
-        content: "File sharing failed",
-      });
       console.log("Share Via Email : ", error);
     } finally {
       setLoading(false);
@@ -522,12 +514,19 @@ const DocItem: React.FC<IAttachements> = ({
         {uploaded_via === "CLIENT" && (
           <div
             className={styles.docIconContainerOp}
-            onClick={() =>
-              open({
-                message: "Are you sure you want to delete this Document?",
+            // onClick={() =>
+            //   open({
+            //     message: "Are you sure you want to delete this Document?",
+            //     onOk: async () => _deleteClientFile(id),
+            //   })
+            // }
+            onClick={() => {
+              Modal.confirm({
+                content: "Are you sure you want to delete this Document?",
+                okType: 'danger',
                 onOk: async () => _deleteClientFile(id),
               })
-            }
+            }}
           >
             <Image
               src={"/images/icons/delete.svg"}

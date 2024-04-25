@@ -9,6 +9,7 @@ import ROSModal from "../common/ROSModal";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { EnvironmentOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
 
 const InventoryDetails = (props: IInventoryDetails) => {
   const { info, contacts } = props;
@@ -91,11 +92,11 @@ const InventoryDetails = (props: IInventoryDetails) => {
         )}
       </div>
 
-      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
+      <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
         <div className={styles.inventoryModalContainer}>
           <TextEditor value={info.description} isReadOnly={true} />
         </div>
-      </ROSModal>
+      </Modal>
     </div>
   );
 };

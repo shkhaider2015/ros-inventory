@@ -16,7 +16,9 @@ export const CC_Contstants = {
 
 export const END_POINTS = {
   UPDATE_SIGNED_DOCUMENTS_STATUS: 'https://myapi.runofshowapp.com/api/inventory/saveDocumentStatus',
-  SHARE_FILE_VIA_EMAIL: 'https://myapi.runofshowapp.com/api/email-attachment/inventory'
+  SHARE_FILE_VIA_EMAIL: 'https://myapi.runofshowapp.com/api/email-attachment/inventory',
+  SAVE_CHECKOUT_ITEMS: 'https://myapi.runofshowapp.com/api/inventory/checkout',
+  DELETE_CHECKOUT_ITEMS: "https://myapi.runofshowapp.com/api/inventory/deleteItemFromCart",
 }
 
 export const Image_URL_Base =
