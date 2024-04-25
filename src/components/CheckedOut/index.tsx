@@ -15,10 +15,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { useSnackbar } from "@/hooks/useSnackbar";
-import ROSSnackbar from "../common/ROSSnackbar";
 import WarningModal from "../common/WarningModal";
-import useModal from "@/hooks/useModal";
+import {Modal, message} from 'antd';
 
 const CheckedOut: React.FC<{
   event_id: string;
@@ -35,8 +33,6 @@ const CheckedOut: React.FC<{
   }>();
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isActive, type, message, openSnackBar } = useSnackbar();
-  const { open } = useModal();
 
   // console.log("Cart Items : ", props.initialData);
 
@@ -74,10 +70,14 @@ const CheckedOut: React.FC<{
         dispatch(updateFormFields({ isFormFieldsChanged: false }));
       }
       router.refresh();
-      openSnackBar("Data saved successfully", "success");
+      message.success({
+        content: "Data saved successfully"
+      })
     } catch (error) {
       console.log("Save api error : ", error);
-      openSnackBar("Something went wrong", "danger");
+      message.error({
+        content: "Something went wrong"
+      })
     } finally {
       setLoading(false);
     }
@@ -144,15 +144,22 @@ const CheckedOut: React.FC<{
               {...item}
               onRemove={() => {
                 // setShowDeleteWarning({main_id: item.id, cart_id: item.cart_id});
-                open({
-                  message: "Are you sure you want to delete this item?",
+                Modal.confirm({
+                  content: "Are you sure you want to delete this item?",
+                  okType: "danger",
                   onOk: async () => {
                     _onDelete(item.id, item.cart_id);
-                    // if (!formFields.isFormFieldsChanged) {
-                    //   dispatch(updateFormFields({ isFormFieldsChanged: true }));
-                    // }
-                  },
-                });
+                  }
+                })
+                // open({
+                //   message: "Are you sure you want to delete this item?",
+                //   onOk: async () => {
+                //     _onDelete(item.id, item.cart_id);
+                //     // if (!formFields.isFormFieldsChanged) {
+                //     //   dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                //     // }
+                //   },
+                // });
               }}
               onChangeCounter={(val: number) => {
                 dispatch(updateQuantity({ ...item, selectedQuantity: val }));
@@ -198,7 +205,6 @@ const CheckedOut: React.FC<{
         {/* Last Saved: Nov 15, 2023 - 11:00PM GST */}
         Last Saved: {moment(props.updated_at).format("MMM DD, YYYY - hh:mmA")}
       </div>
-      <ROSSnackbar isActive={isActive} type={type} message={message} />
       <WarningModal
         open={typeof showDeleteWarning !== "undefined"}
         onClose={() => setShowDeleteWarning(undefined)}

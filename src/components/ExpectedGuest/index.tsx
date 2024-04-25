@@ -11,13 +11,12 @@ import moment, { Moment } from "moment";
 import ROSInput from "../common/ROSInput";
 import Button from "../common/Button";
 import axios from "axios";
-import { useSnackbar } from "@/hooks/useSnackbar";
-import ROSSnackbar from "../common/ROSSnackbar";
 import { useRouter } from "next/navigation";
 import LoadInAndOut from "../LoadInAndOut";
 import dayjs, { Dayjs } from "dayjs";
 import TextEditor from "../TextEditor";
 import ROSModal from "../common/ROSModal";
+import { Modal, message } from "antd";
 
 const ExpectedGuest: React.FC<{
   initialData: IGuestInfo;
@@ -30,7 +29,6 @@ const ExpectedGuest: React.FC<{
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const guestInfo = useSelector((state: any) => state.guestInfo);
   const formFields = useSelector((state: any) => state.formFields);
-  const { isActive, type, message, openSnackBar } = useSnackbar();
   // some test
   const [loadInTime, setLoadInTime] = useState<Dayjs | null>(
     props.initialData.load_in_time
@@ -108,10 +106,14 @@ const ExpectedGuest: React.FC<{
         dispatch(updateFormFields({ isFormFieldsChanged: false }));
       }
       router.refresh();
-      openSnackBar("Data saved successfully", "success");
+      message.success({
+        content: "Data saved successfully"
+      })
     } catch (error) {
       console.log("Save api error : ", error);
-      openSnackBar("Something went wrong", "danger");
+      message.error({
+        content: "Something went wrong"
+      })
     } finally {
       setLoading(false);
     }
@@ -262,15 +264,14 @@ const ExpectedGuest: React.FC<{
           />
         </div>
       </div>
-      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
+      <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
         <div className={styles.special_sectionModalContainer}>
           {/* <div className={styles.dsModalTitle} >Title</div> */}
           <div className={styles.special_sectionModalContent}>
             <TextEditor value={props.specialInstructions} isReadOnly={true} />
           </div>
         </div>
-      </ROSModal>
-      <ROSSnackbar isActive={isActive} type={type} message={message} />
+      </Modal>
     </div>
   );
 };
