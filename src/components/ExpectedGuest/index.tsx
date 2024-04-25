@@ -17,6 +17,7 @@ import dayjs, { Dayjs } from "dayjs";
 import TextEditor from "../TextEditor";
 import ROSModal from "../common/ROSModal";
 import { Modal, message } from "antd";
+import { END_POINTS } from "@/lib/constants";
 
 const ExpectedGuest: React.FC<{
   initialData: IGuestInfo;
@@ -77,15 +78,11 @@ const ExpectedGuest: React.FC<{
       ? loadOutTime.format("YYYY-MM-DDTHH:mm:ss.SSSSSS") + `[${userTimezone}]`
       : null;
 
-    let URL = "https://myapi.runofshowapp.com/api/inventory/checkout";
-    console.log("Guest Count : ", guestCount);
-    console.log("IsConfirm : ", isConfirm);
-
     try {
       setLoading(true);
       await axios
         .post(
-          URL,
+          END_POINTS.SAVE_CHECKOUT_ITEMS,
           {
             expected_guest_count: guestCount,
             checkin_at_door: Number(isConfirm),

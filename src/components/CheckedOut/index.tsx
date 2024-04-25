@@ -17,6 +17,7 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import WarningModal from "../common/WarningModal";
 import {Modal, message} from 'antd';
+import { END_POINTS } from "@/lib/constants";
 
 const CheckedOut: React.FC<{
   event_id: string;
@@ -46,7 +47,7 @@ const CheckedOut: React.FC<{
     // console.log("_onSave() : ", cartItems);
 
     let data: any = {
-      ...guestInfo,
+      // ...guestInfo,
       event_id: props.event_id,
     };
     data.items = cartItems.map((item) => ({
@@ -56,11 +57,9 @@ const CheckedOut: React.FC<{
       total_price: item.selectedQuantity * item.rental_price,
     }));
 
-    let URL = "https://myapi.runofshowapp.com/api/inventory/checkout";
-
     try {
       setLoading(true);
-      await axios.post(URL, data, {
+      await axios.post(END_POINTS.SAVE_CHECKOUT_ITEMS, data, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -87,7 +86,6 @@ const CheckedOut: React.FC<{
     main_item_id: string | undefined,
     cart_item_id: string | undefined
   ) => {
-    let URL = "https://myapi.runofshowapp.com/api/inventory/deleteItemFromCart";
 
     if (!main_item_id) return;
     if (!cart_item_id) {
@@ -98,7 +96,7 @@ const CheckedOut: React.FC<{
     try {
       setLoading(true);
       await axios.post(
-        URL,
+        END_POINTS.DELETE_CHECKOUT_ITEMS,
         {
           cart_item_id: cart_item_id,
         },
