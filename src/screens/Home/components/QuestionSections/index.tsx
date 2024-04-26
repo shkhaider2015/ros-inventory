@@ -16,7 +16,7 @@ const QuestionSection: React.FC<IQuestionSection> = ({ questions }) => {
   // const [form] = useForm();
 
   const _handleSubmit = async (values: any) => {
-    console.log("form Values: ", values);
+    // console.log("form Values: ", values);
     // return
     let data: ISubmitData[] = [];
 
