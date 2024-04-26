@@ -609,5 +609,61 @@
         {{{data.misc.description}}}
       </div>
     </div>
+
+    <!-- Questions -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+    <h2 style="color: indigo; text-align: left; width: 80%">
+      {{{data.sectionTitles.NINTH}}}
+    </h2>
+    {{#each data.questions}}
+      {{#if (equalStr type 'PARAGRAPH')}}
+      <div style="width: 80%;" >
+        <h4>{{question_title}}</h4>
+        <p style="max-width: 60vw;" >{{answer}}</p>
+      </div>
+      {{/if}}
+      {{#if (equalStr type 'DROPDOWN')}}
+      <div style="width: 80%;">
+        <h4>{{question_title}}</h4>
+        <div>
+          {{#each options}}
+          <div style="display: flex; gap: 8px; font-size: 14px; font-weight: 400; margin-top: 5px;" >
+            {{#if checked}}
+            <input checked type="radio" name="" id="">
+            {{else}}
+            <input type="radio" name="" id="">
+            {{/if}}
+            <label for="">{{option_title}}</label>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+      {{#if (equalStr type 'CHECKBOX')}}
+      <div style="width: 80%;">
+        <h4>{{question_title}}</h4>
+        <div>
+          {{#each options}}
+          <div style="display: flex; gap: 8px; font-size: 14px; font-weight: 400; margin-top: 5px;" >
+            {{#if checked}}
+            <input checked type="checkbox" name="" id="">
+            {{else}}
+            <input type="checkbox" name="" id="">
+            {{/if}}
+            <label for="">{{option_title}}</label>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+    {{/each}}
+    </div>
   </body>
 </html>
