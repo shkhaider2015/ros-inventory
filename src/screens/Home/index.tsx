@@ -286,11 +286,14 @@ export interface IQuestion {
   question_title: string;
   options: IOption[];
   workspace_id: string;
+  answer: string;
+  workspace_inventory_question_answers: any[]
 }
 export interface IOption {
   id: string;
   option_title: string;
-  question_reference: string
+  question_reference: string;
+  is_checked: boolean | null;
 }
 
 type TQuestion = "PARAGRAPH" | "DROPDOWN" | "CHECKBOX";
