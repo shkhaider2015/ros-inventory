@@ -107,10 +107,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
     let data = await getData(eventId);
 
     const serverStartDateTime = tz(data?.eventInfo.start, serverTimezone).clone().tz(client_time_zone);
-    // const clientDateTime = serverDateTime.clone().tz(client_time_zone)
     const serverEndDateTime = tz(data?.eventInfo.end, serverTimezone).clone().tz(client_time_zone)
-    console.log("Client Start Date Time : ", data?.eventInfo.start);
-    console.log("Server Start Date Time : ", serverStartDateTime);
+
 
     if (!data) {
       return NextResponse.json(
@@ -121,9 +119,29 @@ export async function POST(request: NextRequest, response: NextResponse) {
       );
     }
 
+    const questions = data.questions?.map((item:any) => {
+      if(item?.type === 'CHECKBOX') {
+        let options = item?.options?.map((option:any)=> {
+          if(item?.workspace_inventory_question_answers?.some((answer:any) => {
+            if(answer?.selected_option_id == option?.id && answer?.is_checked) return true;
+            else return false;
+          })) {
+            return {
+              ...option,
+              checked: true
+            }
+          } else return {...option, checked: false}
+        });
+        return {
+          ...item,
+          options
+        }
+      } else return item
+    })
+
+    questions?.forEach((item:any) => console.log("Item : ", item))
 
     const sectionTitles = data.newTitles;
-    console.log("Section : ", sectionTitles)
     const inventoryItems = data?.items?.filter((item:any) => !item.is_deleted)
 
     const aboutVenue = inventoryItems?.filter(
@@ -212,7 +230,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
         checkin_at_door: data?.checkout_client_info.checkin_at_door,
       },
       sum_rental_price: sum_rental_price,
-      sectionTitles: sectionTitles
+      sectionTitles: sectionTitles,
+      questions: questions
     };
 
     
@@ -247,8 +266,13 @@ async function createPDF(data: any) {
       "utf8"
     );
 
+    handlebars.registerHelper('equalStr', (val1, val2) => {
+      if(val1 === val2) return true
+      else return false
+    })
     const template = handlebars.compile(templateHtml);
-    const html = template({ data });
+    let html = template({ data });
+    html = encodeURIComponent(html)
 
     // console.log("HTML ", html);
 
@@ -555,5 +579,6 @@ interface IData {
     checkin_at_door: number;
   };
   sum_rental_price: number;
-  sectionTitles: any
+  sectionTitles: any;
+  questions: any[]
 }
