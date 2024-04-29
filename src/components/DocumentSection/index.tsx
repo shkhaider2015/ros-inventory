@@ -225,12 +225,11 @@ const DocumentSection = (props: {
           }}
         />
       </div>
-      {/* <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
+      <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
           <div className={styles.sectionModalContent}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
           </div>
-        </div>
-      </ROSModal> */}
+      </Modal>
 
       <Modal
         open={openAttachmentsModal}
