@@ -77,8 +77,6 @@ export async function getData(eventId: string) {
     "/images/icons/tec_spec.svg",
     "/images/icons/HandHeart.svg",
   ];
-  //   const res = await fetch(URL, {...obj});
-  // console.log("Event Id ", eventId);
 
   try {
     const res = await axios.post(
