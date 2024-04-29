@@ -140,7 +140,7 @@ const HomeScreen = (props: {
           />
 
           <ElementHead name="scrollto_11" text={props.section_titles.NINTH} />
-          <QuestionSection questions={props.questions} />
+          <QuestionSection questions={props.questions} event_id={props.event_id} />
 
           <SocialMediaIcon items={props.socialMedia} />
 

@@ -7,10 +7,9 @@ import TextArea from "antd/es/input/TextArea";
 import { IQuestion } from "../..";
 import axios from "axios";
 import { END_POINTS } from "@/lib/constants";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "antd/es/form/Form";
-const QuestionSection: React.FC<IQuestionSection> = ({ questions }) => {
+const QuestionSection: React.FC<IQuestionSection> = ({ questions, event_id }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   // const [form] = useForm();
@@ -83,63 +82,13 @@ const QuestionSection: React.FC<IQuestionSection> = ({ questions }) => {
           ii?.selected_option_id === item.selected_option_id
         )
           answer_id = ii?.id;
-        // if(ii?.question_id === item.question_id && !ii?.selected_option_id) answer_id = ii?.id;
-        // if(ii?.question_id === item.question_id && ii?.selected_option_id === item.selected_option_id) answer_id = ii?.id;
       });
       return { ...item, answer_id: answer_id };
     });
 
-    // console.log("form Data 777 before: yy after ", data);
-    // let toBeChecked = data.filter(item => item.isCheckbox);
-    // let toBeUnchecked = data
-    // questions
-    //   .filter((item) => item.type === "CHECKBOX")
-    //   .forEach((item) => {
-    //     console.log("form item ", item);
-    //     item.workspace_inventory_question_answers?.forEach((ii: any) => {
-    //       console.log("form ii", ii);
-    //       let title = item?.options.find(oi => oi.id == ii?.question_id)?.option_title;
-    //       // let toBeChecked = data.filter(toBeChecked => toBeChecked.isCheckbox);
-    //       // let toBeUnchecked = []
-    //       // if (!data.filter(ij => ij.isCheckbox).some((ij) => ij.question_id == ii?.question_id)) {
-    //       //   data.push({
-    //       //     question_id: ii?.question_id,
-    //       //     selected_option_id: undefined,
-    //       //     answer_id: ii?.id,
-    //       //     text_answer: "",
-    //       //   });
-    //       // }
-    //     });
-    //   });
-    // data = data.filter((item) => !item.is_checked);
-    // console.log("form Data 777 : ", data);
-    // let filterData: any[] = data.map((item) => {
-    //   if (item.answer_id) {
-    //     if(item.text_answer)
-    //     return {
-    //       id: item.answer_id,
-    //       question_id: item.question_id,
-    //       selected_option_id: item.selected_option_id,
-    //       text_answer: item.text_answer,
-    //     };
-    //   } else {
-    //     return {
-    //       question_id: item.question_id,
-    //       selected_option_id: item.selected_option_id,
-    //       text_answer: item.text_answer,
-    //     };
-    //   }
-    // });
 
     let checksInForms: ISubmitData[] = data.filter((item) => item.is_checked);
-    // let checkOptIds: (string | undefined)[] = data
-    //   .filter((item) => item.is_checked)
-    //   .map((item) => item.selected_option_id)
-    //   .filter((item) => item);
-    // let unCheckOptIds: string[] = [];
-    // return
 
-    // console.log("Checkids : ", checkOptIds, checksInForms);
 
     questions
       .filter((item) => item.type === "CHECKBOX")
@@ -165,6 +114,7 @@ const QuestionSection: React.FC<IQuestionSection> = ({ questions }) => {
       let obj: any = {
         question_id: item.question_id,
         text_answer: item.text_answer,
+        event_id: event_id
       };
       if (item?.selected_option_id)
         obj.selected_option_id = item.selected_option_id;
@@ -181,7 +131,7 @@ const QuestionSection: React.FC<IQuestionSection> = ({ questions }) => {
     try {
       setLoading(true);
       await axios.post(END_POINTS.UPDATE_QUESTION, {
-        question_responses: filterData,
+        question_responses: filterData
       });
       // await axios.post(END_POINTS.UPDATE_QUESTION, {
       //   question_responses: filterData.filter(item => item?.id),
@@ -282,6 +232,7 @@ const QuestionSection: React.FC<IQuestionSection> = ({ questions }) => {
 
 interface IQuestionSection {
   questions: IQuestion[];
+  event_id: string;
 }
 
 interface ISubmitData {
