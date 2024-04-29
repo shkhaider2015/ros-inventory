@@ -285,6 +285,9 @@ export async function getData(eventId: string) {
           case sectionIds.EIGTH:
             newTitles.EIGTH = item.section_title;
             break;
+          case sectionIds.NINTH:
+            newTitles.NINTH = item.section_title;
+            break;
           default:
             break;
         }
