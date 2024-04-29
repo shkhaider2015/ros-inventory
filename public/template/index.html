@@ -636,11 +636,8 @@
           {{#each options}}
           <div style="display: flex; gap: 8px; font-size: 14px; font-weight: 400; margin-top: 5px;" >
             {{#if checked}}
-            <input checked type="radio" name="" id="">
-            {{else}}
-            <input type="radio" name="" id="">
+              <p>{{option_title}}</p>
             {{/if}}
-            <label for="">{{option_title}}</label>
           </div>
           {{/each}}
         </div>
