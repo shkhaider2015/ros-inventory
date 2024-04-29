@@ -484,14 +484,6 @@ const DocItem: React.FC<IAttachements> = ({
           </div>
         </div>
       </div>
-      <FilePreview
-        open={openModal}
-        onClose={() => {
-          setOpenModal(false);
-        }}
-        fileUrl={url}
-        file_type={file_type}
-      />
 
       <div className={styles.textCon}>
         <div className={styles.docTitle}>{name}</div>
@@ -590,6 +582,14 @@ const DocItem: React.FC<IAttachements> = ({
           </Form.Item>
         </Form>
       </Modal>
+      <FilePreview
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+        fileUrl={url}
+        file_type={file_type}
+      />
     </div>
   );
 };
