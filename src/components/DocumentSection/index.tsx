@@ -472,13 +472,13 @@ const DocItem: React.FC<IAttachements> = ({
             }}
           >
             {file_logo ? (
-              <Image src={file_logo} alt="" width={25} height={25} />
+              <Image src={file_logo} alt="" width={28} height={28} />
             ) : (
               <Image
                 src={"/images/icons/FileText.svg"}
                 alt=""
-                width={25}
-                height={25}
+                width={28}
+                height={28}
               />
             )}
           </div>
