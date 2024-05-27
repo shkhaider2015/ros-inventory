@@ -35,16 +35,24 @@
     style="
       min-width: 95vw;
       min-height: 100vh;
-      padding: 40px;
+      padding: 0px 0px 30px 0px;
+      margin: 0px;
       overflow-x: hidden;
       font-family: 'inter';
+      background: white;
     "
   >
+  <div style="
+      border: 1px solid white;
+      background: linear-gradient(180deg, rgba(157, 100, 255, 0.449) 0%, rgba(255,255,255,0.43883490896358546) 100%);
+  ">
+
+  
     <!-- Events Info and Contacts -->
-    <div>
+    <div style="padding: 40px;" >
       <span
         >Event Name:
-        <span style="font-weight: 600">{{data.eventInfo.name}}</span></span
+        <span style="font-weight: 600">{{{data.eventInfo.name}}}</span></span
       ><br />
       <span
         >Start Date:
@@ -111,6 +119,7 @@
       />
     </div>
 
+
     <div
       style="
         display: flex;
@@ -122,7 +131,7 @@
       <h2 style="color: indigo; text-align: left; width: 80%">Details</h2>
       <div style="width: 80%">{{{data.workspaceInfo.description}}}</div>
     </div>
-
+  </div>
     <div style="display: flex; justify-content: center">
       <hr style="width: 80%" />
     </div>
@@ -136,13 +145,25 @@
       "
     >
       <h2 style="color: indigo; text-align: left; width: 80%">Contacts</h2>
-      <table style="width: 80%">
+      <table style="width: 80%; border-collapse: collapse; ">
         <thead style="color: purple; font-weight: bold">
           <tr>
-            <td>Name</td>
-            <td>Title</td>
-            <td>Phone Number</td>
-            <td>Email</td>
+            <td style="
+                padding: 12px 2px 12px 3px;
+                border: 1px solid rgb(237, 237, 237);
+                " >Name</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Title</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Phone Number</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Email</td>
           </tr>
         </thead>
         <tbody>
@@ -151,26 +172,27 @@
             <td
               style="
                 width: 25%;
-                padding: 8px 2px 8px 0px;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                padding: 12px 2px 12px 3px;
+                border: 1px solid rgb(237, 237, 237);
+                font-weight: bold;
               "
             >
-              {{this.name}}
+              {{{this.name}}}
             </td>
             <td
               style="
                 width: 25%;
-                padding: 8px 2px 8px 0px;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                padding: 12px 2px 12px 3px;
+                border: 1px solid rgb(237, 237, 237);
               "
             >
-              {{this.title}}
+              {{{this.title}}}
             </td>
             <td
               style="
                 width: 25%;
-                padding: 8px 2px 8px 0px;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                padding: 12px 2px 12px 3px;
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               {{this.phone_number}}
@@ -178,8 +200,8 @@
             <td
               style="
                 width: 25%;
-                padding: 8px 2px 8px 0px;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                padding: 12px 2px 12px 3px;
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               {{this.email}}
@@ -234,7 +256,7 @@
       "
     >
       <h2 style="color: indigo; text-align: left; width: 80%">
-        {{data.sectionTitles.FIRST}}
+        {{{data.sectionTitles.FIRST}}}
       </h2>
       <div style="width: 80%; text-align: left">
         {{{data.about_venue.description}}}
@@ -256,7 +278,8 @@
       <div
         style="
           display: flex;
-          justify-content: space-around;
+          flex-wrap: wrap;
+          justify-content: flex-start;
           align-items: center;
           width: 80%;
         "
@@ -283,9 +306,13 @@
               font-style: italic;
               border: 1.5px dotted grey;
               padding: 10px;
+              white-space: nowrap; 
+              width: 80px; 
+              overflow: hidden;
+              text-overflow: ellipsis; 
             "
           >
-            {{this.name}}
+            {{{this.name}}}
           </span>
         </div>
         {{/each}}
@@ -305,15 +332,28 @@
       "
     >
       <h2 style="color: indigo; text-align: left; width: 80%">
-        {{data.sectionTitles.SECOND}}
+        {{{data.sectionTitles.SECOND}}}
       </h2>
-      <table style="width: 80%; border-spacing: 0px 7px">
+      <table style="width: 80%; border-collapse: collapse;">
         <thead style="color: purple; font-weight: bold">
           <tr>
-            <td>Name</td>
-            <td style="width: 60%">Description</td>
-            <td>$ Price</td>
-            <td>Quantity</td>
+            <td style="
+                padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Name</td>
+            <td style="
+              width: 58%;
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Description</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">$Price</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Quantity</td>
           </tr>
         </thead>
         <tbody>
@@ -321,41 +361,42 @@
           <tr style="vertical-align: top">
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
                 width: 20%;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                font-weight: bold;
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               {{{this.name}}}
             </td>
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
-                width: 60%;
+                width: 58%;
                 padding-right: 20px;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               {{{this.description}}}
             </td>
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
-                width: 10%;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                width: 12%;
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               ${{this.rental_price}}
             </td>
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
                 width: 10%;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               {{this.quantity}}
@@ -378,15 +419,28 @@
       "
     >
       <h2 style="color: indigo; text-align: left; width: 80%">
-        {{data.sectionTitles.THIRED}}
+        {{{data.sectionTitles.THIRED}}}
       </h2>
-      <table style="width: 80%; border-spacing: 0px 7px">
+      <table style="width: 80%; border-collapse: collapse;">
         <thead style="color: purple; font-weight: bold">
           <tr>
-            <td>Name</td>
-            <td style="width: 60%">Description</td>
-            <td>$ Price</td>
-            <td>Quantity</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Name</td>
+            <td style="
+              width: 58%;
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Description</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">$Price</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Quantity</td>
           </tr>
         </thead>
         <tbody>
@@ -394,41 +448,42 @@
           <tr style="vertical-align: top">
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
+                font-weight: bold;
                 width: 20%;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               {{{this.name}}}
             </td>
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
-                width: 60%;
+                width: 58%;
                 padding-right: 20px;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               {{{this.description}}}
             </td>
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
-                width: 10%;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                width: 12%;
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               ${{this.rental_price}}
             </td>
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
                 width: 10%;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               {{this.quantity}}
@@ -488,13 +543,26 @@
       <h2 style="color: indigo; text-align: left; width: 80%">
         Checked Out Items
       </h2>
-      <table style="width: 80%; border-spacing: 0px 7px">
+      <table style="width: 80%; border-collapse: collapse;">
         <thead style="color: purple; font-weight: bold">
           <tr>
-            <td>Name</td>
-            <td style="width: 60%">Description</td>
-            <td>$Unit Price</td>
-            <td>Quantity</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Name</td>
+            <td style="
+              width: 37%;
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Description</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">$Unit Price</td>
+            <td style="
+              padding: 12px 2px 12px 3px;
+              border: 1px solid rgb(237, 237, 237);
+              ">Quantity</td>
           </tr>
         </thead>
         <tbody>
@@ -502,41 +570,42 @@
           <tr style="vertical-align: top">
             <td
               style="
-                padding: 8px 2px 8px 0px;
+              padding: 12px 2px 12px 3px;
                 vertical-align: top;
                 width: 20%;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                font-weight: bold;
+                border: 1px solid rgb(237, 237, 237);
               "
             >
              {{{this.name}}}
             </td>
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
                 width: 37%;
                 padding-right: 20px;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               {{{this.description}}}
             </td>
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
                 width: 15%;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               ${{this.rental_price}}
             </td>
             <td
               style="
-                padding: 8px 2px 8px 0px;
+                padding: 12px 2px 12px 3px;
                 vertical-align: top;
                 width: 10%;
-                border-bottom: 1px solid rgb(237, 237, 237);
+                border: 1px solid rgb(237, 237, 237);
               "
             >
               {{this.selectedQuantity}}
@@ -573,7 +642,7 @@
       "
     >
       <h2 style="color: indigo; text-align: left; width: 80%">
-        {{data.sectionTitles.FOURTH}}
+        {{{data.sectionTitles.FOURTH}}}
       </h2>
       <div style="width: 80%; text-align: left">
         {{{data.insurance_requirement.description}}}
@@ -589,7 +658,7 @@
       "
     >
       <h2 style="color: indigo; text-align: left; width: 80%">
-        {{data.sectionTitles.FIFTH}}
+        {{{data.sectionTitles.FIFTH}}}
       </h2>
       <div style="width: 80%; text-align: left">
         {{{data.food_and_beverage.description}}}
@@ -604,10 +673,63 @@
         align-items: center;
       "
     >
-      <h2 style="color: indigo; text-align: left; width: 80%">{{data.sectionTitles.SIXTH}}</h2>
+      <h2 style="color: indigo; text-align: left; width: 80%">{{{data.sectionTitles.SIXTH}}}</h2>
       <div style="width: 80%; text-align: left">
         {{{data.misc.description}}}
       </div>
+    </div>
+
+    <!-- Questions -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+    <h2 style="color: indigo; text-align: left; width: 80%">
+      {{{data.sectionTitles.NINTH}}}
+    </h2>
+    {{#each data.questions}}
+      {{#if (equalStr type 'PARAGRAPH')}}
+      <div style="width: 80%;" >
+        <h4>{{question_title}}</h4>
+        <p style="max-width: 60vw;" >{{answer}}</p>
+      </div>
+      {{/if}}
+      {{#if (equalStr type 'DROPDOWN')}}
+      <div style="width: 80%;">
+        <h4>{{question_title}}</h4>
+        <div>
+          {{#each options}}
+          <div style="display: flex; gap: 8px; font-size: 14px; font-weight: 400; margin-top: 5px;" >
+            {{#if checked}}
+              <p>{{option_title}}</p>
+            {{/if}}
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+      {{#if (equalStr type 'CHECKBOX')}}
+      <div style="width: 80%;">
+        <h4>{{question_title}}</h4>
+        <div>
+          {{#each options}}
+          <div style="display: flex; gap: 8px; font-size: 14px; font-weight: 400; margin-top: 5px;" >
+            {{#if checked}}
+            <input checked type="checkbox" name="" id="">
+            {{else}}
+            <input type="checkbox" name="" id="">
+            {{/if}}
+            <label for="">{{option_title}}</label>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+    {{/each}}
     </div>
   </body>
 </html>

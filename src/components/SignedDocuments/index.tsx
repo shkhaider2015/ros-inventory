@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./signedDocument.module.css";
 import Image from "next/image";
 import moment from "moment";
@@ -8,10 +8,8 @@ import { IAttachements } from "@/screens/Home";
 import ROSCheckbox from "../common/Checkbox";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import axios from "axios";
-import ROSModal from "../common/ROSModal";
-import ROSInput from "../common/ROSInput";
 import { END_POINTS } from "@/lib/constants";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { validateEmail } from "@/lib/func";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import ROSSnackbar from "../common/ROSSnackbar";
@@ -29,7 +27,6 @@ const SignedDocuments: React.FC<{
   const [updatedAt, setUpdatedAt] = useState<string>("");
   const [modifiedData, setModifiedData] = useState<IDocumentStatus[]>([]);
   const router = useRouter();
-  const { isActive, type, message, openSnackBar } = useSnackbar();
 
   useEffect(() => {
     // console.log("Data : ", data);
@@ -91,9 +88,13 @@ const SignedDocuments: React.FC<{
       // console.log("ResPonse : ", response);
 
       router.refresh();
-      openSnackBar("File status changed successfully", "success");
+      message.success({
+        content: "File status changed successfully"
+      })
     } catch (error) {
-      openSnackBar("File status changing failed", "danger");
+      message.error({
+        content: "File status changing failed"
+      })
       console.error("Document Status : ", error);
     } finally {
       setLoading(false);
@@ -133,9 +134,6 @@ const SignedDocuments: React.FC<{
                   ?.completed
               }
               workspace_name={props.workspaceName}
-              onSuccessAPI={() =>
-                openSnackBar("File Shared successfully", "success")
-              }
             />
           ))}
       </div>
@@ -162,7 +160,7 @@ const SignedDocuments: React.FC<{
           />
         </div>
       </div>
-      <ROSSnackbar isActive={isActive} type={type} message={message} />
+      {/* <ROSSnackbar isActive={isActive} type={type} message={message} /> */}
     </div>
   );
 };
@@ -172,7 +170,6 @@ const SignDocItem: React.FC<{
   onChange: (val: boolean, id: string) => void;
   isChecked: boolean | undefined;
   workspace_name: string;
-  onSuccessAPI: () => void;
 }> = (props) => {
   const [isChrome, setIsChrome] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -249,7 +246,6 @@ const SignDocItem: React.FC<{
         content: "File Shared successfully",
       });
       _handleClose();
-      // props.onSuccessAPI();
     } catch (error) {
       message.error({
         content: 'File sharing failed!'

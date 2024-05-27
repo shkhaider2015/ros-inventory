@@ -15,10 +15,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { useSnackbar } from "@/hooks/useSnackbar";
-import ROSSnackbar from "../common/ROSSnackbar";
 import WarningModal from "../common/WarningModal";
-import useModal from "@/hooks/useModal";
+import {Modal, message} from 'antd';
+import { END_POINTS } from "@/lib/constants";
 
 const CheckedOut: React.FC<{
   event_id: string;
@@ -35,8 +34,6 @@ const CheckedOut: React.FC<{
   }>();
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isActive, type, message, openSnackBar } = useSnackbar();
-  const { open } = useModal();
 
   // console.log("Cart Items : ", props.initialData);
 
@@ -50,7 +47,7 @@ const CheckedOut: React.FC<{
     // console.log("_onSave() : ", cartItems);
 
     let data: any = {
-      ...guestInfo,
+      // ...guestInfo,
       event_id: props.event_id,
     };
     data.items = cartItems.map((item) => ({
@@ -60,11 +57,9 @@ const CheckedOut: React.FC<{
       total_price: item.selectedQuantity * item.rental_price,
     }));
 
-    let URL = "https://myapi.runofshowapp.com/api/inventory/checkout";
-
     try {
       setLoading(true);
-      await axios.post(URL, data, {
+      await axios.post(END_POINTS.SAVE_CHECKOUT_ITEMS, data, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -74,10 +69,14 @@ const CheckedOut: React.FC<{
         dispatch(updateFormFields({ isFormFieldsChanged: false }));
       }
       router.refresh();
-      openSnackBar("Data saved successfully", "success");
+      message.success({
+        content: "Data saved successfully"
+      })
     } catch (error) {
       console.log("Save api error : ", error);
-      openSnackBar("Something went wrong", "danger");
+      message.error({
+        content: "Something went wrong"
+      })
     } finally {
       setLoading(false);
     }
@@ -87,7 +86,6 @@ const CheckedOut: React.FC<{
     main_item_id: string | undefined,
     cart_item_id: string | undefined
   ) => {
-    let URL = "https://myapi.runofshowapp.com/api/inventory/deleteItemFromCart";
 
     if (!main_item_id) return;
     if (!cart_item_id) {
@@ -98,7 +96,7 @@ const CheckedOut: React.FC<{
     try {
       setLoading(true);
       await axios.post(
-        URL,
+        END_POINTS.DELETE_CHECKOUT_ITEMS,
         {
           cart_item_id: cart_item_id,
         },
@@ -144,15 +142,22 @@ const CheckedOut: React.FC<{
               {...item}
               onRemove={() => {
                 // setShowDeleteWarning({main_id: item.id, cart_id: item.cart_id});
-                open({
-                  message: "Are you sure you want to delete this item?",
+                Modal.confirm({
+                  content: "Are you sure you want to delete this item?",
+                  okType: "danger",
                   onOk: async () => {
                     _onDelete(item.id, item.cart_id);
-                    // if (!formFields.isFormFieldsChanged) {
-                    //   dispatch(updateFormFields({ isFormFieldsChanged: true }));
-                    // }
-                  },
-                });
+                  }
+                })
+                // open({
+                //   message: "Are you sure you want to delete this item?",
+                //   onOk: async () => {
+                //     _onDelete(item.id, item.cart_id);
+                //     // if (!formFields.isFormFieldsChanged) {
+                //     //   dispatch(updateFormFields({ isFormFieldsChanged: true }));
+                //     // }
+                //   },
+                // });
               }}
               onChangeCounter={(val: number) => {
                 dispatch(updateQuantity({ ...item, selectedQuantity: val }));
@@ -198,7 +203,6 @@ const CheckedOut: React.FC<{
         {/* Last Saved: Nov 15, 2023 - 11:00PM GST */}
         Last Saved: {moment(props.updated_at).format("MMM DD, YYYY - hh:mmA")}
       </div>
-      <ROSSnackbar isActive={isActive} type={type} message={message} />
       <WarningModal
         open={typeof showDeleteWarning !== "undefined"}
         onClose={() => setShowDeleteWarning(undefined)}

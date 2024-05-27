@@ -22,6 +22,7 @@ const sectionIds = {
   SIXTH: "532140d7-7bc3-4669-ad79-088395ce3f27",
   SEVENTH: "41fbdc41-eaa0-4d2d-939b-ed955518502e",
   EIGTH: "bb19bfcd-72a1-4980-8bf0-65a582acadf3",
+  NINTH: '61561cc6-dd97-44ea-94a0-882d423e1696'
 };
 
 const sectionTitleData: ISectionTitle[] = [
@@ -57,6 +58,10 @@ const sectionTitleData: ISectionTitle[] = [
     section_uuid: sectionIds.EIGTH,
     section_title: "Client / Planner Attachments",
   },
+  {
+    section_uuid: sectionIds.NINTH,
+    section_title: "Questions",
+  },
 ];
 
 export async function getData(eventId: string) {
@@ -72,8 +77,6 @@ export async function getData(eventId: string) {
     "/images/icons/tec_spec.svg",
     "/images/icons/HandHeart.svg",
   ];
-  //   const res = await fetch(URL, {...obj});
-  // console.log("Event Id ", eventId);
 
   try {
     const res = await axios.post(
@@ -103,6 +106,7 @@ export async function getData(eventId: string) {
       cart_items,
       section_titles,
       document_status,
+      questions
     } = data;
     workspaceInfo = workspaceInfo[0];
 
@@ -246,6 +250,7 @@ export async function getData(eventId: string) {
       SIXTH: "Misc",
       SEVENTH: "Signed Documents",
       EIGTH: "Client / Planner Attachments",
+      NINTH: 'Questions'
     };
     // filter section titles
     if (section_titles && section_titles?.length <= 0)
@@ -278,6 +283,9 @@ export async function getData(eventId: string) {
           case sectionIds.EIGTH:
             newTitles.EIGTH = item.section_title;
             break;
+          case sectionIds.NINTH:
+            newTitles.NINTH = item.section_title;
+            break;
           default:
             break;
         }
@@ -296,6 +304,55 @@ export async function getData(eventId: string) {
       else return true
     })
 
+    // filter questions
+    questions = questions?.map(({__typename, options, ...item}:any) => {
+      let itemX:any = item;
+      itemX.options = options?.map(({__typename, ...itemY}:any) => itemY)
+      return itemX;
+    })
+
+    questions = questions?.reverse();
+
+    questions = questions?.map((item:any) => {
+      let itemX = item;
+      let answers = itemX?.workspace_inventory_question_answers;
+      let options = itemX?.options;
+
+      options = options.map((opt:any) => {
+        if(answers?.length > 0 && answers?.some((i:any) => i?.selected_option_id === opt?.id)) {
+          return {
+            ...opt,
+            checked: true
+          }
+        } else {
+          return {
+            ...opt,
+            checked: false
+          }
+        }
+      })
+
+      if(answers?.length > 0) {
+        let txt_answer = '';
+        answers?.forEach((ii:any) => {
+          txt_answer = ii?.text_answer;
+        })
+        return {
+          ...itemX,
+          options,
+          answer: txt_answer
+        }
+      } else {
+        return {
+          ...itemX,
+          options,
+          answer: ''
+        }
+      }
+
+    })
+
+
     return {
       workspaceInfo,
       items,
@@ -308,6 +365,7 @@ export async function getData(eventId: string) {
       event_id: eventId,
       newTitles,
       document_status,
+      questions
     };
   } catch (error) {
     // console.log("Error at server : ", error);
@@ -355,7 +413,7 @@ function _getExtension(uri: string): string {
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
   // console.log("guest ", data?.checkout_client_info);
-  // console.log("items additional_images ", data?.cart_items);
+  console.log("items additional_images ");
 
   if (!data)
     return (
@@ -378,6 +436,7 @@ export default async function Inventory(params: IInventory) {
         event_id={data?.event_id}
         section_titles={data.newTitles}
         documentStatus={data.document_status}
+        questions={data.questions}
       />
     </Suspense>
   );

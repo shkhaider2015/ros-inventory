@@ -7,13 +7,12 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import { useRouter } from "next/navigation";
-import ROSModal from "../common/ROSModal";
-import useModal from "@/hooks/useModal";
 import { Form, Input, Modal, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { END_POINTS } from "@/lib/constants";
 import Button from "../common/Button";
 import FilePreview from "../FilePreview";
+import Button from "../common/Button";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
@@ -38,14 +37,21 @@ const DocumentSection = (props: {
   const _addAttachment = async () => {
     try {
       setLoading(true);
-      await _handleUpload(attachments[0]);
-    } catch (error) {
+      if (attachments.length > 0) {
+        const response = await _handleUpload(attachments[0]);
+
+        _handleCloseAttachmentModal();
+      } else {
+        message.error({
+          content: "Please upload a file",
+        });
+      }
+    } catch (error: any) {
       message.error({
         content: "Attachment Uploading failed",
       });
       console.log("Attachment Upload : ", error);
     } finally {
-      _handleCloseAttachmentModal();
       setLoading(false);
     }
   };
@@ -59,7 +65,7 @@ const DocumentSection = (props: {
   const _handleFileChange = (event: any) => {
     const newAttachments = Array.from(event.target.files);
 
-    if (event.target.files[0].size > 1 * 1024 * 1024) {
+    if (event.target.files[0].size > 10 * 1024 * 1024) {
       message.error({
         content: "Attachment Uploading failed, file size exceeds 10 MB",
       });
@@ -220,14 +226,15 @@ const DocumentSection = (props: {
           }}
         />
       </div>
-      <ROSModal open={showDetails} onClose={() => setShowDetails(false)}>
-        <div className={styles.sectionModalContainer}>
-          {/* <div className={styles.dsModalTitle} >Title</div> */}
-          <div className={styles.sectionModalContent}>
-            <TextEditor value={props.item?.description} isReadOnly={true} />
-          </div>
+      <Modal
+        open={showDetails}
+        onCancel={() => setShowDetails(false)}
+        footer={null}
+      >
+        <div className={styles.sectionModalContent}>
+          <TextEditor value={props.item?.description} isReadOnly={true} />
         </div>
-      </ROSModal>
+      </Modal>
 
       <Modal
         open={openAttachmentsModal}
@@ -365,7 +372,6 @@ const DocItem: React.FC<IAttachements> = ({
 }) => {
   const [isChrome, setIsChrome] = useState<boolean>(false);
   const router = useRouter();
-  const { open } = useModal();
   const [form] = useForm();
   const [openShareModal, setOpenShareModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -438,9 +444,6 @@ const DocItem: React.FC<IAttachements> = ({
       });
       _handleCloseShareModal();
     } catch (error) {
-      message.error({
-        content: "File sharing failed",
-      });
       console.log("Share Via Email : ", error);
     } finally {
       setLoading(false);
@@ -474,26 +477,18 @@ const DocItem: React.FC<IAttachements> = ({
             }}
           >
             {file_logo ? (
-              <Image src={file_logo} alt="" width={25} height={25} />
+              <Image src={file_logo} alt="" width={28} height={28} />
             ) : (
               <Image
                 src={"/images/icons/FileText.svg"}
                 alt=""
-                width={25}
-                height={25}
+                width={28}
+                height={28}
               />
             )}
           </div>
         </div>
       </div>
-      <FilePreview
-        open={openModal}
-        onClose={() => {
-          setOpenModal(false);
-        }}
-        fileUrl={url}
-        file_type={file_type}
-      />
 
       <div className={styles.textCon}>
         <div className={styles.docTitle}>{name}</div>
@@ -515,12 +510,19 @@ const DocItem: React.FC<IAttachements> = ({
         {uploaded_via === "CLIENT" && (
           <div
             className={styles.docIconContainerOp}
-            onClick={() =>
-              open({
-                message: "Are you sure you want to delete this Document?",
+            // onClick={() =>
+            //   open({
+            //     message: "Are you sure you want to delete this Document?",
+            //     onOk: async () => _deleteClientFile(id),
+            //   })
+            // }
+            onClick={() => {
+              Modal.confirm({
+                content: "Are you sure you want to delete this Document?",
+                okType: "danger",
                 onOk: async () => _deleteClientFile(id),
-              })
-            }
+              });
+            }}
           >
             <Image
               src={"/images/icons/delete.svg"}
@@ -585,6 +587,14 @@ const DocItem: React.FC<IAttachements> = ({
           </Form.Item>
         </Form>
       </Modal>
+      <FilePreview
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+        fileUrl={url}
+        file_type={file_type}
+      />
     </div>
   );
 };
