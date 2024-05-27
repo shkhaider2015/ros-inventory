@@ -11,7 +11,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 15px;
-    color:black;
+    color: black;
 }
 
 .iconColumn {
@@ -115,6 +115,7 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 15px;
+    gap: 15px;
 }
 
 .btnContainer {
@@ -129,10 +130,12 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 10px;
+    /* width: 10%; */
+    /* gap: 10px; */
 }
 
 .rightCol {
+    width: 15%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -164,8 +167,8 @@
 }
 
 .docIconContainer {
-    width: 50px;
-    height: 50px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -222,7 +225,7 @@
     gap: 10px;
     /* margin-top: 5px; */
     width: 200px;
-    }
+}
 
 .thirdRow:hover {
     cursor: pointer;
@@ -232,7 +235,7 @@
     font-size: 13px;
     font-weight: 500;
     color: #6200EE;
-  }
+}
 
 
 /* Modal styles */
@@ -319,6 +322,16 @@
 
 /* .shareModal {} */
 
+@media screen and (max-width: 900px) and (min-width: 650px) {
+    .textCon {
+        width: 70%;
+    }
+
+    .rightCol {
+        width: 20%;
+    }
+}
+
 @media screen and (max-width: 650px) {
 
     .docIconContainer {
@@ -335,6 +348,7 @@
         width: 27px;
         height: 27px;
     }
+
     .docIconContainerOp img {
         width: 20px !important;
         height: 20px !important;
@@ -343,6 +357,11 @@
     .textCon {
         padding: 0px 3px 0px 3px;
         position: relative;
+        width: 65%;
+    }
+
+    .rightCol {
+        width: 25%;
     }
 
     .docTitle {

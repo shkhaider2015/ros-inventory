@@ -225,12 +225,11 @@ const DocumentSection = (props: {
           }}
         />
       </div>
-      {/* <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
+      <Modal open={showDetails} onCancel={() => setShowDetails(false)} footer={null}>
           <div className={styles.sectionModalContent}>
             <TextEditor value={props.item?.description} isReadOnly={true} />
           </div>
-        </div>
-      </ROSModal> */}
+      </Modal>
 
       <Modal
         open={openAttachmentsModal}
@@ -473,26 +472,18 @@ const DocItem: React.FC<IAttachements> = ({
             }}
           >
             {file_logo ? (
-              <Image src={file_logo} alt="" width={25} height={25} />
+              <Image src={file_logo} alt="" width={28} height={28} />
             ) : (
               <Image
                 src={"/images/icons/FileText.svg"}
                 alt=""
-                width={25}
-                height={25}
+                width={28}
+                height={28}
               />
             )}
           </div>
         </div>
       </div>
-      <FilePreview
-        open={openModal}
-        onClose={() => {
-          setOpenModal(false);
-        }}
-        fileUrl={url}
-        file_type={file_type}
-      />
 
       <div className={styles.textCon}>
         <div className={styles.docTitle}>{name}</div>
@@ -591,6 +582,14 @@ const DocItem: React.FC<IAttachements> = ({
           </Form.Item>
         </Form>
       </Modal>
+      <FilePreview
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+        fileUrl={url}
+        file_type={file_type}
+      />
     </div>
   );
 };

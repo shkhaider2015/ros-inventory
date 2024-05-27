@@ -77,8 +77,6 @@ export async function getData(eventId: string) {
     "/images/icons/tec_spec.svg",
     "/images/icons/HandHeart.svg",
   ];
-  //   const res = await fetch(URL, {...obj});
-  // console.log("Event Id ", eventId);
 
   try {
     const res = await axios.post(
@@ -285,6 +283,9 @@ export async function getData(eventId: string) {
           case sectionIds.EIGTH:
             newTitles.EIGTH = item.section_title;
             break;
+          case sectionIds.NINTH:
+            newTitles.NINTH = item.section_title;
+            break;
           default:
             break;
         }
@@ -311,6 +312,46 @@ export async function getData(eventId: string) {
     })
 
     questions = questions?.reverse();
+
+    questions = questions?.map((item:any) => {
+      let itemX = item;
+      let answers = itemX?.workspace_inventory_question_answers;
+      let options = itemX?.options;
+
+      options = options.map((opt:any) => {
+        if(answers?.length > 0 && answers?.some((i:any) => i?.selected_option_id === opt?.id)) {
+          return {
+            ...opt,
+            checked: true
+          }
+        } else {
+          return {
+            ...opt,
+            checked: false
+          }
+        }
+      })
+
+      if(answers?.length > 0) {
+        let txt_answer = '';
+        answers?.forEach((ii:any) => {
+          txt_answer = ii?.text_answer;
+        })
+        return {
+          ...itemX,
+          options,
+          answer: txt_answer
+        }
+      } else {
+        return {
+          ...itemX,
+          options,
+          answer: ''
+        }
+      }
+
+    })
+
 
     return {
       workspaceInfo,
@@ -372,7 +413,7 @@ function _getExtension(uri: string): string {
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
   // console.log("guest ", data?.checkout_client_info);
-  // console.log("items additional_images ", data?.cart_items);
+  console.log("items additional_images ");
 
   if (!data)
     return (

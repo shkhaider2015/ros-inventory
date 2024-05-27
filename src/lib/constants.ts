@@ -19,6 +19,7 @@ export const END_POINTS = {
   SHARE_FILE_VIA_EMAIL: 'https://myapi.runofshowapp.com/api/email-attachment/inventory',
   SAVE_CHECKOUT_ITEMS: 'https://myapi.runofshowapp.com/api/inventory/checkout',
   DELETE_CHECKOUT_ITEMS: "https://myapi.runofshowapp.com/api/inventory/deleteItemFromCart",
+  UPDATE_QUESTION: 'https://myapi.runofshowapp.com/api/inventory/saveQuestions'
 }
 
 export const Image_URL_Base =

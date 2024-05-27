@@ -140,7 +140,7 @@ const HomeScreen = (props: {
           />
 
           <ElementHead name="scrollto_11" text={props.section_titles.NINTH} />
-          <QuestionSection questions={props.questions} />
+          <QuestionSection questions={props.questions} event_id={props.event_id} />
 
           <SocialMediaIcon items={props.socialMedia} />
 
@@ -286,11 +286,14 @@ export interface IQuestion {
   question_title: string;
   options: IOption[];
   workspace_id: string;
+  answer: string;
+  workspace_inventory_question_answers: any[]
 }
 export interface IOption {
   id: string;
   option_title: string;
-  question_reference: string
+  question_reference: string;
+  is_checked: boolean | null;
 }
 
 type TQuestion = "PARAGRAPH" | "DROPDOWN" | "CHECKBOX";
