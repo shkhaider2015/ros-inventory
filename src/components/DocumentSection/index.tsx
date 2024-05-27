@@ -12,7 +12,7 @@ import { useForm } from "antd/es/form/Form";
 import { END_POINTS } from "@/lib/constants";
 import Button from "../common/Button";
 import FilePreview from "../FilePreview";
-import Button from "../common/Button";
+// import Button from "../common/Button";
 
 const DocumentSection = (props: {
   item: IInventoryItem | undefined;
