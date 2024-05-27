@@ -31,7 +31,7 @@
 .leftSec {}
 
 .leftSec .title {
-    font-size: 18px;
+    font-size: 25px;
     font-weight: 600;
     margin-top: 5px;
 }
@@ -43,7 +43,7 @@
 }
 
 .leftSec .date {
-    font-size: 10px;
+    font-size: 15px;
     font-weight: 400;
     margin-top: 5px;
     display:flex;
@@ -60,7 +60,7 @@
 }
 .info div {
     margin-top: 5px;
-    font-size: 12px;
+    font-size: 15px;
     color: rgb(0, 0, 0);
     font-weight: 600;
 }
