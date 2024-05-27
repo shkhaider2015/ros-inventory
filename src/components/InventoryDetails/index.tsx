@@ -121,8 +121,8 @@ const ContactsListing: React.FC<{
                     src={"/images/icons/User_Rounded.svg"}
                     alt="phone call"
                     className={styles.iconIcon}
-                    width={22}
-                    height={22}
+                    width={23}
+                    height={23}
                   />
                   <span className={styles.iconsText}>{`${_toTitleCase(
                     item.name
@@ -136,8 +136,8 @@ const ContactsListing: React.FC<{
                       src={"/images/icons/Lable.svg"}
                       alt="phone call"
                       className={styles.iconIcon}
-                      width={22}
-                      height={22}
+                      width={23}
+                      height={23}
                     />
                     <span className={styles.iconsText}>{`${_toTitleCase(
                       item.title
@@ -151,8 +151,8 @@ const ContactsListing: React.FC<{
                     src={"/images/icons/PhoneCallingRounded.svg"}
                     alt="phone call"
                     className={styles.iconIcon}
-                    width={22}
-                    height={22}
+                    width={23}
+                    height={23}
                   />
                   <a
                     className={styles.iconsText}
@@ -168,8 +168,8 @@ const ContactsListing: React.FC<{
                     src={"/images/icons/email.svg"}
                     alt="phone call"
                     className={styles.iconIcon}
-                    width={22}
-                    height={22}
+                    width={23}
+                    height={23}
                   />
                   <a className={styles.iconsText} href={`mailto:${item.email}`}>
                     {item.email}
