@@ -413,7 +413,8 @@ function _getExtension(uri: string): string {
 export default async function Inventory(params: IInventory) {
   const data = await getData(params.params.eventId);
   // console.log("guest ", data?.checkout_client_info);
-  console.log("items additional_images ");
+  console.clear()
+  console.log("items additional_images ", data);
 
   if (!data)
     return (

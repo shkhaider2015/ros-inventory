@@ -9,7 +9,8 @@ import { CC_Contstants } from "@/lib/constants";
 
 const CometChatPopup = (props: { event_id: string }) => {
   const [user, setUser] = useState<any>(null);
-  const [group, setGroup] = useState<any>(null);
+  const [reciever, setReciever] = useState<any>(null);
+  // const [group, setGroup] = useState<any>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [messageCount, setMessageCount] = useState(0);
   const [isUnreadMessagesLoaded, setIsUnreadMessagesLoaded] = useState(false);
@@ -38,12 +39,11 @@ const CometChatPopup = (props: { event_id: string }) => {
   }, [isVisible])
 
   useEffect(() => {
-    if (group && !isUnreadMessagesLoaded) {
-      // console.log("Render : ", group);
-      
-      _getUnreadCount(group?.getGuid())
+    if (reciever && !isUnreadMessagesLoaded) {
+      let recieverId = reciever?.getUid();
+      _getUnreadCount(recieverId)
     };
-  }, [group]);
+  }, [reciever]);
 
   const _getUnreadCount = async (id: string) => {
     setIsUnreadMessagesLoaded(true)
@@ -51,11 +51,11 @@ const CometChatPopup = (props: { event_id: string }) => {
     const messageCountNumber = messageCountString ? Number(messageCountString) : 0
     const CometChat = (await import("@cometchat/chat-sdk-javascript"))
       .CometChat;
-    CometChat.getUnreadMessageCountForGroup(id, true)
+    CometChat.getUnreadMessageCountForUser(id, true)
       .then((res: any) => {
-        // console.log("Unread Count Res : ", res);
+        console.log("Unread Count Res : ", res);
         if (Object.keys(res).length > 0) {
-          let totalMessageCount = res[props.event_id + "-client-chat"] + messageCountNumber;
+          let totalMessageCount = res[id] + messageCountNumber;
           localStorage.setItem(CC_Contstants.LOCAL_STORAGE_ADDRESS, JSON.stringify(totalMessageCount))
           setMessageCount(totalMessageCount);
           // console.log("Res not empty ", totalMessageCount);
@@ -75,7 +75,7 @@ const CometChatPopup = (props: { event_id: string }) => {
       CC_Contstants.MESSAGES_LISTENER,
       new CometChat.MessageListener({
         onTextMessageReceived: (mediaMessage: CometChat.TextMessage) => {
-          // console.log("Media message received successfully", mediaMessage, isVisible);
+          console.log("Text message received successfully", mediaMessage, isVisible);
           if(isVisible) return
           localStorage.setItem(CC_Contstants.LOCAL_STORAGE_ADDRESS, JSON.stringify(messageCount+1))
           setMessageCount((pS) => pS + 1);
@@ -116,7 +116,7 @@ const CometChatPopup = (props: { event_id: string }) => {
             .then(async (res) => {
               console.log("Login Success Res : ", res);
               setUser(res);
-              await _getGroup();
+              await _getConversationBuilder();
             })
             .catch((err) => console.log("Login Error : ", err));
         } else {
@@ -125,7 +125,7 @@ const CometChatPopup = (props: { event_id: string }) => {
             _loginUser(call + 1);
           } else {
             setUser(res);
-            await _getGroup();
+            await _getConversationBuilder();
           }
         }
       })
@@ -140,20 +140,36 @@ const CometChatPopup = (props: { event_id: string }) => {
       });
   };
 
-  const _getGroup = async () => {
-    // "ERR_GROUP_NOT_JOINED"
-    const CometChatUIKit = (await import("@cometchat/chat-sdk-javascript"))
-      .CometChat;
-    CometChatUIKit.getGroup(props.event_id + "-client-chat")
-      .then((res) => {
-        console.log("Group Res : ");
+  // const _getGroup = async () => {
+  //   // "ERR_GROUP_NOT_JOINED"
+  //   console.log("Props ", props.event_id, user);
+  //   await _getConversationBuilder()
+  //   const CometChatUIKit = (await import("@cometchat/chat-sdk-javascript"))
+  //     .CometChat;
+  //   CometChatUIKit.getConversation(props.event_id + '-client', CometChatUIKit.RECEIVER_TYPE.USER)
+  //     .then((res) => {
+  //       console.log("Group Res : ");
 
-        setGroup(res);
-      })
-      .catch((err) => {
-        console.error("Get Group Error : ", err);
-      });
-  };
+  //       setGroup(res);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Get Group Error : ", err);
+  //     });
+  // };
+
+  const _getConversationBuilder = async () => {
+     const CometChatUIKit = (await import("@cometchat/chat-sdk-javascript"))
+    .CometChat;
+
+    let builder = new CometChatUIKit.ConversationsRequestBuilder().setLimit(10).build();
+    builder.fetchNext().then(res => {
+      console.log("Fetch Next ", res);
+      let reciever = res.length > 0 ? res?.[0]?.getConversationWith() : null
+      setReciever(reciever)
+      
+    }).catch(err => console.log("fetch err : ", err)
+    )
+  }
 
   const toggleChat = () => {
     setIsVisible(!isVisible);
@@ -183,7 +199,7 @@ const CometChatPopup = (props: { event_id: string }) => {
           isVisible ? styles.chatVisible : styles.chatHidden
         }`}
       >
-        <ChatComponent group={group} />
+        <ChatComponent  user={reciever}/>
       </div>
       {user && (
         <div className={styles.chatBtn} onClick={toggleChat}>
